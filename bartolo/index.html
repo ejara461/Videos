@@ -1,0 +1,308 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;padding:0;background:#182939;overflow:hidden}svg{display:block}</style>
+<script src="sprite.js"></script>
+</head><body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script>
+const W=1080,H=1920;
+const C={teal:'#2F8F8D',tealD:'#2A7476',navy:'#182939',cream:'#F4DBB9',creamS:'#D9BDA0',muz:'#3A404D',terra:'#C2624F',terraL:'#D58877',pink:'#E77C7C',mustard:'#E3A93B'};
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const ease=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const eo=p=>1-Math.pow(1-p,3);
+const seg=(u,a,b)=>clamp((u-a)/(b-a));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const pop=p=>p<=0?0:p>=1?1:1+2.7*Math.pow(p-1,3)+1.7*Math.pow(p-1,2);
+const st=(w=6)=>`stroke="${C.navy}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+const T=(x,y,s,flip,inner)=>`<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${(flip?-s:s).toFixed(3)},${s.toFixed(3)})">${inner}</g>`;
+function txt(x,y,str,size,fill,anchor='middle',weight=800,extra=''){return `<text x="${x}" y="${y}" font-family="Inter, sans-serif" font-weight="${weight}" font-size="${size}" fill="${fill}" text-anchor="${anchor}" ${extra}>${str}</text>`;}
+
+/* ---------- PERSONAJES ---------- */
+function bartolo(x,y,s,o={}){
+  const ph=o.walk??null;
+  const la=ph==null?0:Math.sin(ph)*24;
+  const bob=ph==null?0:-Math.abs(Math.sin(ph))*7;
+  const arm=o.arm??20, armB=o.armB??(-la*0.6+5);
+  const leg=(lx,a,f)=>`<g transform="translate(${lx},-62) rotate(${a})"><rect x="-14" y="0" width="28" height="58" rx="14" fill="${f}" ${st()}/><ellipse cx="7" cy="58" rx="20" ry="11" fill="${f}" ${st()}/></g>`;
+  const armF=(ax,a,f)=>`<g transform="translate(${ax},-150) rotate(${-a})"><rect x="-11" y="-6" width="22" height="64" rx="11" fill="${f}" ${st()}/><circle cx="0" cy="62" r="14" fill="${f}" ${st()}/></g>`;
+  let g='';
+  g+=`<path d="M-46,-118 q-38,-6 -44,-48" stroke="${C.navy}" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M-46,-118 q-38,-6 -44,-48" stroke="${C.cream}" stroke-width="11" stroke-linecap="round" fill="none"/>`;
+  g+=leg(-22,-la,C.creamS)+leg(22,la,C.cream);
+  let up='';
+  up+=armF(-4,armB,C.creamS);
+  up+=`<ellipse cx="0" cy="-118" rx="54" ry="64" fill="${C.cream}" ${st()}/>`;
+  up+=`<rect x="-98" y="-200" width="52" height="68" rx="11" fill="${C.terra}" ${st()}/>`;
+  up+=paw(-72,-164,0.8);
+  up+=`<path d="M-50,-190 Q-10,-175 30,-150" stroke="${C.terra}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M-50,-190 Q-10,-175 30,-150" stroke="${C.navy}" stroke-width="3" fill="none" opacity=".5"/>`;
+  if(o.box){
+    const bo=o.boxOpen||0;
+    up+=`<rect x="20" y="-175" width="84" height="62" rx="6" fill="${C.terra}" ${st()}/>`+paw(62,-142,0.8);
+    up+=`<g transform="rotate(${-bo*110},20,-175)"><rect x="16" y="-188" width="92" height="16" rx="5" fill="${C.terraL}" ${st(5)}/></g>`;
+  }
+  if(arm<=120)up+=armF(24,arm,C.cream);
+  // cabeza
+  let hd='';
+  hd+=`<circle cx="12" cy="-214" r="57" fill="${C.cream}" ${st()}/>`;
+  hd+=`<path d="M-8,-258 C-58,-282 -100,-250 -84,-214 C-74,-196 -44,-212 -26,-236 Z" fill="${C.cream}" ${st()}/><path d="M-30,-250 C-60,-262 -80,-246 -74,-226" stroke="${C.creamS}" stroke-width="8" fill="none" stroke-linecap="round"/>`;
+  hd+=`<ellipse cx="52" cy="-198" rx="38" ry="31" fill="${C.muz}" ${st(5)}/>`;
+  hd+=`<ellipse cx="82" cy="-213" rx="13" ry="9" fill="${C.navy}"/>`;
+  const mo=o.mouth||'smile';
+  if(mo==='whistle'){hd+=`<circle cx="62" cy="-184" r="8" fill="${C.navy}" stroke="${C.cream}" stroke-width="3"/>`;}
+  else if(mo==='open'){hd+=`<path d="M34,-190 Q58,-160 80,-192 Z" fill="#7A2E33" stroke="${C.cream}" stroke-width="3"/><path d="M48,-176 q10,14 22,0" fill="${C.pink}"/>`;}
+  else {hd+=`<path d="M32,-190 q22,16 46,-2" stroke="${C.cream}" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M48,-182 q4,24 20,4 Z" fill="${C.pink}" stroke="${C.navy}" stroke-width="3"/>`;}
+  const blink=o.blink?`<path d="M20,-232 q9,5 18,0" stroke="${C.navy}" stroke-width="5" fill="none" stroke-linecap="round"/>`:`<circle cx="29" cy="-233" r="9.5" fill="${C.navy}"/><circle cx="32" cy="-236" r="3.2" fill="#fff"/>`;
+  hd+=blink+`<path d="M17,-252 q11,-7 24,0" stroke="${C.navy}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+  hd+=`<path d="M-40,-246 C-38,-304 52,-308 64,-250 Z" fill="${C.terra}" ${st()}/><path d="M40,-253 Q88,-264 114,-246 Q82,-237 40,-245 Z" fill="${C.terra}" ${st()}/><circle cx="12" cy="-286" r="6" fill="${C.terraL}" ${st(4)}/>`;
+  up+=`<g transform="rotate(${o.tilt||0},0,-150)">${hd}</g>`;
+  if(arm>120){const ra=110+(arm-150)*1.2;up+=`<g transform="translate(44,-128) rotate(${-ra})"><rect x="-11" y="-6" width="22" height="92" rx="11" fill="${C.cream}" ${st()}/><circle cx="0" cy="92" r="15" fill="${C.cream}" ${st()}/></g>`;}
+  g+=`<g transform="translate(0,${bob})">${up}</g>`;
+  return T(x,y,s,o.flip,g);
+}
+function paw(cx,cy,k=1){return `<g transform="translate(${cx},${cy}) scale(${k})"><ellipse cx="0" cy="6" rx="11" ry="9" fill="${C.navy}"/><circle cx="-11" cy="-7" r="4.5" fill="${C.navy}"/><circle cx="-4" cy="-13" r="4.5" fill="${C.navy}"/><circle cx="5" cy="-13" r="4.5" fill="${C.navy}"/><circle cx="12" cy="-6" r="4.5" fill="${C.navy}"/></g>`;}
+
+const PSK='#E2A980';
+function pedroPose(pose){return pose==='phone'?125:pose==='forward'?62:pose==='up'?165:pose==='drop'?95:pose==='bend'?20:8;}
+function pedroHandLocal(o){const a=pedroPose(o.pose||'phone')*Math.PI/180;let hx=10+158*Math.sin(a),hy=-380+158*Math.cos(a);const b=(o.bend||0)*55*Math.PI/180;const dx=hx,dy=hy+210;return {x:dx*Math.cos(b)-dy*Math.sin(b),y:dx*Math.sin(b)+dy*Math.cos(b)-210};}
+function pedroHand(x,y,s,o){const h=pedroHandLocal(o);const bob=o.walk==null?0:-Math.abs(Math.sin(o.walk))*6;return {x:x+(o.flip?-1:1)*h.x*s,y:y+(h.y+bob)*s};}
+function pedro(x,y,s,o={}){
+  const ph=o.walk??null;const la=ph==null?0:Math.sin(ph)*20;const bob=ph==null?0:-Math.abs(Math.sin(ph))*6;
+  const pose=o.pose||'phone';const shirt=C.mustard,pants='#3E5C8A',hair='#4A3428';
+  const leg=(lx,a,f)=>`<g transform="translate(${lx},-215) rotate(${a})"><rect x="-19" y="0" width="38" height="200" rx="16" fill="${f}" ${st()}/><ellipse cx="13" cy="203" rx="30" ry="14" fill="${C.navy}"/></g>`;
+  let g=leg(-12,-la,'#34507A')+leg(14,la,pants);
+  const arm=(ax,a,f)=>`<g transform="translate(${ax},-380) rotate(${-a})"><rect x="-15" y="-10" width="30" height="160" rx="15" fill="${f}" ${st()}/><circle cx="0" cy="158" r="17" fill="${PSK}" ${st()}/></g>`;
+  let ub=arm(-10,pose==='phone'?12:(-la*0.8+5),'#C98F2E');
+  ub+=`<rect x="-58" y="-405" width="116" height="205" rx="42" fill="${shirt}" ${st()}/>`;
+  ub+=`<circle cx="6" cy="-462" r="54" fill="${PSK}" ${st()}/><circle cx="-26" cy="-455" r="11" fill="${PSK}" ${st(5)}/>`;
+  ub+=`<path d="M-50,-472 C-48,-530 58,-536 60,-474 C36,-494 -6,-496 -30,-480 C-36,-470 -44,-466 -50,-472 Z" fill="${hair}" ${st(5)}/>`;
+  const ey=pose==='phone'?-452:-464;
+  ub+=`<circle cx="33" cy="${ey}" r="6.5" fill="${C.navy}"/><path d="M58,-462 q11,10 -2,15" fill="none" stroke="${C.navy}" stroke-width="4" stroke-linecap="round"/>`;
+  ub+=o.smile?`<path d="M28,-428 q13,12 27,0" stroke="${C.navy}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`:o.oops?`<ellipse cx="40" cy="-426" rx="8" ry="10" fill="${C.navy}"/>`:`<path d="M30,-427 h20" stroke="${C.navy}" stroke-width="4.5" stroke-linecap="round"/>`;
+  if(o.blush)ub+=`<ellipse cx="18" cy="-438" rx="15" ry="8" fill="#F07E7E" opacity="${0.8*o.blush}"/>`;
+  ub+=arm(10,pedroPose(pose)+(pose==='down'?la*0.8:0),shirt);
+  const h=pedroHandLocal({pose,bend:0});
+  if(pose==='phone'){ub+=`<g transform="translate(${h.x},${h.y})"><rect x="-17" y="-30" width="34" height="58" rx="7" fill="${C.navy}"/><rect x="-12" y="-24" width="24" height="44" rx="3" fill="#9FE3FF"/></g>`;}
+  if(o.bag){const full=o.bag==='full';ub+=`<g transform="translate(${h.x},${h.y+14})"><path d="M-16,0 L16,0 L${full?22:14},${full?44:36} Q0,${full?54:42} ${full?-22:-14},${full?44:36} Z" fill="#4E8A5A" ${st(4)}/></g>`;}
+  if(o.leashItem){ub+=`<g transform="translate(${h.x},${h.y+20})"><circle r="22" fill="none" stroke="${C.terra}" stroke-width="9"/></g>`;}
+  g+=`<g transform="translate(0,${bob}) rotate(${(o.bend||0)*55},0,-210)">${ub}</g>`;
+  return T(x,y,s,o.flip,g);
+}
+
+function lunaCollar(x,y,s,o){const hop=o.run==null?0:-Math.abs(Math.sin(o.run))*12;return {x:x+(o.flip?-1:1)*34*s,y:y+(-74+hop)*s};}
+function luna(x,y,s,o={}){
+  const ph=o.run??null;const a=ph==null?0:Math.sin(ph)*30;const hop=ph==null?0:-Math.abs(Math.sin(ph))*12;
+  const sq=o.squat||0;const wag=Math.sin((o.t||0)*20)*25;const P='#B5835A';
+  const leg=(lx,an)=>`<g transform="translate(${lx},-42) rotate(${an})"><rect x="-9" y="0" width="18" height="42" rx="9" fill="#fff" ${st(5)}/></g>`;
+  let b=leg(-34,a*.8)+leg(-22,-a*.8);
+  let body=`<g transform="rotate(${wag},-48,-64)"><path d="M-48,-64 q-22,-6 -26,-34" stroke="${C.navy}" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M-48,-64 q-22,-6 -26,-34" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/></g>`;
+  body+=`<ellipse cx="0" cy="-60" rx="54" ry="31" fill="#fff" ${st(5)}/><ellipse cx="-14" cy="-70" rx="19" ry="12" fill="${P}"/>`;
+  b=`<g transform="rotate(${-sq*22},32,-50)">${b}${body}</g>`;
+  b+=leg(24,-a)+leg(36,a);
+  let hd=`<circle cx="50" cy="-98" r="31" fill="#fff" ${st(5)}/><path d="M34,-122 C22,-120 18,-96 30,-88 C40,-96 42,-110 46,-120 Z" fill="${P}" ${st(4)}/>`;
+  hd+=`<circle cx="62" cy="-104" r="5.5" fill="${C.navy}"/><ellipse cx="81" cy="-94" rx="7" ry="5.5" fill="${C.navy}"/>`;
+  hd+=o.happy?`<path d="M62,-84 q8,14 18,0 Z" fill="${C.pink}" ${st(3)}/>`:`<path d="M64,-84 q8,6 16,-2" stroke="${C.navy}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+  hd+=`<path d="M24,-80 Q38,-66 52,-72" stroke="${C.terra}" stroke-width="9" fill="none" stroke-linecap="round"/>`;
+  b+=hd;
+  return T(x,y+hop*s,s,o.flip,b);
+}
+
+function vecina(x,y,s,o={}){
+  const sp=o.startle||0;const jump=-Math.sin(clamp(sp)*Math.PI)*50;
+  const skin='#C98B62',dress='#8E6BB0',hair='#2E2230';
+  const shake=sp>0&&sp<1?Math.sin(sp*40)*10:0;
+  let g=`<rect x="-30" y="-150" width="22" height="150" rx="10" fill="${skin}" ${st(5)}/><rect x="8" y="-150" width="22" height="150" rx="10" fill="${skin}" ${st(5)}/><ellipse cx="-14" cy="0" rx="24" ry="11" fill="${C.navy}"/><ellipse cx="26" cy="0" rx="24" ry="11" fill="${C.navy}"/>`;
+  g+=`<path d="M-75,-140 L75,-140 L46,-300 L-46,-300 Z" fill="${dress}" ${st()}/><rect x="-46" y="-400" width="92" height="130" rx="32" fill="${dress}" ${st()}/>`;
+  const aa=sp>0.05?150:(o.wave?140+Math.sin((o.t||0)*10)*20:12);
+  const bag=`<g transform="translate(0,150)"><path d="M-34,0 L34,0 L40,78 L-40,78 Z" fill="#E8D3A8" ${st(5)}/><ellipse cx="-12" cy="-6" rx="10" ry="18" fill="#5FAF77" ${st(4)}/><ellipse cx="10" cy="-10" rx="8" ry="16" fill="#E57A3C" ${st(4)}/></g>`;
+  const arm=(ax,a,withBag)=>`<g transform="translate(${ax},-385) rotate(${-a+shake})"><rect x="-13" y="-8" width="26" height="150" rx="13" fill="${skin}" ${st(5)}/>${withBag?bag:''}</g>`;
+  g=arm(-30,sp>0.05?-150:-12,!o.wave)+g;
+  g+=`<circle cx="4" cy="-452" r="50" fill="${skin}" ${st()}/><path d="M-48,-460 C-46,-515 50,-518 54,-462 C30,-482 -10,-484 -48,-460 Z" fill="${hair}" ${st(5)}/><circle cx="-34" cy="-505" r="26" fill="${hair}" ${st(5)}/>`;
+  g+=sp>0.05?`<circle cx="30" cy="-458" r="11" fill="#fff" ${st(4)}/><circle cx="32" cy="-458" r="5" fill="${C.navy}"/><ellipse cx="34" cy="-420" rx="10" ry="13" fill="${C.navy}"/>`:`<circle cx="30" cy="-460" r="6.5" fill="${C.navy}"/><path d="M24,-426 q13,12 27,0" stroke="${C.navy}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+  g+=arm(30,aa,!o.wave);
+  if(sp>0.05&&sp<1.4)g+=txt(10,-575,'!',130,C.terra,'middle',900);
+  return T(x,y+jump*s,s,o.flip,g);
+}
+
+function nino(x,y,s,o={}){
+  const ph=o.walk??null;const la=ph==null?0:Math.sin(ph)*24;const bob=ph==null?0:-Math.abs(Math.sin(ph))*6;
+  const skin='#D79A6E',shirt='#4BA3C7';
+  const lr=o.lift||0;
+  const leg=(lx,a,f,lift)=>`<g transform="translate(${lx},-130) rotate(${a})"><rect x="-15" y="0" width="30" height="${125-lift}" rx="13" fill="${skin}" ${st(5)}/><ellipse cx="10" cy="${126-lift}" rx="23" ry="11" fill="#E05A47" ${st(4)}/></g>`;
+  let g=leg(-12,-la,skin,0)+leg(14,la-lr*35,skin,lr*20);
+  g+=`<rect x="-42" y="-160" width="84" height="55" rx="14" fill="${C.navy}" ${st(5)}/><rect x="-46" y="-275" width="92" height="125" rx="30" fill="${shirt}" ${st()}/>`;
+  const aa=o.uy?150:(-la*0.8+10);
+  g+=`<g transform="translate(14,-260) rotate(${-aa})"><rect x="-12" y="-6" width="24" height="105" rx="12" fill="${skin}" ${st(5)}/></g>`;
+  g+=`<circle cx="6" cy="-322" r="50" fill="${skin}" ${st()}/><path d="M-44,-334 C-40,-385 52,-388 56,-336 C26,-352 -10,-352 -44,-334 Z" fill="#2B1D16" ${st(5)}/>`;
+  g+=o.uy?`<circle cx="32" cy="-328" r="10" fill="#fff" ${st(4)}/><circle cx="34" cy="-328" r="4.5" fill="${C.navy}"/><ellipse cx="34" cy="-292" rx="9" ry="11" fill="${C.navy}"/>`:`<circle cx="32" cy="-330" r="6" fill="${C.navy}"/><path d="M24,-298 q12,10 24,0" stroke="${C.navy}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+  if(o.ball!=null){const by=-130-Math.abs(Math.sin(o.ball))*150;g+=`<circle cx="70" cy="${by+130}" r="28" fill="#F2C94C" ${st(5)}/><path d="M44,${by+130} h52" stroke="${C.navy}" stroke-width="4"/>`;}
+  return T(x,y+bob*s,s,o.flip,`<g transform="translate(0,0)">${g}</g>`);
+}
+
+function poop(x,y,s,stink=0){let g=`<ellipse cx="0" cy="-12" rx="34" ry="14" fill="#7A4E2D" ${st(4)}/><ellipse cx="0" cy="-30" rx="25" ry="12" fill="#8A5A35" ${st(4)}/><ellipse cx="3" cy="-46" rx="14" ry="9" fill="#9A6A42" ${st(4)}/>`;
+  if(stink>0){for(let i=0;i<3;i++){const ox=-24+i*24,dy=(stink*60+i*20)%60;g+=`<path d="M${ox},${-70-dy} q10,-10 0,-20 q-10,-10 0,-20" stroke="#6B9A3A" stroke-width="5" fill="none" stroke-linecap="round" opacity="${0.8*(1-dy/60)}"/>`;}}
+  return T(x,y,s,false,g);}
+function caneca(x,y,s){return T(x,y,s,false,`<path d="M-60,-200 L60,-200 L48,0 L-48,0 Z" fill="#2B2B2B" ${st()}/><rect x="-70" y="-228" width="140" height="32" rx="8" fill="#3B3B3B" ${st()}/><rect x="-40" y="-150" width="80" height="60" rx="6" fill="#fff" ${st(4)}/>${txt(0,-128,'NO',20,C.navy)}${txt(0,-104,'APROV.',16,C.navy)}`);}
+function leashItem(x,y,s,r=0){return T(x,y,s,false,`<g transform="rotate(${r})"><circle r="34" fill="none" stroke="${C.navy}" stroke-width="16"/><circle r="34" fill="none" stroke="${C.terra}" stroke-width="9"/><path d="M30,10 q30,10 40,40" stroke="${C.navy}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M30,10 q30,10 40,40" stroke="${C.terra}" stroke-width="7" fill="none" stroke-linecap="round"/></g>`);}
+function bagItem(x,y,s,r=0){return T(x,y,s,false,`<g transform="rotate(${r})"><rect x="-26" y="-34" width="52" height="68" rx="14" fill="#4E8A5A" ${st(5)}/>${paw(0,0,0.9).replace(/#182939/g,'#E9F5EC')}</g>`);}
+
+function bubble(x,y,str,p,size=56,dir=1){if(p<=0)return '';const k=pop(p);const w=str.length*size*0.6+60,h=size+50;
+  return `<g transform="translate(${x},${y}) scale(${k})"><path d="M${-w/2},${-h} h${w} a20,20 0 0 1 20,20 v${h-40} a20,20 0 0 1 -20,20 h${-w/2+40} l${-20*dir},34 l${-10*dir},-34 h${-w/2+30} a20,20 0 0 1 -20,-20 v${-(h-40)} a20,20 0 0 1 20,-20 Z" transform="translate(-10,-34)" fill="#fff" ${st(6)}/>${txt(-10,-34-h/2+size*0.36,str,size,C.navy)}</g>`;}
+
+let UI='';
+function banner(lines,cy,p,bg=C.navy){if(p<=0)return '';UI+=bannerRaw(lines,cy,p,bg);return '';}
+function bannerRaw(lines,cy,p,bg){const op=clamp(p*1.5);const dy=(1-eo(clamp(p)))*50;
+  let tot=lines.reduce((a,l)=>a+l.size*1.18,0)+70;const w=Math.min(1000,Math.max(...lines.map(l=>l.str.length*l.size*0.6))+90);
+  let y=cy-tot/2+35;let g=`<rect x="${540-w/2}" y="${cy-tot/2}" width="${w}" height="${tot}" rx="34" fill="${bg}" opacity="0.94"/>`;
+  for(const l of lines){y+=l.size*0.95;g+=txt(540,y,l.str,l.size,l.fill||'#fff');y+=l.size*0.23;}
+  return `<g opacity="${op}" transform="translate(0,${dy})">${g}</g>`;}
+
+/* ---------- FONDOS ---------- */
+const DEFS=`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9DCD6"/><stop offset="1" stop-color="#EAF6F3"/></linearGradient></defs>`;
+function clouds(t){let g='';[[180,330,1],[760,240,.8],[520,420,.6]].forEach(([cx,cy,k],i)=>{const x=((cx+t*12*(i+1))%1300)-110;g+=`<g transform="translate(${x},${cy}) scale(${k})" opacity=".9"><ellipse cx="0" cy="0" rx="90" ry="38" fill="#fff"/><ellipse cx="-50" cy="10" rx="60" ry="30" fill="#fff"/><ellipse cx="55" cy="8" rx="65" ry="30" fill="#fff"/></g>`;});return g;}
+function building(x,y,w,h,fill,cols,rows){let g=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" ${st()}/>`;const ww=(w-40)/cols-20,hh=60;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){g+=`<rect x="${x+30+c*(ww+20)}" y="${y+40+r*(hh+45)}" width="${ww}" height="${hh}" rx="6" fill="#A9D3D1" ${st(4)}/>`;}return g;}
+function bgPorteria(t){let g=`<rect width="${W}" height="1450" fill="url(#sky)"/>`+clouds(t);
+  g+=building(30,560,300,890,'#E9DCC8',3,7)+building(360,760,250,690,'#DCC7A8',2,5)+building(640,480,410,970,'#E6D5BD',3,8);
+  g+=`<rect x="0" y="1300" width="${W}" height="150" fill="#9CC9A2" ${st()}/>`;
+  for(let i=0;i<14;i++)g+=`<rect x="${i*80+10}" y="1180" width="12" height="270" fill="#5E6B73"/>`;
+  g+=`<rect x="0" y="1180" width="${W}" height="14" fill="#5E6B73"/>`;
+  g+=`<rect x="690" y="1080" width="350" height="370" fill="#F4EDE2" ${st()}/><rect x="670" y="1030" width="390" height="66" rx="10" fill="${C.terra}" ${st()}/>${txt(865,1078,'PORTERÍA',44,'#fff')}<rect x="730" y="1140" width="270" height="150" rx="8" fill="#A9D3D1" ${st(5)}/>`;
+  g+=`<rect x="0" y="1450" width="${W}" height="470" fill="#C8C3BA" ${st()}/>`;for(let i=0;i<8;i++)g+=`<path d="M${i*150},1450 L${i*150-60},1920" stroke="#B1ABA1" stroke-width="5"/>`;
+  return g;}
+function bgPasillo(open){let g=`<rect width="${W}" height="1450" fill="#F1E7D6"/><rect x="0" y="1170" width="${W}" height="280" fill="#DCCBB0" ${st()}/>`;
+  g+=`<rect x="0" y="1450" width="${W}" height="470" fill="#C9B79C" ${st()}/>`;for(const yy of [1540,1660,1820])g+=`<path d="M0,${yy} H${W}" stroke="#B3A084" stroke-width="5"/>`;for(let i=0;i<7;i++)g+=`<path d="M${i*180+60},1450 L${i*220-80},1920" stroke="#B3A084" stroke-width="5"/>`;
+  g+=`<rect x="150" y="690" width="360" height="760" fill="#9AA3A8" ${st()}/><rect x="185" y="735" width="290" height="715" fill="#4F5D66" ${st(4)}/>`;
+  const dw=145*(1-open);g+=`<rect x="185" y="735" width="${dw}" height="715" fill="#C8CED2" ${st(4)}/><rect x="${475-dw}" y="735" width="${dw}" height="715" fill="#C8CED2" ${st(4)}/>`;
+  g+=`<rect x="275" y="620" width="110" height="48" rx="10" fill="${C.navy}"/><path d="M330,632 l16,24 h-32 Z" fill="${open>0.2?'#7CFFB2':'#55636B'}"/><rect x="530" y="990" width="38" height="86" rx="8" fill="#B8C0C4" ${st(4)}/><circle cx="549" cy="1033" r="10" fill="${open>0.05?'#FFD25A':'#8C969B'}"/>`;
+  g+=`<rect x="570" y="760" width="230" height="180" rx="10" fill="#fff" ${st()}/>${paw(685,825,2)}${txt(685,910,'Bienvenidos',28,C.navy)}`;
+  g+=`<path d="M930,1450 L955,1330 H1055 L1080,1450 Z" fill="${C.terra}" ${st()}/><ellipse cx="985" cy="1290" rx="40" ry="62" fill="#5FAF77" ${st()}/><ellipse cx="1040" cy="1280" rx="34" ry="56" fill="#4E9A66" ${st()}/>`;
+  return g;}
+function tree(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})"><rect x="-18" y="-180" width="36" height="180" fill="#8A5A3B" ${st()}/><circle cx="0" cy="-250" r="95" fill="#5FAF77" ${st()}/><circle cx="-70" cy="-200" r="60" fill="#4E9A66" ${st()}/><circle cx="70" cy="-205" r="62" fill="#6CBB82" ${st()}/></g>`;}
+function bgVerde(t){let g=`<rect width="${W}" height="1300" fill="url(#sky)"/>`+clouds(t);
+  g+=`<g opacity=".55">${building(-20,650,280,700,'#D4E3DD',2,6)}${building(780,560,320,800,'#D4E3DD',2,7)}</g>`;
+  g+=`<rect x="0" y="1260" width="${W}" height="660" fill="#8CCB8F" ${st()}/>`;
+  g+=tree(130,1300,1)+tree(900,1290,1.15)+`<ellipse cx="560" cy="1290" rx="110" ry="50" fill="#6CBB82" ${st()}/>`;
+  g+=`<path d="M0,1400 H${W} V1610 H0 Z" fill="#E6D9C2" ${st()}/>`;
+  for(let i=0;i<9;i++)g+=`<path d="M${i*140+30},1640 q8,-24 16,0 M${i*140+90},1760 q8,-24 16,0" stroke="#6CAF70" stroke-width="5" fill="none"/>`;
+  return g;}
+function bgGeneral(t){let g=`<rect width="${W}" height="1300" fill="url(#sky)"/>`+clouds(t);
+  g+=building(20,620,320,700,'#E9DCC8',3,5)+building(380,520,320,800,'#DCC7A8',3,6)+building(740,640,320,680,'#E6D5BD',3,5);
+  g+=`<rect x="0" y="1280" width="${W}" height="640" fill="#8CCB8F" ${st()}/>`+tree(80,1340,.8)+tree(1010,1340,.85);
+  g+=`<path d="M0,1430 H${W} V1640 H0 Z" fill="#E6D9C2" ${st()}/>`;return g;}
+
+/* ---------- SPRITE BARTOLO EN MOTO ---------- */
+const SPW=997,SPH=888;
+function scooter(x,y,k,helmet,hp){ // hp: helmet off progress
+  let g=`<image href="${SPRITE}" x="0" y="0" width="${SPW}" height="${SPH}"/>`;
+  if(helmet){const off=eo(clamp(hp||0));g+=`<g transform="translate(${off*120},${-off*260}) rotate(${off*-25},740,90)" opacity="${1-clamp((hp||0)*1.4-0.4)}"><path d="M592,178 C560,40 690,-25 800,8 C890,36 935,110 918,172 Z" fill="${C.terra}" ${st(9)}/><path d="M770,70 C850,60 905,110 912,165 L790,168 C780,130 772,100 770,70 Z" fill="#2E3D52" ${st(7)}/><path d="M640,70 C680,30 730,25 760,32" stroke="${C.terraL}" stroke-width="14" fill="none" stroke-linecap="round"/></g>`;}
+  return `<g transform="translate(${x},${y}) scale(${k})">${g}</g>`;}
+function puffs(x,y,u,active){if(!active)return '';let g='';for(let i=0;i<4;i++){const ph=((u*3+i/4)%1);g+=`<circle cx="${x-ph*160}" cy="${y-ph*40}" r="${12+ph*26}" fill="#fff" opacity="${0.7*(1-ph)}" ${st(3)}/>`;}return g;}
+
+/* ---------- ESCENAS ---------- */
+function scene1(u){ // 0-4 porteria, llegada
+  let g=bgPorteria(u);const k=0.62;const m=mv(u,0,2.3,-700,170,eo);const vib=m.m?Math.sin(u*60)*3:0;
+  g+=`<ellipse cx="${m.x+330}" cy="1452" rx="270" ry="22" fill="#000" opacity=".15"/>`;
+  g+=puffs(m.x+60,1400,u,m.m);
+  g+=scooter(m.x,1452-SPH*k+vib,k,true,seg(u,2.6,3.3));
+  g+=banner([{str:'BARTOLO',size:120,fill:C.terraL},{str:'Domicilios de buena convivencia',size:52}],330,seg(u,0.4,1.1));
+  return g;}
+function scene2(u){ // 4-10 pasillo
+  const open=ease(seg(u,0.2,1.0));let g=bgPasillo(open);
+  const GY=1450;
+  const lx= u<2.4?mv(u,0.9,2.4,330,740).x: 740+Math.sin((u-2.4)*7)*70;
+  const lrun= u>0.9;
+  const px=mv(u,1.5,4.2,330,500).x;
+  g+=pedro(px,GY,0.95,{walk:(u>1.5&&u<4.2)?u*9:null,pose:'phone'});
+  g+=vecina(880,GY,0.95,{flip:true,startle:seg(u,2.2,3.2)});
+  if(u>0.9)g+=luna(lx,GY+10,1,{run:lrun?u*16:null,t:u,happy:true,flip:u>2.4&&Math.cos((u-2.4)*7)<0});
+  g+=bubble(lx+40,GY-200,'¡Guau!',seg(u,2.4,2.8)-seg(u,4.2,4.4)*2,48);
+  g+=banner([{str:'Sin traílla en zonas comunes...',size:50}],1730,seg(u,3.4,3.9));
+  return g;}
+function scene3(u){ // 10-17 zona verde
+  let g=bgVerde(u+10);const GY=1520;
+  // pedro on phone, then leaves left
+  const pm=mv(u,2.4,4.6,330,-260);g+=pedro(pm.x,GY,0.95,{walk:pm.m?u*9:null,pose:'phone',flip:u>2.4});
+  // luna squat then follows
+  const lm=mv(u,2.6,4.6,580,-200);
+  if(u>1.6)g+=poop(520,GY+10,1,u);
+  g+=luna(lm.x,GY,1,{squat:seg(u,0.5,1.0)-seg(u,1.9,2.3),run:lm.m?u*16:null,t:u,flip:u>2.5,happy:u<0.5||u>2.3});
+  // nino entra por la derecha
+  const nm=mv(u,3.4,5.2,1200,660,p=>p);
+  g+=nino(nm.x,GY,1,{flip:true,walk:nm.m?u*9:null,ball:u<5.2?u*7:null,uy:u>5.2,lift:u>5.2?1:0});
+  // bartolo entra por la izquierda
+  const bm=mv(u,3.8,5.0,-200,250);
+  g+=bartolo(bm.x,GY,1.15,{walk:bm.m?u*10:null,box:true,arm:u>5.0?80:65,armB:60,mouth:(u>5.0&&u<5.9)?'whistle':'smile'});
+  if(u>5.0&&u<6.2)g+=`<g opacity="${1-seg(u,5.8,6.2)}">${[0,1,2].map(i=>`<path d="M${370+i*16},${1250-i*30} q30,-10 50,-40" stroke="${C.terra}" stroke-width="8" fill="none" stroke-linecap="round"/>`).join('')}</g>`;
+  g+=bubble(260,1150,'¡Fiiiu!',seg(u,5.0,5.3)-seg(u,6.2,6.5)*2,48);
+  g+=bubble(700,1100,'¡Uy!',seg(u,5.3,5.6),70);
+  g+=banner([{str:'...y sin recoger.',size:50}],1780,seg(u,2.4,2.9)-seg(u,5.0,5.4));
+  return g;}
+function scene4(u){ // 17-27 entrega
+  let g=bgVerde(u+17);const GY=1520;
+  g+=caneca(130,GY+10,1);
+  // nino sale
+  const nm=mv(u,0,1.2,660,1250,p=>p);if(u<1.2)g+=nino(nm.x,GY,1,{walk:u*9,ball:u*7});
+  // pedro: regresa, camina al popo, recoge, va a caneca
+  let px,pw=false,pf=false,pose='down',bend=0,bag=null;
+  if(u<1.6){const m=mv(u,0,1.6,-200,300);px=m.x;pw=m.m;}
+  else if(u<5.2){px=300;pose= u>2.6&&u<3.6?'forward':'down';}
+  else if(u<6.2){const m=mv(u,5.2,6.2,300,430);px=m.x;pw=m.m;}
+  else if(u<7.4){px=430;bend=seg(u,6.2,6.6)-seg(u,7.0,7.4);pose='bend';}
+  else if(u<8.8){const m=mv(u,7.4,8.8,430,260);px=m.x;pw=m.m;pf=true;}
+  else {px=260;pf=true;pose=u<9.4?'forward':'down';}
+  if(u>3.4&&u<6.6)bag='empty';if(u>=6.9&&u<9.0)bag='full';
+  const po={walk:pw?u*9:null,pose,bend,flip:pf,blush:seg(u,2.0,2.6)-seg(u,6,6.5),smile:u>9.2,oops:u>1.6&&u<2.6,bag,leashItem:false};
+  // luna junto a pedro
+  const lx= px-(pf?-110:110);const lo={run:pw?u*16:null,t:u,flip:pf,happy:true};
+  g+=luna(lx,GY+6,0.95,lo);
+  // popo
+  const pk=1-seg(u,6.6,7.0);if(pk>0)g+=poop(520,GY+10,pk,u);
+  g+=pedro(px,GY,0.95,po);
+  // correa
+  const ls=seg(u,4.0,4.8);if(ls>0){const h=pedroHand(px,GY,0.95,po);const c=lunaCollar(lx,GY+6,0.95,lo);const mx=(h.x+c.x)/2,my=Math.max(h.y,c.y)+60;
+    g+=`<path d="M${h.x},${h.y} Q${mx},${my} ${lerp(h.x,c.x,ls)},${lerp(h.y,c.y,ls)}" stroke="${C.navy}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M${h.x},${h.y} Q${mx},${my} ${lerp(h.x,c.x,ls)},${lerp(h.y,c.y,ls)}" stroke="${C.terra}" stroke-width="6" fill="none" stroke-linecap="round"/>`;}
+  // bolsa a la caneca
+  if(u>=9.0&&u<9.6){const p=seg(u,9.0,9.6);g+=`<path d="M${lerp(330,130,p)},${lerp(1230,1290,p)-Math.sin(p*Math.PI)*160} m-18,0 l36,0 l8,44 q-26,12 -52,0 Z" fill="#4E8A5A" ${st(4)}/>`;}
+  if(u>9.5)g+=`<g opacity="${1-seg(u,9.9,10)}">${[0,1,2,3,4].map(i=>{const a=i/5*Math.PI*2,r=60+seg(u,9.5,9.9)*50;return `<path d="M${130+Math.cos(a)*r},${1260+Math.sin(a)*r} l8,-8 l8,8 l-8,8 Z" fill="#FFD25A" ${st(3)}/>`;}).join('')}</g>`;
+  // bartolo
+  g+=bartolo(760,GY,1.15,{flip:true,box:true,boxOpen:seg(u,1.6,2.1),arm:u>9.4?165:(u>2.2&&u<2.8?110:65),armB:60,mouth:u>1.6&&u<2.6?'open':'smile'});
+  // items vuelan
+  if(u>2.2&&u<3.4){const p=seg(u,2.2,3.0);g+=leashItem(lerp(690,400,p),lerp(1300,1250,p)-Math.sin(p*Math.PI)*220,1,p*360);g+=bagItem(lerp(700,420,seg(u,2.4,3.2)),lerp(1300,1180,seg(u,2.4,3.2))-Math.sin(seg(u,2.4,3.2)*Math.PI)*260,1,seg(u,2.4,3.2)*300);}
+  if(u>=3.0&&u<4.0)g+=`<g opacity="${1-seg(u,3.6,4.0)}">${leashItem(400,1250,1,0)}${bagItem(420,1180,1,0)}</g>`;
+  g+=bubble(700,1050,'¡Su pedido!',seg(u,1.6,1.9)-seg(u,4.2,4.5)*2,56,-1);
+  g+=bubble(330,890,'¡Ups!',seg(u,1.7,2.0)-seg(u,3.0,3.3)*2,48);
+  g+=bubble(760,1050,'¡Así es!',seg(u,9.4,9.7),56,-1);
+  g+=banner([{str:'Traílla + bolsas',size:66,fill:C.terraL},{str:'= convivencia',size:66}],330,seg(u,3.0,3.6));
+  return g;}
+function scene5(u){ // 27-35 mensaje
+  let g=bgGeneral(u+27);const GY=1540;
+  g+=nino(880,GY-40,0.85,{flip:true,ball:u*7});
+  g+=vecina(640,GY-30,0.85,{flip:true,wave:true,t:u});
+  const px=lerp(-120,420,u/8);const po={walk:u*9,pose:'forward',smile:true};
+  const lx=px+120;const lo={run:u*16,t:u,happy:true};
+  g+=luna(lx,GY+8,0.95,lo);g+=pedro(px,GY,0.95,po);
+  const h=pedroHand(px,GY,0.95,po),c=lunaCollar(lx,GY+8,0.95,lo);
+  g+=`<path d="M${h.x},${h.y} Q${(h.x+c.x)/2},${Math.max(h.y,c.y)+40} ${c.x},${c.y}" stroke="${C.navy}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M${h.x},${h.y} Q${(h.x+c.x)/2},${Math.max(h.y,c.y)+40} ${c.x},${c.y}" stroke="${C.terra}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+  const a=seg(u,0.3,0.9)-seg(u,3.7,4.0),b=seg(u,4.1,4.7);
+  g+=banner([{str:'En zonas comunes:',size:54},{str:'SIEMPRE',size:110,fill:C.terraL},{str:'CON TRAÍLLA',size:110,fill:C.terraL}],380,a);
+  g+=banner([{str:'Lo que tu mascota deja,',size:54},{str:'TÚ LO',size:110,fill:'#FFD25A'},{str:'RECOGES',size:110,fill:'#FFD25A'}],380,b);
+  return g;}
+function scene6(u){ // 35-40 cierre
+  let g=bgPorteria(u+35);const k=0.62;const m=mv(u,0.9,2.5,170,1250,p=>p*p);const vib=Math.sin(u*60)*3;
+  g+=puffs(m.x+60,1400,u,u>0.9);
+  g+=scooter(m.x,1452-SPH*k+vib,k,true,0);
+  g+=bubble(380,800,'¡Hasta la próxima!',seg(u,0.1,0.4)-seg(u,1.4,1.6)*2,50);
+  const w=eo(seg(u,2.3,3.0));if(w>0){UI+=`<circle cx="540" cy="960" r="${w*1200}" fill="${C.teal}"/>`;
+    const p=seg(u,2.8,3.4);UI+=`<g opacity="${p}">${bartolo(540,1640,1.5,{arm:150+Math.sin(u*10)*20,mouth:'open'})}${txt(540,560,'Convivimos',120,'#fff')}${txt(540,690,'mejor',120,C.cream)}${paw(540,820,2)}${txt(540,1820,'Mensaje de la Administración',44,'#E9F5EC','middle',600)}</g>`;}
+  return g;}
+
+function render(t){
+  let g;UI='';
+  if(t<4)g=scene1(t);else if(t<10)g=scene2(t-4);else if(t<17)g=scene3(t-10);else if(t<27)g=scene4(t-17);else if(t<35)g=scene5(t-27);else g=scene6(t-35);
+  g=`<g transform="translate(540,450) scale(1.2) translate(-540,-450)">${g}</g>`+UI;
+  let f=0;for(const c of [4,10,17,27,35])f=Math.max(f,1-Math.abs(t-c)/0.2);f=Math.max(f,1-t/0.3,1-(40-t)/0.4);
+  if(f>0)g+=`<rect width="${W}" height="${H}" fill="${C.navy}" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=DEFS+g;
+}
+window.render=render;
+render(parseFloat(location.hash.slice(1))||1.5);
+</script></body></html>
