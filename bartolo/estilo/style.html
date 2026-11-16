@@ -109,6 +109,43 @@ function frameScene(){
   g+=`<rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
   return g;
 }
+
+// ---------- PIXEL ART + TIPOGRAFIA ANIMADA (demo) ----------
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const seg=(u,a,b)=>clamp((u-a)/(b-a));
+const back=p=>p<=0?0:p>=1?1:1+2.7*Math.pow(p-1,3)+1.7*Math.pow(p-1,2);
+function pix(x,y,k,rows,pal){let g='';rows.forEach((r,j)=>{[...r].forEach((ch,i)=>{if(pal[ch])g+=`<rect x="${x+i*k}" y="${y+j*k}" width="${k}" height="${k}" fill="${pal[ch]}"/>`;});});return `<g shape-rendering="crispEdges">${g}</g>`;}
+const HEART=['.XX...XX.','XWRX.XRRX','XRRRXRRRX','XRRRRRRRX','.XRRRRRX.','..XRRRX..','...XRX...','....X....'];
+const GRAPE=['....GG..','...G....','..XXXX..','.XPPPPX.','XPWPPPPX','XPPPPPPX','.XPPPPX.','..XPPX..','...XX...'];
+const CHOCO=['XXXXXXXXXX','XBBXBBXBBX','XBBXBBXBBX','XXXXXXXXXX','XBBXBBXBBX','XBBXBBXBBX','XXXXXXXXXX'];
+const ONION=['....G....','....G....','...XXX...','..XOOOX..','.XOWOOOX.','XOOOOOOOX','XOOOOOOOX','.XOOOOOX.','..XXXXX..'];
+const GUM=['XXXXXXXXXX','XWCCCCCCCX','XCCCCCCCCX','XCCCCCCCCX','XXXXXXXXXX'];
+function hearts(cx,y,k,full,blink){let g='';const n=5,w=9*k+k*2;const x0=cx-(n*w)/2;for(let i=0;i<n;i++){const on=i<full||(i===full&&blink);g+=pix(x0+i*w,y,k,HEART,{X:P.navy,R:on?P.terra:P.muz,W:on?P.cream:P.muz});}return g;}
+function demo(t){
+  if(t<3.2){
+    let g=frameScene();
+    const p=seg(t,0.4,1.0);if(p<1){const gx=520+(470-520)*p,gy=1210+(1215-1210)*p;g+=`<circle cx="${gx}" cy="${gy}" r="17" fill="#7B6A97" ${ol(4)}/>`;}
+    const lost=t<1.2?0:t<2.0?1:2;const bl=(t>1.0&&t<1.2)||(t>1.8&&t<2.0)?Math.floor(t*20)%2===0:false;
+    const shake=(t>1.0&&t<1.3)||(t>1.8&&t<2.1)?Math.sin(t*90)*6:0;
+    g+=`<g transform="translate(${shake},0)">${hearts(330,1000,7,5-lost-(bl?1:0),bl)}</g>`;
+    if(t>1.0&&t<1.6)g+=`<text x="470" y="${980-seg(t,1.0,1.6)*60}" font-family="Inter" font-weight="800" font-size="46" fill="${P.terra}" opacity="${1-seg(t,1.3,1.6)}" text-anchor="middle">-1</text>`;
+    if(t>1.8&&t<2.4)g+=`<text x="470" y="${980-seg(t,1.8,2.4)*60}" font-family="Inter" font-weight="800" font-size="46" fill="${P.terra}" opacity="${1-seg(t,2.1,2.4)}" text-anchor="middle">-1</text>`;
+    const fo=seg(t,2.9,3.2);if(fo>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${fo}"/>`;
+    return g;
+  }
+  const u=t-3.2;
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="960" r="560" fill="url(#tealglow)"/>`;
+  const title='Para ellos son peligrosos:';const n=Math.floor(seg(u,0.05,0.7)*title.length);
+  g+=`<text x="540" y="430" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle">${title.slice(0,n)}</text>`;
+  const items=[[GRAPE,{X:P.navy,P:'#7B6A97',W:'#B6A8CC',G:'#6FA35A'},'UVAS'],[CHOCO,{X:P.navy,B:'#6B4231'},'CHOCOLATE'],[ONION,{X:P.navy,O:P.cream,W:'#fff',G:'#6FA35A'},'CEBOLLA Y AJO'],[GUM,{X:P.navy,C:P.teal,W:'#BFE6E2'},'XILITOL']];
+  items.forEach(([art,pal,w],i)=>{const p=seg(u,0.7+i*0.42,1.05+i*0.42);if(p<=0)return;const k=back(p);const y=640+i*230;const dx=(1-Math.min(1,p*1.4))*500;
+    g+=`<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(200,${y}) scale(${k})">${pix(-55,-60,12,art,pal)}</g><text x="300" y="${y+30}" font-family="Inter" font-weight="800" font-size="${86*k}" fill="${i%2?P.cream:P.terraL}">${w}</text></g>`;});
+  const q=seg(u,2.5,2.8);if(q>0)g+=`<text x="540" y="1640" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.creamS}" text-anchor="middle" opacity="${q}">(Consulta siempre a tu veterinario)</text>`;
+  g+=`<rect width="1080" height="1920" fill="url(#vig)"/><rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
+  const fi=1-seg(u,0,0.3);if(fi>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${fi}"/>`;
+  return g;
+}
+window.renderDemo=t=>{document.getElementById('s').innerHTML=defs+demo(t);};
 const f=new URLSearchParams(location.search).get('f')||'scene';
 document.getElementById('s').innerHTML=defs+(f==='sheet'?frameSheet():frameScene());
 </script></body></html>
