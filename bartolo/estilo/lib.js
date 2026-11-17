@@ -24,7 +24,7 @@ function bartolo(x,y,k,o={}){
   g+=limb('M-88,-118 Q-125,-150 -118,-200',c,22);                         // cola
   g+=limb('M-60,-80 L-66,-4',P.creamS)+limb('M50,-80 L46,-4',P.creamS);   // patas traseras (fondo)
   g+=`<path d="M-105,-120 C-108,-185 -40,-205 30,-196 C95,-188 110,-140 100,-100 C92,-66 40,-60 -20,-62 C-80,-64 -103,-80 -105,-120 Z" fill="${c}" ${ol()}/>`; // cuerpo frijol
-  g+=`<rect x="-78" y="-205" width="64" height="58" rx="16" fill="${P.terra}" ${ol()}/>`+paw(-46,-176,.75,P.navy); // morral
+  if(!o.noBag)g+=`<rect x="-78" y="-205" width="64" height="58" rx="16" fill="${P.terra}" ${ol()}/>`+paw(-46,-176,.75,P.navy); // morral
   g+=limb('M-35,-78 L-40,-4',c)+limb('M72,-80 L76,-4',c);                 // patas delanteras
   // cabeza
   g+=`<path d="M40,-230 C30,-300 90,-335 140,-318 C190,-302 205,-250 190,-210 C178,-180 130,-170 95,-176 C60,-182 44,-200 40,-230 Z" fill="${c}" ${ol()}/>`;
@@ -37,7 +37,7 @@ function bartolo(x,y,k,o={}){
   else if(e==='worried'){g+=`<circle cx="140" cy="-252" r="8" fill="${P.navy}"/><path d="M124,-276 L156,-286" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><ellipse cx="194" cy="-200" rx="6" ry="8" fill="${P.cream}"/>`;}
   else {g+=`<circle cx="140" cy="-252" r="7" fill="${P.navy}"/><path d="M122,-276 L158,-276" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M180,-202 h24" stroke="${P.cream}" stroke-width="4" stroke-linecap="round"/>`;}
   // gorra
-  g+=`<path d="M62,-300 C70,-350 160,-352 172,-306 Z" fill="${P.terra}" ${ol()}/><path d="M150,-310 Q190,-318 214,-302 Q186,-294 150,-300 Z" fill="${P.terra}" ${ol()}/>`;
+  if(!o.noCap)g+=`<path d="M62,-300 C70,-350 160,-352 172,-306 Z" fill="${P.terra}" ${ol()}/><path d="M150,-310 Q190,-318 214,-302 Q186,-294 150,-300 Z" fill="${P.terra}" ${ol()}/>`;
   return `<g transform="translate(${x},${y}) scale(${o.flip?-k:k},${k})" filter="url(#wob)">${g}</g>`;
 }
 // ---- perro de la historia: Max (minimalista, terracota claro) ----

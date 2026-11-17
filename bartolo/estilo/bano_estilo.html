@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script>
+<script>
+// Cuadro de estilo DIURNO: patio de la tienda, Bartolo en la tina
+const DAY={sky1:'#BFE6E2',sky2:'#F3EBDD',wall:'#EADCC6',wallS:'#D9C7AE',floor:'#C9B79C'};
+let g=`<defs><linearGradient id="skyd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${DAY.sky1}"/><stop offset="1" stop-color="${DAY.sky2}"/></linearGradient>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF3D6" stop-opacity=".9"/><stop offset="1" stop-color="#FFF3D6" stop-opacity="0"/></radialGradient>
+<radialGradient id="vigd" cx="50%" cy="50%" r="72%"><stop offset="60%" stop-color="#3a2a1a" stop-opacity="0"/><stop offset="100%" stop-color="#3a2a1a" stop-opacity=".35"/></radialGradient></defs>`;
+g+=`<rect width="1080" height="1920" fill="url(#skyd)"/><circle cx="850" cy="420" r="300" fill="url(#sun)"/><circle cx="850" cy="420" r="70" fill="#FFF3D6"/>`;
+// muro del patio con ladrillos suaves
+g+=`<rect x="0" y="820" width="1080" height="660" fill="${DAY.wall}" ${ol()}/>`;
+for(let r=0;r<6;r++)for(let c=0;c<8;c++){const off=r%2?70:0;g+=`<rect x="${c*140+off-40}" y="${860+r*95}" width="110" height="60" rx="6" fill="${DAY.wallS}" opacity=".55"/>`;}
+// planta y gancho con la gorra
+g+=`<g filter="url(#wob)"><path d="M860,1480 L885,1350 H1015 L1040,1480 Z" fill="${P.terra}" ${ol()}/><ellipse cx="925" cy="1300" rx="48" ry="80" fill="#6FA35A" ${ol()}/><ellipse cx="990" cy="1290" rx="40" ry="70" fill="#5F9450" ${ol()}/></g>`;
+g+=`<g filter="url(#wob)"><circle cx="190" cy="980" r="10" fill="${P.line}"/><path d="M150,1030 C155,985 235,983 245,1028 Z" fill="${P.terra}" ${ol()}/><path d="M228,1022 Q262,1016 282,1030 Q258,1036 228,1032 Z" fill="${P.terra}" ${ol()}/></g>`;
+g+=`<rect x="0" y="1480" width="1080" height="440" fill="${DAY.floor}"/><path d="M0,1480 H1080" ${ol()}/>`;
+for(let i=0;i<8;i++)g+=`<path d="M${i*160},1480 L${i*160-70},1920" stroke="#B3A084" stroke-width="5"/>`;
+// Bartolo en la tina, sin gorra, con espuma
+g+=`<ellipse cx="560" cy="1488" rx="300" ry="22" fill="#000" opacity=".15"/>`;
+g+=bartolo(480,1420,1.35,{expr:'happy',noCap:true,noBag:true});
+[[600,985,30],[645,975,26],[560,995,22],[690,990,20],[300,1230,22],[340,1210,18]].forEach(([x,y,r])=>g+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${ol(4)}/>`);
+g+=`<g filter="url(#wob)"><path d="M250,1260 L870,1260 L830,1480 L290,1480 Z" fill="${P.teal}" ${ol()}/><rect x="230" y="1240" width="660" height="40" rx="18" fill="#5FB3AE" ${ol()}/></g>`;
+[[300,1236,22],[380,1226,28],[470,1232,24],[560,1222,30],[650,1230,24],[740,1226,28],[820,1234,22]].forEach(([x,y,r])=>g+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${ol(4)}/>`);
+[[420,1150],[700,1120],[760,1180]].forEach(([x,y])=>g+=`<circle cx="${x}" cy="${y}" r="14" fill="#fff" opacity=".7" ${ol(3)}/>`);
+g+=heartBar(560,900,7,{n:5},0);
+g+=`<text x="540" y="250" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.navy}" text-anchor="middle">Antes, me bañaban</text><text x="540" y="322" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.navy}" text-anchor="middle">cada vez que me ensuciaba.</text>`;
+g+=`<rect width="1080" height="1920" fill="url(#vigd)"/><rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
+document.getElementById('s').innerHTML=defs+g;
+</script></body></html>
