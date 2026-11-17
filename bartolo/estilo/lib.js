@@ -1,0 +1,144 @@
+
+// Paleta de marca Bartolo aplicada a estilo minimalista nocturno
+const P={teal:'#2F8F8D',tealD:'#1F5E62',navy:'#182939',night:'#0F1B26',cream:'#F4DBB9',creamS:'#D9BDA0',muz:'#3A404D',terra:'#C2624F',terraL:'#D58877',line:'#55626C',lineD:'#2B3640'};
+const LW=5;
+const defs=`<defs>
+<filter id="wob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+<filter id="blur40" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="40"/></filter>
+<filter id="blur14" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="14"/></filter>
+<radialGradient id="vig" cx="50%" cy="48%" r="70%"><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".75"/></radialGradient>
+<radialGradient id="lamp" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${P.cream}" stop-opacity=".55"/><stop offset="1" stop-color="${P.cream}" stop-opacity="0"/></radialGradient>
+<radialGradient id="tealglow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${P.teal}" stop-opacity=".45"/><stop offset="1" stop-color="${P.teal}" stop-opacity="0"/></radialGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16303A"/><stop offset="1" stop-color="#1E4048"/></linearGradient>
+</defs>`;
+const ol=(w=LW)=>`stroke="${P.line}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+// extremidad tipo fideo: trazo de contorno + relleno
+const limb=(d,c,w=26)=>`<path d="${d}" fill="none" stroke="${P.line}" stroke-width="${w+LW*2}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+const sub=(t,y,op=1)=>`<text x="540" y="${y}" font-family="Comic Neue" font-weight="700" font-size="54" fill="${P.cream}" text-anchor="middle" opacity="${op}">${t}</text>`;
+function paw(x,y,k,c){return `<g transform="translate(${x},${y}) scale(${k})" fill="${c}"><ellipse cx="0" cy="6" rx="11" ry="9"/><circle cx="-11" cy="-7" r="4.5"/><circle cx="-4" cy="-13" r="4.5"/><circle cx="5" cy="-13" r="4.5"/><circle cx="12" cy="-6" r="4.5"/></g>`;}
+
+// ---- Bartolo minimalista (mirando a la derecha). origen: suelo bajo el cuerpo ----
+function bartolo(x,y,k,o={}){
+  const e=o.expr||'neutral', c=P.cream;
+  let g='';
+  g+=limb('M-88,-118 Q-125,-150 -118,-200',c,22);                         // cola
+  g+=limb('M-60,-80 L-66,-4',P.creamS)+limb('M50,-80 L46,-4',P.creamS);   // patas traseras (fondo)
+  g+=`<path d="M-105,-120 C-108,-185 -40,-205 30,-196 C95,-188 110,-140 100,-100 C92,-66 40,-60 -20,-62 C-80,-64 -103,-80 -105,-120 Z" fill="${c}" ${ol()}/>`; // cuerpo frijol
+  g+=`<rect x="-78" y="-205" width="64" height="58" rx="16" fill="${P.terra}" ${ol()}/>`+paw(-46,-176,.75,P.navy); // morral
+  g+=limb('M-35,-78 L-40,-4',c)+limb('M72,-80 L76,-4',c);                 // patas delanteras
+  // cabeza
+  g+=`<path d="M40,-230 C30,-300 90,-335 140,-318 C190,-302 205,-250 190,-210 C178,-180 130,-170 95,-176 C60,-182 44,-200 40,-230 Z" fill="${c}" ${ol()}/>`;
+  g+=`<path d="M150,-245 C175,-252 222,-245 228,-222 C233,-200 210,-186 180,-188 C160,-190 146,-200 144,-215 Z" fill="${P.muz}" ${ol()}/>`; // hocico
+  g+=`<ellipse cx="222" cy="-232" rx="10" ry="8" fill="${P.navy}"/>`;
+  g+=`<path d="M70,-290 C40,-292 22,-262 30,-232 C36,-214 54,-222 62,-238 Z" fill="${P.creamS}" ${ol()}/>`; // oreja
+  // cara
+  if(e==='sad'){g+=`<circle cx="140" cy="-252" r="7" fill="${P.navy}"/><path d="M120,-282 L156,-272" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M178,-200 q14,-8 30,0" stroke="${P.cream}" stroke-width="4" fill="none" stroke-linecap="round"/>`;}
+  else if(e==='happy'){g+=`<path d="M128,-254 q12,-12 24,0" stroke="${P.navy}" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M124,-282 L156,-286" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M176,-206 q16,16 34,0" stroke="${P.cream}" stroke-width="4" fill="none" stroke-linecap="round"/>`;}
+  else if(e==='worried'){g+=`<circle cx="140" cy="-252" r="8" fill="${P.navy}"/><path d="M124,-276 L156,-286" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><ellipse cx="194" cy="-200" rx="6" ry="8" fill="${P.cream}"/>`;}
+  else {g+=`<circle cx="140" cy="-252" r="7" fill="${P.navy}"/><path d="M122,-276 L158,-276" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M180,-202 h24" stroke="${P.cream}" stroke-width="4" stroke-linecap="round"/>`;}
+  // gorra
+  g+=`<path d="M62,-300 C70,-350 160,-352 172,-306 Z" fill="${P.terra}" ${ol()}/><path d="M150,-310 Q190,-318 214,-302 Q186,-294 150,-300 Z" fill="${P.terra}" ${ol()}/>`;
+  return `<g transform="translate(${x},${y}) scale(${o.flip?-k:k},${k})" filter="url(#wob)">${g}</g>`;
+}
+// ---- perro de la historia: Max (minimalista, terracota claro) ----
+function max(x,y,k,o={}){
+  const c=P.terraL;let g='';
+  g+=limb('M-70,-100 Q-110,-120 -112,-160',c,18);
+  g+=`<path d="M-80,-60 C-95,-130 -40,-170 10,-165 C50,-160 70,-120 62,-80 C55,-50 20,-40 -20,-42 C-60,-44 -75,-48 -80,-60 Z" fill="${c}" ${ol()}/>`; // cuerpo sentado
+  g+=limb('M-50,-50 L-60,-4',c)+limb('M30,-60 L34,-4',c);
+  g+=`<path d="M10,-200 C4,-262 60,-290 104,-274 C148,-258 156,-212 140,-180 C126,-154 86,-150 58,-156 C28,-162 14,-178 10,-200 Z" fill="${c}" ${ol()}/>`;
+  g+=`<path d="M38,-262 C14,-262 0,-232 8,-204 C14,-188 30,-196 36,-212 Z" fill="${P.terra}" ${ol()}/>`;
+  g+=`<ellipse cx="148" cy="-214" rx="9" ry="7" fill="${P.navy}"/>`;
+  g+=`<circle cx="98" cy="-228" r="7" fill="${P.navy}"/><path d="M82,-254 L114,-250" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M118,-182 q10,6 20,0" stroke="${P.navy}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  g+=`<path d="M36,-160 Q70,-146 104,-158" stroke="${P.teal}" stroke-width="10" fill="none" stroke-linecap="round"/>`; // collar
+  return `<g transform="translate(${x},${y}) scale(${o.flip?-k:k},${k})" filter="url(#wob)">${g}</g>`;
+}
+// ---- persona minimalista (dueño), sentado, mirando a la izquierda ----
+function owner(x,y,k){
+  const c=P.creamS;let g='';
+  g+=`<path d="M-55,0 C-62,-110 -70,-210 -48,-280 C-28,-338 52,-340 66,-282 C82,-214 70,-100 62,0 Z" fill="${c}" ${ol()}/>`;
+  g+=`<path d="M-50,-282 C-40,-340 60,-344 68,-284 C40,-300 0,-302 -50,-282 Z" fill="${P.navy}" ${ol()}/>`;    // cabello
+  g+=`<circle cx="-10" cy="-250" r="7" fill="${P.navy}"/><path d="M-30,-272 L4,-274" stroke="${P.navy}" stroke-width="6" stroke-linecap="round"/><path d="M-14,-214 q10,6 20,-2" stroke="${P.navy}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  g+=limb('M-30,-160 C-90,-150 -150,-120 -205,-88',c,24);                 // brazo que ofrece
+  g+=`<circle cx="-226" cy="-78" r="17" fill="#7B6A97" ${ol(4)}/>`;          // uva
+  return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)">${g}</g>`;
+}
+
+function frameSheet(){
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/>`;
+  g+=`<circle cx="540" cy="760" r="520" fill="url(#tealglow)"/>`;
+  g+=`<text x="540" y="230" font-family="Comic Neue" font-weight="700" font-size="88" fill="${P.cream}" text-anchor="middle">Bartolo</text>`;
+  g+=`<text x="540" y="300" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery · Bello, Antioquia</text>`;
+  g+=`<ellipse cx="540" cy="1105" rx="300" ry="26" fill="#000" opacity=".35"/>`;
+  g+=bartolo(500,1100,2.2);
+  const ex=[['neutral','Neutral'],['worried','Preocupado'],['sad','Triste'],['happy','Contento']];
+  ex.forEach(([e,l],i)=>{const cx=150+i*260;g+=bartolo(cx-34,1620,0.62,{expr:e});g+=`<text x="${cx}" y="1690" font-family="Comic Neue" font-weight="700" font-size="34" fill="${P.creamS}" text-anchor="middle">${l}</text>`;});
+  g+=`<rect width="1080" height="1920" fill="url(#vig)"/>`;
+  return g;
+}
+function frameScene(){
+  let g=`<rect width="1080" height="1920" fill="url(#wall)"/>`;
+  // ventana con luna
+  g+=`<g filter="url(#wob)"><rect x="110" y="420" width="330" height="330" rx="26" fill="#0B1620" ${ol()}/><path d="M275,420 V750 M110,585 H440" ${ol()}/></g>`;
+  g+=`<circle cx="355" cy="500" r="60" fill="${P.cream}" opacity=".35" filter="url(#blur14)"/><circle cx="355" cy="500" r="36" fill="#EAF2EE"/>`;
+  // alacena
+  g+=`<g filter="url(#wob)"><rect x="620" y="380" width="380" height="250" rx="18" fill="#1A3540" ${ol()}/><path d="M810,380 V630" ${ol()}/><circle cx="790" cy="505" r="7" fill="${P.line}"/><circle cx="830" cy="505" r="7" fill="${P.line}"/></g>`;
+  // piso
+  g+=`<rect x="0" y="1480" width="1080" height="440" fill="#13252F"/><path d="M0,1480 H1080" ${ol()}/>`;
+  // lámpara colgante y su luz
+  g+=`<path d="M640,0 V820" stroke="${P.lineD}" stroke-width="5"/>`;
+  g+=`<circle cx="640" cy="1080" r="560" fill="url(#lamp)"/>`;
+  g+=`<g filter="url(#wob)"><path d="M570,880 Q640,780 710,880 Z" fill="${P.terra}" ${ol()}/></g><ellipse cx="640" cy="888" rx="36" ry="14" fill="${P.cream}"/>`;
+  g+=`<circle cx="640" cy="900" r="90" fill="${P.cream}" opacity=".35" filter="url(#blur40)"/>`;
+  // dueño detrás de la mesa
+  g+=owner(760,1300,1.05);
+  // mesa
+  g+=`<g filter="url(#wob)"><rect x="430" y="1290" width="600" height="34" rx="10" fill="#5A3E33" ${ol()}/><path d="M470,1324 V1480 M990,1324 V1480" stroke="${P.line}" stroke-width="14" stroke-linecap="round"/>`;
+  g+=`<ellipse cx="820" cy="1286" rx="90" ry="14" fill="#E9E2D6" ${ol(4)}/></g>`;
+  [[795,1272],[815,1268],[835,1273],[825,1258]].forEach(([a,b])=>g+=`<circle cx="${a}" cy="${b}" r="11" fill="#7B6A97" ${ol(3)}/>`);
+  // Max mirando hacia arriba
+  g+=`<ellipse cx="320" cy="1482" rx="140" ry="16" fill="#000" opacity=".35"/>`;
+  g+=max(300,1480,1.25);
+  // subtítulo
+  g+=sub('Le daba un poquito',230)+sub('de todo lo que comía.',300);
+  g+=`<rect width="1080" height="1920" fill="url(#vig)"/>`;
+  g+=`<rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
+  return g;
+}
+
+// ---------- PIXEL ART + TIPOGRAFIA ANIMADA (demo) ----------
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const seg=(u,a,b)=>clamp((u-a)/(b-a));
+const back=p=>p<=0?0:p>=1?1:1+2.7*Math.pow(p-1,3)+1.7*Math.pow(p-1,2);
+function pix(x,y,k,rows,pal){let g='';rows.forEach((r,j)=>{[...r].forEach((ch,i)=>{if(pal[ch])g+=`<rect x="${x+i*k}" y="${y+j*k}" width="${k}" height="${k}" fill="${pal[ch]}"/>`;});});return `<g shape-rendering="crispEdges">${g}</g>`;}
+const HEART=['.XX...XX.','XWRX.XRRX','XRRRXRRRX','XRRRRRRRX','.XRRRRRX.','..XRRRX..','...XRX...','....X....'];
+const GRAPE=['....GG..','...G....','..XXXX..','.XPPPPX.','XPWPPPPX','XPPPPPPX','.XPPPPX.','..XPPX..','...XX...'];
+const CHOCO=['XXXXXXXXXX','XBBXBBXBBX','XBBXBBXBBX','XXXXXXXXXX','XBBXBBXBBX','XBBXBBXBBX','XXXXXXXXXX'];
+const ONION=['....G....','....G....','...XXX...','..XOOOX..','.XOWOOOX.','XOOOOOOOX','XOOOOOOOX','.XOOOOOX.','..XXXXX..'];
+const GUM=['XXXXXXXXXX','XWCCCCCCCX','XCCCCCCCCX','XCCCCCCCCX','XXXXXXXXXX'];
+function hearts(cx,y,k,full,blink){let g='';const n=5,w=9*k+k*2;const x0=cx-(n*w)/2;for(let i=0;i<n;i++){const on=i<full||(i===full&&blink);g+=pix(x0+i*w,y,k,HEART,{X:P.navy,R:on?P.terra:P.muz,W:on?P.cream:P.muz});}return g;}
+function demo(t){
+  if(t<3.2){
+    let g=frameScene();
+    const p=seg(t,0.4,1.0);if(p<1){const gx=520+(470-520)*p,gy=1210+(1215-1210)*p;g+=`<circle cx="${gx}" cy="${gy}" r="17" fill="#7B6A97" ${ol(4)}/>`;}
+    const lost=t<1.2?0:t<2.0?1:2;const bl=(t>1.0&&t<1.2)||(t>1.8&&t<2.0)?Math.floor(t*20)%2===0:false;
+    const shake=(t>1.0&&t<1.3)||(t>1.8&&t<2.1)?Math.sin(t*90)*6:0;
+    g+=`<g transform="translate(${shake},0)">${hearts(330,1000,7,5-lost-(bl?1:0),bl)}</g>`;
+    if(t>1.0&&t<1.6)g+=`<text x="470" y="${980-seg(t,1.0,1.6)*60}" font-family="Inter" font-weight="800" font-size="46" fill="${P.terra}" opacity="${1-seg(t,1.3,1.6)}" text-anchor="middle">-1</text>`;
+    if(t>1.8&&t<2.4)g+=`<text x="470" y="${980-seg(t,1.8,2.4)*60}" font-family="Inter" font-weight="800" font-size="46" fill="${P.terra}" opacity="${1-seg(t,2.1,2.4)}" text-anchor="middle">-1</text>`;
+    const fo=seg(t,2.9,3.2);if(fo>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${fo}"/>`;
+    return g;
+  }
+  const u=t-3.2;
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="960" r="560" fill="url(#tealglow)"/>`;
+  const title='Para ellos son peligrosos:';const n=Math.floor(seg(u,0.05,0.7)*title.length);
+  g+=`<text x="540" y="430" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle">${title.slice(0,n)}</text>`;
+  const items=[[GRAPE,{X:P.navy,P:'#7B6A97',W:'#B6A8CC',G:'#6FA35A'},'UVAS'],[CHOCO,{X:P.navy,B:'#6B4231'},'CHOCOLATE'],[ONION,{X:P.navy,O:P.cream,W:'#fff',G:'#6FA35A'},'CEBOLLA Y AJO'],[GUM,{X:P.navy,C:P.teal,W:'#BFE6E2'},'XILITOL']];
+  items.forEach(([art,pal,w],i)=>{const p=seg(u,0.7+i*0.42,1.05+i*0.42);if(p<=0)return;const k=back(p);const y=640+i*230;const dx=(1-Math.min(1,p*1.4))*500;
+    g+=`<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(200,${y}) scale(${k})">${pix(-55,-60,12,art,pal)}</g><text x="300" y="${y+30}" font-family="Inter" font-weight="800" font-size="${86*k}" fill="${i%2?P.cream:P.terraL}">${w}</text></g>`;});
+  const q=seg(u,2.5,2.8);if(q>0)g+=`<text x="540" y="1640" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.creamS}" text-anchor="middle" opacity="${q}">(Consulta siempre a tu veterinario)</text>`;
+  g+=`<rect width="1080" height="1920" fill="url(#vig)"/><rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
+  const fi=1-seg(u,0,0.3);if(fi>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${fi}"/>`;
+  return g;
+}
+window.renderDemo=t=>{document.getElementById('s').innerHTML=defs+demo(t);};

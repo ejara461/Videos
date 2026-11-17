@@ -27,11 +27,12 @@ Narra Bartolo en primera persona. `/` = pausa corta; `//` = pausa larga. Lectura
 | 8 | Plano final: el dueño acaricia a Max | Él te lo da todo. / Dale tú / lo que le hace bien. // | 5 de 5, con brillo |
 | 9 | Cierre: logo y datos | Bartolo Pet Shop Delivery. / Bello, Antioquia. | — |
 
-**Texto en pantalla de la escena 6:** "Para ellos son peligrosos:" UVAS · CHOCOLATE · CEBOLLA Y AJO · XILITOL — "(Consulta siempre a tu veterinario)".
+**Texto en pantalla de la escena 6:** "Para ellos son peligrosos:" UVAS · CHOCOLATE · CEBOLLA Y AJO — "(Consulta siempre a tu veterinario)". Se retiró el xilitol por recomendación del veterinario Jovany: es poco conocido para el público.
 
 ## Pendientes antes de publicar
 
-- [ ] Revisión del guion por un médico veterinario, en especial la lista de la escena 6.
+- [x] Lista de alimentos de la escena 6 revisada por el veterinario Jovany (se retiró el xilitol).
+- [ ] Revisión del guion completo por el veterinario.
 - [ ] Grabación de la voz con la grabadora del celular (3 s de silencio al inicio, pausas marcadas).
 - [ ] Pista de música de la Biblioteca de audio de YouTube.
 - [ ] WhatsApp para el cierre (opcional).
