@@ -1,8 +1,8 @@
 # Calendario de contenidos — YouTube Shorts
 
 Bartolo Pet Shop Delivery · Bello, Antioquia
-Periodo: 17 de noviembre de 2026 al 9 de enero de 2027 (8 semanas)
-Ritmo: 2 Shorts por semana, **martes y viernes**.
+Periodo: 17 de noviembre de 2026 al 12 de enero de 2027 (9 semanas)
+Ritmo: 2 Shorts por semana, **martes y viernes**. Excepción: en la semana de Navidad se publica el miércoles 23, y el viernes 1 de enero (festivo) no se publica.
 
 ## Calendario
 
@@ -18,11 +18,12 @@ Ritmo: 2 Shorts por semana, **martes y viernes**.
 | 5 | Mar 15 dic | ¿Una mascota de regalo de Navidad? Adopción responsable | Convivencia | Por escribir |
 | 5 | Vie 18 dic | Vacaciones: llevar a tu mascota o dejarla bien cuidada | Cuidado | Por escribir |
 | 6 | Mar 22 dic | **Tienda:** pedidos de Navidad, Bartolo te lo lleva | Tienda | Por escribir |
-| 6 | Vie 26 dic | Pólvora de Año Nuevo (versión corta del video del 27 de noviembre) | Salud / temporada | Reutilización |
+| 6 | Mié 23 dic | Pólvora en Navidad y Año Nuevo (versión corta del video del 27 de noviembre) | Salud / temporada | Reutilización |
 | 7 | Mar 29 dic | Bartolo responde: preguntas de clientes | Serie | Recoger preguntas desde ya |
-| 7 | Vie 2 ene | Calor e hidratación: agua fresca y sombra | Salud preventiva | Por escribir |
-| 8 | Mar 5 ene | Desparasitación: por qué es importante (consulta a tu veterinario) | Salud preventiva | Por escribir |
-| 8 | Vie 9 ene | Salud dental: cepillado y señales de alerta | Salud preventiva | Por escribir |
+| 7 | Vie 1 ene | Festivo: no se publica | — | — |
+| 8 | Mar 5 ene | Calor e hidratación: agua fresca y sombra | Salud preventiva | Por escribir |
+| 8 | Vie 8 ene | Desparasitación: por qué es importante (consulta a tu veterinario) | Salud preventiva | Por escribir |
+| 9 | Mar 12 ene | Salud dental: cepillado y señales de alerta | Salud preventiva | Por escribir |
 
 **Balance:** 15 videos (3 listos, 12 nuevos). Uno solo es de promoción directa de la tienda; el resto son tips.
 
