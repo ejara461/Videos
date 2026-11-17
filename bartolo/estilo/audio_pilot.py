@@ -31,7 +31,8 @@ while t0 < 46:
 for f in [261.63, 329.63, 392.0, 523.25]:
     sig = piano(f, 4.0); i = int(44.0 * SR); j = min(N, i + len(sig)); mus[i:j] += sig[:j-i] * 0.25
 fade = np.ones(N); fi = int(46.5 * SR); fade[fi:] = np.linspace(1, 0, N - fi)
-out += mus * fade
+import os
+if not os.environ.get('SOLO_EFECTOS'): out += mus * fade
 
 # Moto (escena 1)
 t = T(5.0); f = 70 + 4*np.sin(2*np.pi*0.5*t)
@@ -53,6 +54,6 @@ for at in [34.5, 35.5, 36.5, 37.5]: gain(at)
 for at in [28.0, 29.0, 30.0]: add(sq(220, 0.05) * env(int(SR*0.05), 0.002, 0.02), at, 0.12)  # entrada de palabras
 
 out = out / np.max(np.abs(out)) * 0.85
-with wave.open('audio_pilot.wav', 'wb') as w:
+with wave.open(os.environ.get('SALIDA','audio_pilot.wav'), 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes((out * 32767).astype(np.int16).tobytes())
 print('ok')
