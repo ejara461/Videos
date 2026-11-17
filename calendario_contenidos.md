@@ -10,7 +10,7 @@ Ritmo: 2 Shorts por semana, **martes y viernes**. Excepción: en la semana de Na
 |---|---|---|---|---|
 | 1 | Vie 20 nov | "Lo que comía Max": alimentos peligrosos | Alimentación | **Listo** |
 | 2 | Mar 24 nov | "La arena de Lila": cuidado de la caja y tipos de arena | Cuidado (gatos) | **Listo** |
-| 2 | Vie 27 nov | **Pólvora y alborada:** cómo proteger a tu mascota del ruido | Salud / temporada | **Urgente:** guion esta semana |
+| 2 | Vie 27 nov | **Pólvora y alborada:** cómo proteger a tu mascota del ruido | Salud / temporada | **Listo** |
 | 3 | Mar 1 dic | "El baño de Bartolo": frecuencia y cuidados | Cuidado | **Listo** |
 | 3 | Vie 4 dic | Comidas de diciembre que no debe comer tu perro (dulces, grasas, huesos cocidos) | Alimentación / temporada | Por escribir |
 | 4 | Mar 8 dic | Noche de velitas: velas, faroles y mascotas | Convivencia / temporada | Por escribir |
@@ -25,7 +25,7 @@ Ritmo: 2 Shorts por semana, **martes y viernes**. Excepción: en la semana de Na
 | 8 | Vie 8 ene | Desparasitación: por qué es importante (consulta a tu veterinario) | Salud preventiva | Por escribir |
 | 9 | Mar 12 ene | Salud dental: cepillado y señales de alerta | Salud preventiva | Por escribir |
 
-**Balance:** 15 videos (3 listos, 12 nuevos). Uno solo es de promoción directa de la tienda; el resto son tips.
+**Balance:** 15 videos (4 listos, 11 por producir). Uno solo es de promoción directa de la tienda; el resto son tips.
 
 ## Flujo por video (una semana antes de publicar)
 

@@ -1,0 +1,126 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_bano.js"></script><script src="lib_polvora.js"></script>
+<script>
+// Short 4 "La alborada de Max" — tiempos ajustados a la voz de ElevenLabs
+const S=[0,4.6,8.6,11.6,15.8,18.8,23.4,31.0,40.0,46.0,50.0];
+const DUR=54.5;
+const SUBS=[
+ [0.1,1.4,['En diciembre,']],[1.45,4.4,['Bello se llena de luces...','y de pólvora.']],
+ [4.7,8.4,['La noche de la alborada,','a Max lo dejaron en el balcón.']],
+ [8.7,11.5,['Con el primer estallido,','empezó a temblar.']],
+ [11.7,13.9,['Jadeaba,','quería esconderse...']],[14.0,15.6,['...y nadie lo notó.']],
+ [15.9,18.6,['Cuando abrieron la puerta,','salió corriendo.']],
+ [18.9,23.1,['Volvió al otro día, gracias a la placa','con el teléfono de su dueño.']],
+ [23.5,30.7,['Para ellos,','la pólvora no es fiesta.']],
+ [31.1,39.7,['Así lo puedes proteger.']],
+ [40.1,45.7,['Este año, Max pasó la alborada','adentro, tranquilo, con su familia.']],
+ [46.1,49.7,['Celebra...','sin dejar a nadie atrás.']]];
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+function subs(t,col){let g='';for(const [a,b,L] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="56" fill="${col}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<S[1]||(t>=S[6]&&t<S[8])||t>=S[10])return null;
+  if(t<9.2)return {n:5};
+  if(t<10.0)return {n:4,hit:seg(t,9.2,9.6)};
+  if(t<14.6)return {n:3,hit:seg(t,10.0,10.4)};
+  if(t<17.6)return {n:2,hit:seg(t,14.6,15.0)};
+  const G=S[8]+1.2;
+  if(t<G)return {n:1,hit:t<18.0?seg(t,17.6,18.0):0,dim:t>18.0};
+  if(t<G+2.8){const k=1+Math.min(4,Math.floor((t-G)/0.7)+1);return {n:k,gain:seg((t-G)%0.7,0,0.3)};}
+  return {n:5,shine:true};
+}
+// pared con puerta de vidrio del apartamento (derecha del balcón)
+function aptDoor(t,open,party){
+  let g=`<rect x="780" y="880" width="320" height="660" fill="#1E3A44" ${ol()}/>`;
+  g+=`<rect x="820" y="980" width="220" height="554" fill="#F4DBB9" opacity=".55"/>`;
+  if(party)for(let i=0;i<2;i++){const bob=Math.abs(Math.sin(t*6+i*1.5))*22;g+=`<path d="M${870+i*90},1534 C${862+i*90},1420 ${866+i*90},${1330-bob} ${900+i*90},${1320-bob} C${930+i*90},${1330-bob} ${936+i*90},1420 ${930+i*90},1534 Z" fill="#3A2A2F" opacity=".7"/>`;}
+  const dw=220*(1-open);g+=`<rect x="820" y="980" width="${dw}" height="554" fill="#9FC9D0" opacity=".25" ${ol(4)}/>`;
+  g+=`<rect x="820" y="980" width="220" height="554" fill="none" ${ol(6)}/>`;
+  return g;}
+function balconyScene(t,o){
+  let g=nightCity(t);
+  (o.fw||[]).forEach(([cx,cy,p,c,n,r])=>g+=firework(cx,cy,p,c,n,r));
+  g+=garland(-20,640,1100,600,60,t,22,0)+garland(-20,760,1100,800,50,t,22,3);
+  g+=balcony(1300)+aptDoor(t,o.open||0,true);
+  g+=`<rect x="0" y="1534" width="1080" height="400" fill="#1A2A33"/><path d="M0,1534 H1080" ${ol()}/>`;
+  if(o.max!==false){g+=`<ellipse cx="${o.mx+20}" cy="1652" rx="160" ry="18" fill="#000" opacity=".4"/>`+maxAsustado(o.mx,1648,1.45,{shake:o.shake,t,tag:true,calm:o.calm,flip:o.flip});}
+  if(o.boom)g+=boom(o.boom[0],o.boom[1],o.boom[2]);
+  return g;}
+let HX=560,HY=1180;
+function e1(t,u){let g=streetBG(t);
+  const off=(t*260)%700;for(let i=-1;i<3;i++)g+=garland(i*700-off,560,i*700-off+700,600,70,t,18,i);
+  g+=firework(820,420,((u*0.5)%1),'#E3A93B',12,110);
+  const bob=Math.sin(t*18)*3;g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".4"/><g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'neutral'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;
+  return cam(g,1+u*0.006);}
+function e2(t,u){HX=560;HY=1180;return cam(balconyScene(t,{mx:500,calm:true}),1+u*0.006);}
+function e3(t,u){HX=560;HY=1180;const fw=[[300,430,seg(u,0.3,1.6),'#C2624F',16,170],[780,330,seg(u,1.2,2.4),'#9FE3D9',14,140],[560,560,seg(u,1.8,2.9),'#E3A93B',12,120]];
+  return cam(balconyScene(t,{mx:500,shake:u>0.5,fw,boom:[820,560,seg(u,0.3,1.3)]}),1.02+u*0.008);}
+function e4(t,u){const m=mv(u,0.6,2.6,500,260);HX=m.x+60;HY=1180;
+  const fw=[[250,400,(u*0.6)%1,'#D58877',14,150],[760,480,((u*0.6)+0.5)%1,'#9FE3D9',12,130]];
+  return cam(balconyScene(t,{mx:m.x,shake:true,fw}),1.04,520,1300);}
+function e5(t,u){const open=ease(seg(u,0.1,0.9));const m=mv(u,1.2,2.4,260,980,p=>p*p);HX=m.x+60;HY=1180;
+  let g=balconyScene(t,{mx:m.x,open,shake:true,fw:[[400,450,(u*0.6)%1,'#C2624F',14,150]],max:u<2.35});
+  if(m.m)for(let i=0;i<3;i++)g+=`<path d="M${m.x-80-i*40},${1520-i*30} h-60" stroke="${P.cream}" stroke-width="6" stroke-linecap="round" opacity=".7"/>`;
+  return cam(g,1.02);}
+function e6(t,u){HX=560;HY=1170;let g=streetDay(0);
+  g+=`<g filter="url(#wob)"><rect x="620" y="1000" width="300" height="500" fill="#C9A57A" ${ol()}/><rect x="660" y="1040" width="220" height="460" fill="#8A5A3B" ${ol()}/></g>`;
+  const a=ease(seg(u,0.6,1.6));g+=`<ellipse cx="520" cy="1652" rx="160" ry="18" fill="#000" opacity=".2"/>`+maxAsustado(500,1648,1.45,{calm:true,t,tag:true,tagShine:u>2.4});
+  g+=humanArm(lerp(1150,700,a),lerp(1300,1360,a));
+  return cam(g,1+u*0.006);}
+/* ---------- TIPOGRAFÍA ---------- */
+const SUN=['...X...','.X.X.X.','..XXX..','XXXYXXX','..XXX..','.X.X.X.','...X...'];
+const TAG=['..XXX..','.X...X.','XGGGGGX','XGWGGGX','XGGGGGX','.XGGGX.','..XXX..'];
+const BED=['X.......','X.......','XCCCCXXX','XWWCCCCX','XXXXXXXX','X......X'];
+const WINC=['XXXXXXXX','XRRXXRRX','XRRXXRRX','XRRXXRRX','XRRXXRRX','XXXXXXXX'];
+const NOTE=['...XXXX','...X..X','...X..X','...X..X','.XXX.XX','XXXX.XX','.XX....'];
+const NOSCOLD=['R.XXXX.R','.RXWWXR.','.XRWWRX.','.XWRRWX.','.XWRRWX.','.XRXXRX.','.R....R.','R......R'];
+const ROPEX=['R......R','.R.XX.R.','..RXXR..','..XRRX..','..XRRX..','.XRXXRX.','.R....R.','R......R'];
+function rowN(y,art,pal,l1,l2,p,c2){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-70,-60,17,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.creamS}">${l1}</text><text x="290" y="${y+52}" font-family="Inter" font-weight="800" font-size="58" fill="${c2}">${l2}</text></g>`;}
+function tipBG(t,title){let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="1050" r="600" fill="url(#tealglow)"/>`+garland(-20,140,1100,140,30,t,24,0);
+  g+=`<text x="540" y="470" font-family="Inter" font-weight="800" font-size="52" fill="${P.terraL}" text-anchor="middle" letter-spacing="3">${title}</text>`;return g;}
+function e7(t,u){let g=tipBG(t,'ANTES DE LA NOCHE');
+  g+=rowN(700,SUN,{X:'#E3A93B',Y:P.cream},'Pasea','TEMPRANO',seg(u,1.6,2.0),P.cream);
+  g+=rowN(980,TAG,{X:P.navy,G:'#E3A93B',W:'#fff'},'En el collar, con tu teléfono:','PLACA',seg(u,3.0,3.4),P.terraL);
+  g+=rowN(1260,BED,{X:P.navy,C:P.terra,W:P.cream},'Adentro, con su cama y agua:','LUGAR TRANQUILO',seg(u,4.4,4.8),P.cream);
+  return g;}
+function e8(t,u){let g=tipBG(t,'DURANTE LA PÓLVORA');
+  g+=rowN(660,WINC,{X:P.navy,R:P.terra},'Adentro, con ventanas y','CORTINAS CERRADAS',seg(u,1.4,1.8),P.cream);
+  g+=rowN(900,NOTE,{X:P.cream},'Música o TV','SUAVE',seg(u,2.8,3.2),P.terraL);
+  g+=rowN(1140,NOSCOLD,{X:P.navy,W:P.cream,R:P.terra},'Ni lo obligues a salir:','NO LO REGAÑES',seg(u,4.2,4.6),P.cream);
+  g+=rowN(1380,ROPEX,{X:P.navy,R:P.terra},'Ni afuera ni en el balcón:','NUNCA AMARRADO',seg(u,5.6,6.0),P.terraL);
+  const q=seg(u,7.0,7.4);if(q>0)g+=`<g opacity="${q}"><text x="540" y="1580" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.cream}" text-anchor="middle">Si es muy miedoso, consulta antes a tu veterinario.</text><text x="540" y="1630" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.cream}" text-anchor="middle">Nunca lo mediques por tu cuenta.</text></g>`;
+  return g;}
+function e9(t,u){HX=460;HY=1060;let g=sofaBG();
+  g+=`<g filter="url(#wob)"><path d="M130,470 Q210,620 150,790 L130,790 Z" fill="${P.terra}" ${ol()}/><path d="M450,470 Q370,620 430,790 L450,790 Z" fill="${P.terra}" ${ol()}/><rect x="130" y="470" width="320" height="320" fill="${P.terra}" opacity=".85"/></g>`;
+  g+=`<circle cx="290" cy="560" r="${60+20*Math.sin(t*3)}" fill="#E3A93B" opacity=".12" filter="url(#blur40)"/>`;
+  g+=owner2(700,1360,1.0,{armA:'pet',osc:t*5,smile:true})+maxLie(330,1330,1.1,{t,expr:'happy'})+sofaFront();
+  for(let i=0;i<3;i++){const p=((u*0.5+i/3)%1);g+=`<text x="${960+Math.sin(p*6+i)*20}" y="${1180-p*260}" font-family="Inter" font-weight="800" font-size="48" fill="${P.cream}" opacity="${1-p}">♪</text>`;}
+  g+=`<g filter="url(#wob)"><rect x="920" y="1200" width="110" height="70" rx="12" fill="${P.teal}" ${ol()}/><circle cx="950" cy="1235" r="16" fill="${P.navy}"/></g>`;
+  return cam(g,1+u*0.006,500,1250);}
+function e10(t,u){HX=470;HY=1080;let g=nightCity(t);
+  g+=firework(260,420,(u*0.4)%1,'#C2624F',16,160)+firework(800,360,((u*0.4)+0.5)%1,'#9FE3D9',14,140);
+  g+=garland(-20,640,1100,600,60,t,22,0);
+  g+=`<rect x="380" y="1150" width="180" height="120" rx="8" fill="#F4DBB9" opacity=".9" ${ol(4)}/><circle cx="470" cy="1210" r="90" fill="#F4DBB9" opacity=".25" filter="url(#blur40)"/>`;
+  g+=`<g transform="translate(400,1268) scale(.32)">${maxLie(0,0,1,{t,expr:'happy'}).replace('filter="url(#wob)"','')}</g>`;
+  return cam(g,1.25-u*0.04,470,1200);}
+function e11(t,u){let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="900" r="560" fill="url(#tealglow)"/>`+garland(-20,150,1100,150,40,t,24,0);const p=seg(u,0.2,0.9);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1225" rx="250" ry="22" fill="#000" opacity=".35"/>`+bartolo(500,1220,1.8,{expr:'happy'});
+  g+=`<text x="540" y="430" font-family="Comic Neue" font-weight="700" font-size="110" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="510" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1330,6,{n:5,shine:true},t)+`<text x="540" y="1560" font-family="Comic Neue" font-weight="700" font-size="56" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text></g>`;return g;}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11];
+function render(t){
+  let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t,t-S[i]);
+  g+=heartBar(HX,HY,7,heartState(t),t);
+  const day=i===5;
+  g+=`<rect width="1080" height="1920" fill="url(#${day?'vigd':'vig'})"/>`+subs(t,day?DAY.text:P.cream)+bars();
+  let f=0;for(const c of [S[1],S[5],S[6],S[7],S[8],S[9],S[10]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_DIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||9.5);
+</script></body></html>

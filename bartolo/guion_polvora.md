@@ -4,7 +4,7 @@ Canal: Bartolo Pet Shop Delivery (Bello, Antioquia) · YouTube Shorts · vertica
 Publicación: **viernes 27 de noviembre**, antes de la alborada (noche del 30 de noviembre).
 Estilo: noche, edificios de Bello con alumbrados decembrinos (guirnaldas que titilan, estrella en la azotea), fuegos artificiales en la paleta de la marca, corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Max** (el perro del piloto). Narra Bartolo.
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.**
 
 ## Guion
 

@@ -9,6 +9,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/piloto_max_final.mp4` | **Piloto "Lo que comía Max"** (48 s, 9:16). Estilo minimalista con corazones en pixel art y tipografía animada. Guion validado por el veterinario Jovany. |
 | `bartolo/gatos_arena_lila_final.mp4` | **"La arena de Lila"** (58 s, 9:16). Cuidado de la caja de arena y tipos de arena. Guion validado por el veterinario Jovany. |
 | `bartolo/bano_bartolo_final.mp4` | **"El baño de Bartolo"** (54,5 s, 9:16, de día). Frecuencia del baño y seis cuidados al bañar. Guion validado por el veterinario Jovany. |
+| `bartolo/polvora_max_final.mp4` | **"La alborada de Max"** (54,5 s, 9:16, noche con alumbrados). Cómo proteger a la mascota de la pólvora. Guion validado por el veterinario Jovany. |
 | `bartolo/bartolo_convivencia.mp4` | "Domicilios de buena convivencia" (40 s, 9:16). Primer video, estilo 2D plano: traílla y recolección de excrementos en zonas comunes. |
 
 ## Material reutilizable
@@ -20,6 +21,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/voz/` | Locuciones generadas en ElevenLabs (voz Brayan Jackson, Cheerful): piloto y Short de gatos. |
 | `bartolo/estilo/lib_gatos.js` | Lila (sentada, caminando, dormida), su dueña, caja de arena y atomizador. |
 | `bartolo/estilo/lib_bano.js` | Recursos de día: calle y patio, tina, espuma, vapor, champú, jarra, toalla, gotas y destellos. Bartolo admite `noCap` y `noBag`. |
+| `bartolo/estilo/lib_polvora.js` | Edificios con alumbrados decembrinos, guirnaldas, estrella, fuegos artificiales, aviso "¡BUM!", balcón y Max asustado. |
 | `bartolo/estilo/ficha_lila_duena.png` | Ficha de Lila y su dueña con expresiones. |
 | `bartolo/bartolo_scooter.png` | Imagen original de Bartolo en moto, recortada con fondo transparente. |
 | `bartolo/estilo/lib.js` | Biblioteca de dibujo del estilo minimalista: Bartolo, Max, el dueño, corazones en pixel art, iconos de alimentos y fondos. |
