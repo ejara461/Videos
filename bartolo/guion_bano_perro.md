@@ -3,7 +3,7 @@
 Canal: Bartolo Pet Shop Delivery (Bello, Antioquia) · YouTube Shorts · vertical 9:16 · unos 55 s
 Estilo: el mismo del canal (minimalista, corazones en pixel art, tipografía animada para el tip), pero **de día**: cielo claro, sol, patio de la tienda con muro de ladrillo.
 Protagonista: **Bartolo**, que narra su propia experiencia. Durante el baño se quita la gorra y el morral (la gorra queda colgada en un gancho).
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.** Sin rango numérico de frecuencia en pantalla.
 
 ## Guion
 
@@ -28,7 +28,6 @@ Estado: **borrador para validación del veterinario Jovany.**
 
 **Escena 8, "¿Cada cuánto?":**
 - Depende del **pelaje**, la **actividad** y la **piel**.
-- **[Rango orientativo que defina Jovany, si quiere incluirlo]**
 - Bañarlo de más le quita la grasa natural que protege su piel.
 - Tu veterinario te dice qué es lo mejor para tu perro.
 

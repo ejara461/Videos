@@ -1,0 +1,99 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_bano.js"></script><script src="bano_tiempos.js"></script>
+<script>
+// Short 3 "El baño de Bartolo" — de día. Tiempos en bano_tiempos.js (S = inicio de cada escena, SUBS, DUR)
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+function subs(t){let g='';for(const [a,b,L] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="58" fill="${DAY.text}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<S[1]||(t>=S[7]&&t<S[9])||t>=S[11])return null;
+  const L1=S[1]+1.0,L2=S[2]+1.0,L3=S[3]+0.8;
+  if(t<L1)return {n:5};
+  if(t<L2)return {n:4,hit:seg(t,L1,L1+0.4)};
+  if(t<L3)return {n:3,hit:seg(t,L2,L2+0.4)};
+  if(t<S[7])return {n:2,hit:seg(t,L3,L3+0.4)<1?seg(t,L3,L3+0.4):0,pulse:t>S[5]};
+  const G=S[9]+1.2;
+  if(t<G)return {n:2,dim:true};
+  if(t<G+2.4){const k=2+Math.min(3,Math.floor((t-G)/0.8)+1);return {n:k,gain:seg((t-G)%0.8,0,0.3)};}
+  return {n:5,shine:true};
+}
+const BXX=480,BYY=1420,BK=1.35;           // Bartolo dentro de la tina
+const SX=470,SY=1480,SK=1.4;              // Bartolo de pie en el patio
+function inTub(t,o={}){return bartolo(BXX,BYY,BK,Object.assign({noCap:true,noBag:true},o));}
+function e1(t,u){let g=streetDay(t);const bob=Math.sin(t*18)*3;
+  g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".2"/><g transform="translate(0,${bob})">`;
+  g+=bartolo(470,1425,1.0,{expr:'neutral'})+dust(470,1425,1.0)+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t);
+  for(let i=0;i<5;i++){const p=((u*1.5+i/5)%1);g+=`<circle cx="${300-p*200}" cy="${1470-p*40}" r="${14+p*30}" fill="#D9C7AE" opacity="${0.7*(1-p)}"/>`;}
+  g+=`</g>`;return cam(g,1+u*0.006);}
+function e2(t,u){let g=patioBG(true)+inTub(t,{expr:'happy'})+headFoam(t)+tubFront(true,t)+bubbles(t);return cam(g,1+u*0.006);}
+function e3(t,u){let g=patioBG(true)+inTub(t,{expr:'neutral'})+tubFront(false,t)+steam(t);
+  const a=ease(seg(u,0,0.8));g+=humanArm(lerp(1150,760,a),lerp(1000,1020,a))+bottleHuman(lerp(1150,760,a)-10,lerp(1000,1020,a)-20,-20);
+  return cam(g,1.02+u*0.006);}
+function e4(t,u){let tilt=u>0.8?Math.sin(u*30)*8:0;
+  let g=patioBG(true)+`<g transform="rotate(${tilt},600,1150)">`+inTub(t,{expr:u>0.8?'worried':'neutral'})+`</g>`+tubFront(false,t);
+  const a=ease(seg(u,0,0.6));g+=humanArm(lerp(1150,800,a),lerp(860,880,a))+jug(lerp(1150,800,a)-20,lerp(860,880,a)-40,-35,u>0.6&&u<2.4);
+  if(u>0.8)g+=drops(t,540,1000,8)+`<text x="400" y="960" font-family="Comic Neue" font-weight="700" font-size="110" fill="${P.terra}">!</text>`;
+  return cam(g,1.04,560,1150);}
+function e5(t,u){let g=patioBG(true)+tubFront(false,t);
+  const m=mv(u,0,0.9,BXX,SX);g+=bartolo(m.x+90,SY,SK*0.9,{noCap:true,noBag:true,expr:'neutral',walk:m.m?u*10:null})+wetMarks(m.x+90,SY,SK*0.9)+drops(t,m.x+200,1200,5);
+  return cam(g,1+u*0.006);}
+function e6(t,u){const jx=Math.sin(t*40)*4;let g=patioBG(true)+tubFront(false,t);
+  g+=bartolo(SX+90+jx,SY,SK*0.9,{noCap:true,noBag:true,expr:'worried'});
+  for(let i=0;i<3;i++){const ph=(u*4+i/3)%1;g+=`<path d="M${360-i*16},${1330-i*24} q-20,-10 -30,-30" stroke="${P.terra}" stroke-width="7" fill="none" stroke-linecap="round" opacity="${1-ph}"/>`;}
+  return cam(g,1.03+u*0.008,560,1300);}
+function e7(t,u){let g=patioBG(true)+tubFront(false,t)+bartolo(SX+90,SY,SK*0.9,{noCap:true,noBag:true,expr:'sad'})+flakes(t,560,1180);return cam(g,1.06+u*0.01,560,1300);}
+/* ---------- TIPOGRAFÍA ANIMADA (fondo claro) ---------- */
+const PAWP=['..XX.XX..','.XWWXWWX.','.XWWXWWX.','XX.XXX.XX','XWXXWXXWX','.X.XWX.X.','..XWWWX..','.XWWWWWX.','..XXXXX..'];
+const BALL=['..XXXX..','.XYYYYX.','XYWYYYYX','XYYYYYYX','XRRRRRRX','XYYYYYYX','.XYYYYX.','..XXXX..'];
+const DROP=['...XX...','..XWWX..','..XWOX..','.XWOOOX.','.XOOOOX.','XOOOOOOX','.XOOOOX.','..XXXX..'];
+const BRUSH=['XXXXXXXX..','XWWWWWWX..','XXXXXXXXXX','.X.X.X.X..','.X.X.X.X..'];
+const BOTD=['..XXX..','..XLX..','.XXXXX.','XTTTTTX','XTWWWTX','XTWPWTX','XTWWWTX','XTTTTTX','.XXXXX.'];
+const WARM=['...XX...','..XOOX..','.XOWOOX.','.XOOOOX.','XOOOOOOX','XOOOOOOX','.XOOOOX.','..XXXX..'];
+const EAR=['..XXXX..','.XCCCCX.','XCCPPCCX','XCPCCPCX','XCCPPCCX','.XCCCX..','..XCX...','...X....'];
+const SHOWER=['XXXXXXXX','.XWWWWX.','..XXXX..','.B.B.B..','B.B.B.B.','.B.B.B..','B.B.B.B.'];
+const TOWEL=['XXXXXXXXX','XWWWWWWWX','XTTTTTTTX','XWWWWWWWX','XTTTTTTTX','XWWWWWWWX','XXXXXXXXX'];
+function rowD(y,art,pal,l1,l2,p,c2,k0=16){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-75,-62,k0,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="44" fill="#4A5560">${l1}</text><text x="290" y="${y+52}" font-family="Inter" font-weight="800" font-size="58" fill="${c2}">${l2}</text></g>`;}
+const PD={X:P.navy,W:'#fff'};
+function lightBG(){return `<rect width="1080" height="1920" fill="${DAY.cream}"/><circle cx="540" cy="1050" r="620" fill="url(#tealsoft)"/>`;}
+function e8(t,u){let g=lightBG();
+  g+=rowD(620,PAWP,{X:P.navy,W:P.cream},'Depende del','PELAJE',seg(u,1.6,2.0),P.terra);
+  g+=rowD(880,BALL,{X:P.navy,Y:'#F2C94C',R:P.terra,W:'#fff'},'de la','ACTIVIDAD',seg(u,2.7,3.1),'#1F5E62');
+  g+=rowD(1140,DROP,{X:P.navy,O:'#E3A93B',W:'#fff'},'y de la','PIEL',seg(u,3.9,4.3),P.terra);
+  const q=seg(u,4.7,5.1);if(q>0){g+=`<g opacity="${q}"><text x="540" y="1420" font-family="Comic Neue" font-weight="700" font-size="44" fill="${DAY.text}" text-anchor="middle">Bañarlo de más le quita la grasa</text><text x="540" y="1474" font-family="Comic Neue" font-weight="700" font-size="44" fill="${DAY.text}" text-anchor="middle">natural que protege su piel.</text></g>`;}
+  const q2=seg(u,5.9,6.3);if(q2>0)g+=`<text x="540" y="1600" font-family="Comic Neue" font-weight="700" font-size="40" fill="#4A5560" text-anchor="middle" opacity="${q2}">Tu veterinario te dice qué es lo mejor para tu perro.</text>`;
+  return g;}
+function e9(t,u){let g=lightBG();const d=1.15;
+  g+=rowD(500,BRUSH,{X:P.navy,W:'#C9A57A'},'Cepíllalo','ANTES DEL BAÑO',seg(u,0.8,1.2),P.terra,15);
+  g+=rowD(710,BOTD,{X:P.navy,L:P.line,T:P.terra,W:'#fff',P:P.terra},'Champú','PARA PERROS',seg(u,0.8+d,1.2+d),'#1F5E62',14);
+  g+=rowD(920,WARM,{X:P.navy,O:'#E3A93B',W:'#fff'},'Agua','TIBIA',seg(u,0.8+2*d,1.2+2*d),P.terra,14);
+  g+=rowD(1130,EAR,{X:P.navy,C:P.cream,P:P.terraL},'Sin agua ni champú en','OJOS Y OÍDOS',seg(u,0.8+3*d,1.2+3*d),'#1F5E62',14);
+  g+=rowD(1340,SHOWER,{X:P.navy,W:'#C8CED2',B:'#7FC4E8'},'Los restos de champú irritan:','ENJUAGA BIEN',seg(u,0.8+4*d,1.2+4*d),P.terra,14);
+  g+=rowD(1550,TOWEL,{X:P.navy,W:'#fff',T:P.teal},'También dedos y pliegues:','SÉCALO COMPLETO',seg(u,0.8+5*d,1.2+5*d),'#1F5E62',14);
+  return g;}
+function e10(t,u){let g=patioBG(true)+tubFront(false,t);
+  g+=bartolo(SX+90,SY,SK*0.9,{noCap:true,noBag:true,expr:u>1.2?'happy':'neutral'});
+  if(u<2.4){const r=Math.sin(u*10)*12;g+=towel(SX+60+Math.sin(u*8)*50,SY-190,r);}
+  if(u>2.4)g+=sparkles(t,580,1250,320,220);
+  g+=bottleDog(800,1470,0);
+  return cam(g,1+u*0.006);}
+function e11(t,u){let g=patioBG(false)+tubFront(false,t)+bartolo(SX+90,SY,SK*0.9,{expr:'happy'})+sparkles(t,580,1230,360,260,9);return cam(g,1.02+u*0.008,560,1300);}
+function e12(t,u){let g=`<rect width="1080" height="1920" fill="${DAY.cream}"/><circle cx="540" cy="900" r="600" fill="url(#tealsoft)"/>`;const p=seg(u,0.2,0.9);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1225" rx="250" ry="22" fill="#000" opacity=".15"/>`+bartolo(500,1220,1.8,{expr:'happy'});
+  g+=`<text x="540" y="430" font-family="Comic Neue" font-weight="700" font-size="110" fill="${DAY.text}" text-anchor="middle">Bartolo</text><text x="540" y="510" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.terra}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1330,6,{n:5,shine:true},t)+`<text x="540" y="1560" font-family="Comic Neue" font-weight="700" font-size="56" fill="${DAY.text}" text-anchor="middle">Bello, Antioquia</text></g>`;return g;}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12];
+function render(t){
+  let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t,t-S[i]);
+  if(i>=1&&i<=10&&i!==7&&i!==8)g+=heartBar(560,880,7,heartState(t),t);
+  g+=`<rect width="1080" height="1920" fill="url(#vigd)"/>`+subs(t)+bars();
+  let f=0;for(const c of [S[1],S[4],S[7],S[8],S[9],S[11]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_DIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||6);
+</script></body></html>
