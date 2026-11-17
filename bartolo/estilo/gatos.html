@@ -1,0 +1,142 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_gatos.js"></script>
+<script>
+// Short 2 "La arena de Lila" — tiempos ajustados a la voz de ElevenLabs
+const DUR=58;
+const CUTS=[4.6,8.6,11.4,15.0,21.0,25.4,34.4,42.0,47.5,53.5];
+const SUBS=[
+ [0.1,2.8,['Hoy llevé arena para gato','a una casa en Niquía.']],[2.85,4.4,['Y me acordé de Lila.']],
+ [4.8,8.2,['Su dueña cambiaba la arena','solo cuando ya olía.']],
+ [8.7,11.2,['Y para disimular,','le echaba más perfume.']],
+ [11.5,12.9,['Lila se acercaba...']],[13.3,14.8,['...y se devolvía.']],
+ [15.1,17.2,['Hasta que empezó','a orinar en el tapete.']],[17.5,20.6,['"Esta gata está malcriada",','pensó.']],
+ [21.2,22.9,['Pero Lila no estaba brava.']],[22.95,25.1,['La caja no estaba bien.']],
+ [25.5,33.9,['Así se cuida la caja.']],
+ [34.5,41.6,['Y la arena','depende de tu gato.']],
+ [42.3,47.2,['Con la caja limpia,','Lila volvió a usarla.']],
+ [47.7,49.6,['Ella no estaba','portándose mal.']],[49.7,53.2,['Te estaba avisando.']]];
+function subs(t){let g='';for(const [a,b,L] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<5.0||(t>=25.4&&t<42.0)||t>=53.5)return null;
+  if(t<10.6)return {n:5};
+  if(t<13.6)return {n:4,hit:seg(t,10.6,11.0)};
+  if(t<16.8)return {n:3,hit:seg(t,13.6,14.0)};
+  if(t<25.4)return {n:2,hit:t<17.2?seg(t,16.8,17.2):0,pulse:t>21};
+  if(t<43.6)return {n:2,dim:true};
+  if(t<46.0){const k=2+Math.min(3,Math.floor((t-43.6)/0.8)+1);return {n:k,gain:seg((t-43.6)%0.8,0,0.3)};}
+  return {n:5,shine:true};
+}
+/* ---------- FONDO SALA ---------- */
+function salaBG(dark){
+  let g=`<rect width="1080" height="1920" fill="url(#wall)"/>`;
+  g+=`<g filter="url(#wob)"><rect x="120" y="470" width="300" height="300" rx="24" fill="#0B1620" ${ol()}/><path d="M270,470 V770 M120,620 H420" ${ol()}/></g><circle cx="345" cy="545" r="30" fill="#EAF2EE"/><circle cx="345" cy="545" r="64" fill="${P.cream}" opacity=".25" filter="url(#blur14)"/>`;
+  g+=`<g filter="url(#wob)"><rect x="620" y="560" width="300" height="200" rx="14" fill="#1A3540" ${ol()}/><path d="M650,700 l60,-70 l50,50 l40,-30 l90,80" stroke="${P.line}" stroke-width="5" fill="none"/></g>`;
+  g+=`<path d="M560,0 V700" stroke="${P.lineD}" stroke-width="5"/><circle cx="560" cy="1050" r="560" fill="url(#lamp)" opacity="${dark?0.35:1}"/><g filter="url(#wob)"><path d="M500,760 Q560,680 620,760 Z" fill="${P.terra}" ${ol()}/></g><ellipse cx="560" cy="766" rx="30" ry="12" fill="${P.cream}" opacity="${dark?0.4:1}"/>`;
+  g+=`<rect x="0" y="1480" width="1080" height="440" fill="#13252F"/><path d="M0,1480 H1080" ${ol()}/>`;
+  g+=`<g filter="url(#wob)"><ellipse cx="420" cy="1590" rx="260" ry="58" fill="#6E3C35" ${ol()}/><ellipse cx="420" cy="1590" rx="190" ry="38" fill="none" stroke="${P.terraL}" stroke-width="6" stroke-dasharray="18 14"/></g>`;
+  if(dark)g+=`<rect width="1080" height="1920" fill="#050a10" opacity=".45"/>`;
+  return g;
+}
+function puddle(x,y,p){if(p<=0)return '';return `<ellipse cx="${x}" cy="${y}" rx="${70*p}" ry="${16*p}" fill="#D9C46A" opacity=".85" ${ol(3)}/>`;}
+const BX=860,FY=1480;
+/* ---------- ESCENAS ---------- */
+function e1(t){ // calle, moto con bulto de arena
+  let g=streetBG(t);const bob=Math.sin(t*18)*3;
+  g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".4"/><g transform="translate(0,${bob})">`;
+  g+=bartolo(470,1425,1.0,{expr:'neutral'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t);
+  g+=`<g filter="url(#wob)"><path d="M282,1262 C280,1200 300,1176 330,1176 C360,1176 382,1200 380,1262 Z" fill="${P.cream}" ${ol()}/><path d="M300,1186 q30,-16 60,0" stroke="${P.line}" stroke-width="5" fill="none"/></g><text x="331" y="1234" font-family="Inter" font-weight="800" font-size="20" fill="${P.navy}" text-anchor="middle">ARENA</text>`;
+  g+=`</g>`;return cam(g,1+t*0.006);}
+function room(t,dark,draw){let g=salaBG(dark);g+=draw;g+=heartBar(HX,HY,7,heartState(t),t);return g;}
+let HX=360,HY=1080;
+function e2(t){const u=t-4.6;HX=360;HY=1080;
+  const m=mv(u,0.3,3.8,-150,1250,p=>p);
+  let d=cajaArena(BX,FY,1,{dirty:1,t});
+  d+=duena(m.x,FY,1.1,{expr:'asco',walk:m.m?u*7:null});
+  d+=`<ellipse cx="335" cy="${FY+4}" rx="110" ry="14" fill="#000" opacity=".3"/>`+lila(320,FY,1.25,{expr:'neutral'});
+  return cam(room(t,false,d),1+u*0.006);}
+function e3(t){const u=t-8.6;HX=360;HY=1080;
+  const armP=ease(seg(u,0.2,0.8));const ax=lerp(70,170,armP),ay=lerp(-150,-205,armP);
+  let d=cajaArena(BX,FY,1,{dirty:1,t});
+  d+=duena(650,FY,1.1,{expr:'neutral',arm:`M54,-250 C${lerp(68,120,armP)},${lerp(-220,-240,armP)} ${lerp(72,150,armP)},${lerp(-190,-220,armP)} ${ax},${ay}`});
+  d+=spray(650+ax*1.1,FY+ay*1.1,1.1,t,u>0.9&&u<2.6);
+  d+=`<ellipse cx="335" cy="${FY+4}" rx="110" ry="14" fill="#000" opacity=".3"/>`+lila(320,FY,1.25,{expr:u>1.2?'asco':'neutral'});
+  return cam(room(t,false,d),1.02+u*0.006);}
+function e4(t){const u=t-11.4;
+  let x,fl=false,ex='neutral',walk=null;
+  if(u<1.5){const m=mv(u,0,1.5,330,640);x=m.x;walk=u*12;}
+  else if(u<2.3){x=640;ex='asco';}
+  else {const m=mv(u,2.3,3.6,640,360);x=m.x;fl=true;walk=m.m?u*12:null;}
+  HX=x+(fl?-20:30);HY=1170;
+  let d=cajaArena(BX,FY,1,{dirty:1,t});
+  d+=`<ellipse cx="${x}" cy="${FY+4}" rx="110" ry="14" fill="#000" opacity=".3"/>`+lilaWalk(x,FY,1.25,{walk:walk??0,expr:ex,flip:fl});
+  return cam(room(t,false,d),1.04,620,1300);}
+function e5(t){const u=t-15.0;HX=430;HY=1090;
+  let d=cajaArena(BX,FY,1,{dirty:1,t});
+  d+=puddle(500,1600,ease(seg(u,1.0,1.8)));
+  d+=lila(420,1590,1.25,{expr:u>2.2?'triste':'neutral'});
+  const m=mv(u,1.9,2.8,1250,780);
+  d+=duena(m.x,FY+20,1.15,{flip:true,expr:u>2.8?'brava':'neutral',walk:m.m?u*7:null});
+  return cam(room(t,false,d),1.0+u*0.006,520,1350);}
+function e6(t){const u=t-21.0;HX=660;HY=1080;
+  let d=cajaArena(BX,FY,1,{dirty:1,t});
+  d+=`<ellipse cx="665" cy="${FY+4}" rx="110" ry="14" fill="#000" opacity=".3"/>`+lila(650,FY,1.25,{expr:'triste',tailDown:true});
+  return cam(room(t,true,d),1+u*0.015,700,1350);}
+/* ---------- TIPOGRAFÍA ANIMADA ---------- */
+const SCOOP=['......XX','.....XWX','....XWX.','XXXXXX..','XCCCCX..','XCCCCX..','.XXXX...'];
+const SOAP=['..W..W..','.W.WW.W.','..XXXX..','.XBBBBX.','XBWBBBBX','XBBBBBBX','.XXXXXX.'];
+const NOPERF=['R.......R','.R.XXX.R.','..RXPXR..','..XRPRX..','.XPPRPPX.','.XPRPRPX.','.XRPPPRX.','.RXXXXXR.','R.......R'];
+const BOXES=['.........','.XX...XX.','XWWX.XWWX','XXXX.XXXX','.........','..X+X....','.XXXXX...'];
+const CLUMP=['XXXXXXXXXX','XSSSBSSSSX','XSBBSSSBSX','XSSSSSBBSX','XXXXXXXXXX'];
+const SILICA=['...XX....','..XWLX...','.XLLLLX..','XLLWLLLX.','.XLLLLXX.','..XLLX.XX','...XX..X.'];
+const LEAF=['.....XXX','...XXGGX','..XGGGGX','.XGGWGX.','.XGWGGX.','XGGGX...','X.XX....','X.......'];
+function row(y,art,pal,l1,l2,p,c2){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-82,-66,18,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="48" fill="${P.creamS}">${l1}</text><text x="290" y="${y+58}" font-family="Inter" font-weight="800" font-size="${62}" fill="${c2}">${l2}</text></g>`;}
+function e7(t){const u=t-25.4;
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="1050" r="600" fill="url(#tealglow)"/>`;
+  g+=row(560,SCOOP,{X:P.navy,W:P.cream,C:P.line},'Retira grumos y heces','TODOS LOS DÍAS',seg(u,1.2,1.6),P.terraL);
+  g+=row(830,SOAP,{X:P.navy,B:'#BFE6E2',W:'#fff'},'Cambia toda la arena y lava','CON JABÓN SUAVE',seg(u,2.8,3.2),P.cream);
+  g+=`<text x="290" y="${958}" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}" opacity="${seg(u,3.2,3.6)}">sin cloro ni olores fuertes</text>`;
+  g+=row(1140,NOPERF,{X:P.navy,P:'#E7A6B4',R:P.terra},'Arena','SIN PERFUME',seg(u,4.4,4.8),P.terraL);
+  g+=row(1410,BOXES,{X:P.navy,W:'#E6D3AE','+':P.cream},'Una caja por gato,','MÁS UNA',seg(u,6.0,6.4),P.cream);
+  return g;}
+function e8(t){const u=t-34.4;
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="1050" r="600" fill="url(#tealglow)"/>`;
+  g+=row(600,CLUMP,{X:P.navy,S:'#E6D3AE',B:'#9C7A55'},'Forma grumos, se limpia fácil','AGLOMERANTE',seg(u,1.0,1.4),P.terraL);
+  g+=row(900,SILICA,{X:P.navy,L:'#BFE6E2',W:'#fff'},'Absorbe y controla el olor','SÍLICE',seg(u,2.4,2.8),P.cream);
+  g+=row(1200,LEAF,{X:P.navy,G:'#6FA35A',W:'#B9E29A'},'Biodegradable: maíz, madera, papel','VEGETAL',seg(u,3.8,4.2),P.terraL);
+  const q=seg(u,5.2,5.6);if(q>0)g+=`<text x="540" y="1520" font-family="Comic Neue" font-weight="700" font-size="48" fill="${P.cream}" text-anchor="middle" opacity="${q}">Si cambias de arena,</text><text x="540" y="1585" font-family="Comic Neue" font-weight="700" font-size="48" fill="${P.cream}" text-anchor="middle" opacity="${q}">hazlo poco a poco.</text>`;
+  return g;}
+function e9(t){const u=t-42.0;HX=BX+20;HY=1090;
+  let d='';
+  const m=mv(u,0.2,1.3,380,BX-20);
+  if(u<1.3)d+=cajaArena(BX,FY,1,{clean:true,t})+lilaWalk(m.x,FY,1.25,{walk:u*12});
+  else {d+=lila(BX-20,FY-40,1.15,{expr:'feliz'})+cajaArena(BX,FY,1,{clean:true,t});}
+  d+=duena(520,FY,1.1,{expr:'feliz'});
+  return cam(room(t,false,d),1+u*0.006,640,1300);}
+function e10(t){const u=t-47.5;HX=420;HY=1330;
+  let d=cajaArena(BX,FY,1,{clean:true,t})+lilaSleep(440,1600,1.3,{t});
+  let g=cam(room(t,false,d),1.04+u*0.006,440,1450);
+  const q=seg(u,3.0,3.4);if(q>0){const L=['Si orina fuera de la caja de repente,','puede ser un problema de salud.','Consulta a tu veterinario.'];g+=`<rect x="70" y="1640" width="940" height="150" rx="24" fill="#000" opacity="${0.55*q}"/>`;L.forEach((l,i)=>g+=`<text x="540" y="${1685+i*46}" font-family="Comic Neue" font-weight="700" font-size="38" fill="${P.cream}" text-anchor="middle" opacity="${q}">${l}</text>`);}
+  return g;}
+function e11(t){const u=t-53.5;
+  let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="900" r="560" fill="url(#tealglow)"/>`;
+  const p=seg(u,0.2,0.9);g+=`<g opacity="${p}">`;
+  g+=`<ellipse cx="560" cy="1225" rx="250" ry="22" fill="#000" opacity=".35"/>`+bartolo(500,1220,1.8,{expr:'happy'});
+  g+=`<text x="540" y="430" font-family="Comic Neue" font-weight="700" font-size="110" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="510" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1330,6,{n:5,shine:true},t)+`<text x="540" y="1560" font-family="Comic Neue" font-weight="700" font-size="56" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text></g>`;
+  return g;}
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11];
+function render(t){
+  let i=0;while(i<CUTS.length&&t>=CUTS[i])i++;
+  let g=SC[i](t)+vignette()+subs(t)+bars();
+  let f=0;for(const c of [4.6,15.0,25.4,34.4,42.0,53.5])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||6);
+</script></body></html>

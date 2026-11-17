@@ -2,7 +2,7 @@
 
 Canal: Bartolo Pet Shop Delivery (Bello, Antioquia) · YouTube Shorts · vertical 9:16 · unos 50 s
 Estilo: el mismo del piloto (minimalista nocturno, paleta de marca, corazones en pixel art, tipografía animada para el tip).
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.**
 
 ## Personajes
 
