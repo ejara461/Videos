@@ -1,4 +1,4 @@
-# Short 2: "La arena de Mía"
+# Short 2: "La arena de Lila"
 
 Canal: Bartolo Pet Shop Delivery (Bello, Antioquia) · YouTube Shorts · vertical 9:16 · unos 50 s
 Estilo: el mismo del piloto (minimalista nocturno, paleta de marca, corazones en pixel art, tipografía animada para el tip).
@@ -7,7 +7,7 @@ Estado: **borrador para validación del veterinario Jovany.**
 ## Personajes
 
 - **Bartolo:** narrador; aparece al inicio entregando un pedido.
-- **Mía:** gata. Color propuesto: gris azulado claro, para diferenciarla de Max.
+- **Lila:** gata. Color propuesto: gris azulado claro, para diferenciarla de Max.
 - **La dueña:** personaje minimalista con forma de frijol, como el dueño de Max.
 
 ## Guion
@@ -16,16 +16,16 @@ Estado: **borrador para validación del veterinario Jovany.**
 
 | # | Escena | Narración | Corazones |
 |---|---|---|---|
-| 1 | Bartolo llega en moto a un edificio de Niquía con un bulto de arena | Hoy llevé arena para gato a una casa en Niquía. / Y me acordé de Mía. // | — |
-| 2 | La dueña pasa junto a la caja de arena tapándose la nariz; Mía la mira | Su dueña cambiaba la arena / solo cuando ya olía. // | 5 de 5 |
+| 1 | Bartolo llega en moto a un edificio de Niquía con un bulto de arena | Hoy llevé arena para gato a una casa en Niquía. / Y me acordé de Lila. // | — |
+| 2 | La dueña pasa junto a la caja de arena tapándose la nariz; Lila la mira | Su dueña cambiaba la arena / solo cuando ya olía. // | 5 de 5 |
 | 3 | La dueña echa arena perfumada y aromatizante encima | Y para disimular, / le echaba más perfume. // | Pierde 1: quedan 4 |
-| 4 | Mía se acerca a la caja, la huele y se aleja | Mía se acercaba… / y se devolvía. // | Pierde 1: quedan 3 |
-| 5 | Mía orina en el tapete; la dueña la regaña | Hasta que empezó a orinar en el tapete. / "Esta gata está malcriada", / pensó. // | Pierde 1: quedan 2 |
-| 6 | Mía, sola y triste, junto a la caja sucia | Pero Mía no estaba brava. / La caja no estaba bien. // | 2, parpadeando |
+| 4 | Lila se acerca a la caja, la huele y se aleja | Lila se acercaba… / y se devolvía. // | Pierde 1: quedan 3 |
+| 5 | Lila orina en el tapete; la dueña la regaña | Hasta que empezó a orinar en el tapete. / "Esta gata está malcriada", / pensó. // | Pierde 1: quedan 2 |
+| 6 | Lila, sola y triste, junto a la caja sucia | Pero Lila no estaba brava. / La caja no estaba bien. // | 2, parpadeando |
 | 7 | Tipografía animada: cuidado de la caja | Así se cuida la caja. // | — |
 | 8 | Tipografía animada: tipos de arena | Y la arena / depende de tu gato. // | — |
-| 9 | Mía usa la caja limpia; la dueña sonríe | Con la caja limpia, / Mía volvió a usarla. // | Se recuperan hasta 5 |
-| 10 | Mía duerme tranquila; los corazones brillan | Ella no estaba portándose mal. / Te estaba avisando. // | 5, con brillo |
+| 9 | Lila usa la caja limpia; la dueña sonríe | Con la caja limpia, / Lila volvió a usarla. // | Se recuperan hasta 5 |
+| 10 | Lila duerme tranquila; los corazones brillan | Ella no estaba portándose mal. / Te estaba avisando. // | 5, con brillo |
 | 11 | Cierre: Bartolo y datos | Bartolo Pet Shop Delivery. / Bello, Antioquia. | — |
 
 ## Texto en pantalla (tipografía animada)
@@ -56,7 +56,7 @@ Estado: **borrador para validación del veterinario Jovany.**
 ## Para ElevenLabs (pegar cuando Jovany apruebe)
 
 ```
-Hoy llevé arena para gato a una casa en Niquía... Y me acordé de Mía... Su dueña cambiaba la arena... solo cuando ya olía... Y para disimular... le echaba más perfume... Mía se acercaba... y se devolvía... Hasta que empezó a orinar en el tapete... Esta gata está malcriada, pensó... Pero Mía no estaba brava... La caja no estaba bien... Así se cuida la caja... Y la arena... depende de tu gato... Con la caja limpia... Mía volvió a usarla... Ella no estaba portándose mal... Te estaba avisando... Bartolo Pet Shop Delivery. Bello, Antioquia.
+Hoy llevé arena para gato a una casa en Niquía... Y me acordé de Lila... Su dueña cambiaba la arena... solo cuando ya olía... Y para disimular... le echaba más perfume... Lila se acercaba... y se devolvía... Hasta que empezó a orinar en el tapete... Esta gata está malcriada, pensó... Pero Lila no estaba brava... La caja no estaba bien... Así se cuida la caja... Y la arena... depende de tu gato... Con la caja limpia... Lila volvió a usarla... Ella no estaba portándose mal... Te estaba avisando... Bartolo Pet Shop Delivery. Bello, Antioquia.
 ```
 
 ## Título y descripción sugeridos

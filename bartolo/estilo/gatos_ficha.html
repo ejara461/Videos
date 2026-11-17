@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_gatos.js"></script>
+<script>
+let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="330" cy="560" r="420" fill="url(#tealglow)"/><circle cx="760" cy="1350" r="420" fill="url(#tealglow)"/>`;
+const T=(x,y,s,sz,c)=>`<text x="${x}" y="${y}" font-family="Comic Neue" font-weight="700" font-size="${sz}" fill="${c}" text-anchor="middle">${s}</text>`;
+// Lila
+g+=T(300,190,'Lila',96,P.cream)+T(300,250,'la gata',40,P.terraL);
+g+=`<ellipse cx="300" cy="905" rx="160" ry="18" fill="#000" opacity=".35"/>`+lila(270,900,1.85);
+[['neutral','Neutral'],['asco','Asco'],['triste','Triste'],['feliz','Feliz']].forEach(([e,l],i)=>{const cx=640+(i%2)*230,cy=480+Math.floor(i/2)*330;g+=lila(cx-30,cy,0.85,{expr:e})+T(cx,cy+50,l,32,P.creamS);});
+// Dueña
+g+=T(780,1010,'Su dueña',80,P.cream);
+g+=`<ellipse cx="780" cy="1705" rx="120" ry="16" fill="#000" opacity=".35"/>`+duena(770,1700,1.55);
+[['neutral','Neutral'],['asco','Asco'],['brava','Brava'],['feliz','Feliz']].forEach(([e,l],i)=>{const cx=150+(i%2)*230,cy=1360+Math.floor(i/2)*390;g+=duena(cx-15,cy,0.72,{expr:e})+T(cx,cy+48,l,32,P.creamS);});
+g+=`<rect width="1080" height="1920" fill="url(#vig)"/>`;
+document.getElementById('s').innerHTML=defs+g;
+</script></body></html>
