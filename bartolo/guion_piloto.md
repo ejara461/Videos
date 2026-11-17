@@ -32,7 +32,7 @@ Narra Bartolo en primera persona. `/` = pausa corta; `//` = pausa larga. Lectura
 ## Pendientes antes de publicar
 
 - [x] Lista de alimentos de la escena 6 revisada por el veterinario Jovany (se retiró el xilitol).
-- [ ] Revisión del guion completo por el veterinario.
+- [x] Guion completo validado por el veterinario Jovany.
 - [ ] Grabación de la voz con la grabadora del celular (3 s de silencio al inicio, pausas marcadas).
 - [ ] Pista de música de la Biblioteca de audio de YouTube.
 - [ ] WhatsApp para el cierre (opcional).
