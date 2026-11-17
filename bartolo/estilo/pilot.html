@@ -13,14 +13,14 @@ const PURP='#7B6A97';
 
 /* ---------- SUBTÍTULOS ---------- */
 const SUBS=[
- [0.4,2.8,['Reparto pedidos en Bello','todas las noches.']],[2.9,4.8,['Y en muchas casas','veo lo mismo.']],
- [5.4,9.6,['Le daba un poquito','de todo lo que comía.']],
- [10.2,11.9,['Un trocito de chocolate.']],[12.0,13.9,['Unas uvas.']],[14.0,15.9,['Lo que quedara en el plato.']],
- [16.3,18.3,['Max movía la cola.']],[18.4,20.8,['Y él creía','que eso era cariño.']],
- [21.5,23.0,['Esa noche,']],[23.1,26.6,['Max no quiso','levantarse.']],
- [27.2,29.9,['Hay comidas que para','nosotros son normales']],[30.0,32.8,['y para ellos','son peligrosas.']],
- [33.4,35.8,['Max se recuperó.']],[35.9,38.8,['Esta vez, a tiempo.']],
- [39.3,41.0,['Él te lo da todo.']],[41.1,43.3,['Dale tú','lo que le hace bien.']]];
+ [0.05,2.95,['Reparto pedidos en Bello','todas las noches.']],[2.95,4.9,['Y en muchas casas','veo lo mismo.']],
+ [5.5,8.9,['Le daba un poquito','de todo lo que comía.']],
+ [10.1,11.9,['Un trocito de chocolate.']],[12.1,13.9,['Unas uvas.']],[14.1,15.8,['Lo que quedara en el plato.']],
+ [16.3,18.0,['Max movía la cola.']],[18.1,20.7,['Y él creía','que eso era cariño.']],
+ [21.5,22.9,['Esa noche,']],[23.1,26.5,['Max no quiso','levantarse.']],
+ [27.2,29.9,['Hay comidas que para','nosotros son normales']],[29.95,32.7,['y para ellos','son peligrosas.']],
+ [33.5,35.7,['Max se recuperó.']],[35.8,38.7,['Esta vez, a tiempo.']],
+ [39.3,40.9,['Él te lo da todo.']],[41.0,43.2,['Dale tú','lo que le hace bien.']]];
 function subs(t){let g='';for(const [a,b,L] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
 
 /* ---------- CORAZONES (estado a lo largo del video) ---------- */
