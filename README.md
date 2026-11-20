@@ -17,7 +17,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 
 | Carpeta / archivo | Contenido |
 |---|---|
-| `calendario_contenidos.md` | Calendario de Shorts (17 nov 2026 a 12 ene 2027) y flujo de producción. |
+| `calendario_contenidos.md` | Calendario de Shorts (un Short cada 2 días, 21 nov 2026 a 4 ene 2027) y flujo de producción. |
 | `bartolo/musica/` | Pistas generadas en Gemini por emoción: `alegre_golden_hour_fiesta.mp3`, `triste_the_fading_afternoon.mp3`, `esperanza_first_light_on_the_porch.mp3` (unos 65 s cada una) y `dia_coffee_and_clear_skies.mp3` (70 s, tono de día). |
 | `bartolo/voz/` | Locuciones generadas en ElevenLabs (voz Brayan Jackson, Cheerful): piloto y Short de gatos. |
 | `bartolo/estilo/lib_gatos.js` | Lila (sentada, caminando, dormida), su dueña, caja de arena y atomizador. |
