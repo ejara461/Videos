@@ -53,4 +53,6 @@ function canela(x,y,k,o={}){
   return `<g transform="translate(${x},${y}) scale(${o.flip?-k:k},${k})" filter="url(#wob)">${g}</g>`;
 }
 // cama/cojín: wet=true la muestra húmeda
-function cama(x,y,k,wet){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><ellipse cx="0" cy="0" rx="170" ry="40" fill="${wet?'#4E5F6E':P.teal}" ${ol()}/><ellipse cx="0" cy="-10" rx="130" ry="24" fill="${wet?'#5E7383':'#5FB3AE'}"/>${wet?'<path d="M-60,-14 q10,6 20,0 M10,-8 q10,6 20,0" stroke="#9FC9E0" stroke-width="4" fill="none"/>':''}</g>`;}
+function cama(x,y,k,wet){
+  if(wet)return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><ellipse cx="0" cy="0" rx="170" ry="40" fill="#4E5F6E" ${ol()}/><ellipse cx="0" cy="-10" rx="130" ry="24" fill="#5E7383"/><path d="M-60,-14 q10,6 20,0 M10,-8 q10,6 20,0" stroke="#9FC9E0" stroke-width="4" fill="none"/></g>`;
+  return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-175,-10 C-175,30 175,30 175,-10 L175,-40 C175,-80 -175,-80 -175,-40 Z" fill="#9E4A3C" ${ol()}/><ellipse cx="0" cy="-42" rx="175" ry="44" fill="${P.terra}" ${ol()}/><ellipse cx="0" cy="-46" rx="128" ry="26" fill="${P.cream}" ${ol(4)}/><path d="M-90,-46 q20,8 40,0 M-20,-50 q20,8 40,0 M50,-46 q20,8 40,0" stroke="${P.creamS}" stroke-width="4" fill="none"/></g>`;}
