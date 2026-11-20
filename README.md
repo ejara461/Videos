@@ -33,7 +33,13 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 
 ## Datos de contacto para cierres
 
-Web **patitas.win** · WhatsApp **314 585 6688**. Se usan desde el Short de lluvia.
+Web **patitas.win** · WhatsApp **314 585 6688**.
+
+**Estándar para todos los videos nuevos:**
+1. **Franja superior con el contacto** durante todo el video (función `barsC()` en `bartolo/estilo/lib_escenas.js`), en la zona que no tapan los botones de YouTube Shorts. Se oculta en el cierre cuando el cierre ya muestra los datos en grande.
+2. **Cierre con Bartolo**, la web y el WhatsApp en pantalla y en voz.
+3. **Recomendaciones del tip en la voz** y en pantalla; cada línea aparece cuando se nombra.
+4. Fuera del video: datos en la descripción, comentario fijado con el WhatsApp y datos en la descripción del canal.
 
 ## Estilo aprobado para el canal
 

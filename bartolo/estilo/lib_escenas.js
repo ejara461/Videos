@@ -130,3 +130,7 @@ function sofaBG(){
 }
 function sofaFront(){return `<g filter="url(#wob)"><rect x="60" y="1300" width="820" height="150" rx="40" fill="#8E4A3F" ${ol()}/><rect x="40" y="1180" width="90" height="280" rx="40" fill="#7E4338" ${ol()}/><rect x="810" y="1180" width="90" height="280" rx="40" fill="#7E4338" ${ol()}/><path d="M120,1450 V1500 M820,1450 V1500" stroke="${P.line}" stroke-width="14" stroke-linecap="round"/></g>`;}
 
+
+// ESTÁNDAR desde nov 2026: franja superior con los datos de contacto (zona libre de los botones de YouTube Shorts)
+const CONTACTO='patitas.win  ·  WhatsApp 314 585 6688';
+function barsC(show=true){return `<rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`+(show?`<text x="540" y="68" font-family="Inter" font-weight="600" font-size="32" fill="#F4DBB9" opacity=".85" text-anchor="middle" letter-spacing="1">${CONTACTO}</text>`:'');}

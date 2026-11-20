@@ -95,7 +95,7 @@ function render(t){
   let i=0;while(i<S.length-1&&t>=S[i+1])i++;
   let g=SC[i](t,t-S[i]);
   g+=heartBar(HX,HY,7,heartState(t),t);
-  g+=`<rect width="1080" height="1920" fill="url(#vigr)"/>`+subs(t)+bars();
+  g+=`<rect width="1080" height="1920" fill="url(#vigr)"/>`+subs(t)+barsC(i!==10);
   let f=0;for(const c of [S[1],S[6],S[7],S[8],S[9],S[10]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
   if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
   document.getElementById('s').innerHTML=defs+DEFS_LLUVIA+g;

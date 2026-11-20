@@ -60,6 +60,6 @@ Con un video cada 2 días hacen falta 3 o 4 por semana. Para que el ritmo sea so
 
 - **Fechas de temporada fijas:** pólvora antes del 30 de noviembre (alborada); velitas el 5 de diciembre, antes del 7; pólvora de fin de año el 21 de diciembre.
 - **Temas de salud:** sin dosis ni medicamentos; siempre cierran con "consulta a tu veterinario".
-- **Datos de contacto en el cierre** (desde "Canela y la lluvia"): web patitas.win · WhatsApp 314 585 6688.
+- **Datos de contacto:** franja superior durante todo el video y cierre en pantalla y voz (web patitas.win · WhatsApp 314 585 6688). Recomendaciones del tip también en la voz.
 - **Bartolo responde (27 de diciembre):** pedir preguntas a los clientes en la tienda, por WhatsApp y en los comentarios desde ahora.
 - **Revisión del calendario** a mediados de diciembre, con los datos de YouTube Studio ("Visto vs. Deslizado" y porcentaje visto).
