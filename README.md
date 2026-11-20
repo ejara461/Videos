@@ -13,6 +13,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/lluvia_canela_final.mp4` | **"Canela y la lluvia"** (60 s, 9:16, atardecer lluvioso con relámpagos). Humedad, patas y refugio en temporada de lluvias; cierre con web y WhatsApp en voz y pantalla. Guion validado por el veterinario Jovany. |
 | `bartolo/navidad_canela_final.mp4` | **"La Navidad de Canela"** (68 s, 9:16). Comidas de diciembre que le hacen daño al perro. Franja de contacto y recomendaciones en voz. Guion validado por el veterinario Jovany. |
 | `bartolo/ventana_lila_final.mp4` | **"La ventana de Lila"** (73,5 s, 9:16, de día). Mallas en ventanas y balcones para gatos. Franja de contacto y recomendaciones en voz. Guion validado por el veterinario Jovany. |
+| `bartolo/bartolo_ya_llego_musical.mp4` | **Video musical "¡Bartolo ya llegó!"** (71,6 s, 9:16, de día). Letra tipo karaoke sincronizada a 149,7 BPM; Lila, Max y Canela; franja y cierre de contacto. |
 | `bartolo/bartolo_convivencia.mp4` | "Domicilios de buena convivencia" (40 s, 9:16). Primer video, estilo 2D plano: traílla y recolección de excrementos en zonas comunes. |
 
 ## Material reutilizable
@@ -20,7 +21,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | Carpeta / archivo | Contenido |
 |---|---|
 | `calendario_contenidos.md` | Calendario de Shorts (un Short cada 2 días, 21 nov 2026 a 4 ene 2027) y flujo de producción. |
-| `bartolo/musica/` | Pistas generadas en Gemini por emoción: `alegre_golden_hour_fiesta.mp3`, `triste_the_fading_afternoon.mp3`, `esperanza_first_light_on_the_porch.mp3` (unos 65 s cada una) y `dia_coffee_and_clear_skies.mp3` (70 s, tono de día). |
+| `bartolo/musica/` | Pistas generadas en Gemini por emoción: `alegre_golden_hour_fiesta.mp3`, `triste_the_fading_afternoon.mp3`, `esperanza_first_light_on_the_porch.mp3` (unos 65 s cada una) y `dia_coffee_and_clear_skies.mp3` (70 s, tono de día). Canción de marca: `cancion_bartolo_ya_llego.mp3`. |
 | `bartolo/voz/` | Locuciones generadas en ElevenLabs (voz Brayan Jackson, Cheerful): piloto y Short de gatos. |
 | `bartolo/estilo/lib_gatos.js` | Lila (sentada, caminando, dormida), su dueña, caja de arena y atomizador. |
 | `bartolo/estilo/lib_bano.js` | Recursos de día: calle y patio, tina, espuma, vapor, champú, jarra, toalla, gotas y destellos. Bartolo admite `noCap` y `noBag`. |

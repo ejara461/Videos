@@ -1,0 +1,126 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_bano.js"></script><script src="lib_gatos.js"></script><script src="lib_lluvia.js"></script><script src="lib_ventana.js"></script>
+<script>
+// Video musical "¡Bartolo ya llegó!" — sincronizado a 149,7 BPM (pulso 0,4008 s, primer pulso 0,35 s)
+const BEAT=60/149.7, PH=0.35, DUR=71.6;
+const beat=t=>Math.abs(Math.sin(Math.PI*(t-PH)/BEAT));          // 1 en cada pulso
+const hop=(t,a=18)=>-Math.pow(1-beat(t),3)*a;                       // salto corto en el pulso
+const S=[0,20.0,26.4,32.8,39.2,45.6,67.4];
+const LYR=[
+ [20.0,23.2,'Bartolo, Bartolo, Bartolo ya llegó,',1],[23.2,26.4,'con tu domicilio, ¡Bartolo ya llegó!',1],
+ [26.4,29.6,'Para Lila, que lo espera junto al portón,',0],[29.6,32.8,'trae croquetas y un juguete de ratón.',0],
+ [32.8,36.0,'Para Max, que da vueltas de emoción,',0],[36.0,39.2,'trae un hueso y su cobija de algodón.',0],
+ [39.2,42.4,'Para Canela, la reina del salón,',0],[42.4,45.6,'trae su premio y cariño de montón.',0],
+ [45.6,48.8,'Bartolo, Bartolo, Bartolo ya llegó,',1],[48.8,52.0,'rápido y puntual, ¡Bartolo ya llegó!',1],
+ [52.0,55.2,'Bartolo, Bartolo, Bartolo ya llegó,',1],[55.2,58.4,'con tu domicilio, ¡Bartolo ya llegó!',1],
+ [58.4,61.6,'Bartolo, Bartolo, Bartolo ya llegó,',1],[61.6,64.8,'rápido y puntual, ¡Bartolo ya llegó!',1],
+ [64.8,67.4,'¡Bartolo ya llegó!',2]];
+function wrap(txt,max){const w=txt.split(' ');const L=[];let c='';for(const x of w){if((c+' '+x).trim().length>max){L.push(c.trim());c=x;}else c+=' '+x;}if(c.trim())L.push(c.trim());return L;}
+let LID=0;
+function lyric(t,col,hl){let g='';for(const [a,b,txt,kind] of LYR){if(t<a-0.15||t>b+0.05)continue;
+  const size=kind===2?96:kind===1?62:50,lines=wrap(txt,kind===2?14:kind===1?22:28),op=Math.min(seg(t,a-0.15,a+0.1),1-seg(t,b-0.1,b+0.05));
+  const prog=seg(t,a,b-0.3);const tot=lines.reduce((s,l)=>s+l.length,0);let done=prog*tot;
+  const k=kind===2?back(seg(t,a,a+0.4)):1+0.04*(1-beat(t));
+  let inner='';lines.forEach((l,i)=>{const y=270+i*(size*1.15);const w=l.length*size*0.5;const frac=Math.max(0,Math.min(1,done/l.length));done-=l.length;LID++;
+    inner+=`<text x="540" y="${y}" font-family="Comic Neue" font-weight="700" font-size="${size}" fill="${col}" text-anchor="middle" opacity=".45">${l}</text>`;
+    inner+=`<clipPath id="k${LID}"><rect x="${540-w/2-20}" y="${y-size}" width="${(w+40)*frac}" height="${size*1.4}"/></clipPath><text x="540" y="${y}" font-family="Comic Neue" font-weight="700" font-size="${size}" fill="${hl}" text-anchor="middle" clip-path="url(#k${LID})">${l}</text>`;});
+  g+=`<g opacity="${op}" transform="translate(540,300) scale(${k}) translate(-540,-300)">${inner}</g>`;}return g;}
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+/* ---------- ELEMENTOS ---------- */
+function tienda(t){let g=`<rect width="1080" height="1920" fill="url(#skyd)"/><circle cx="860" cy="380" r="60" fill="#FFF3D6"/>`+cloudsD(t);
+  g+=`<g filter="url(#wob)"><rect x="60" y="760" width="960" height="720" fill="${DAY.wall}" ${ol()}/><rect x="40" y="700" width="1000" height="90" rx="14" fill="${P.navy}" ${ol()}/></g>`;
+  g+=`<text x="540" y="762" font-family="Comic Neue" font-weight="700" font-size="54" fill="${P.cream}" text-anchor="middle">BARTOLO PET SHOP DELIVERY</text>`;
+  g+=`<g filter="url(#wob)">`;for(let i=0;i<10;i++)g+=`<path d="M${60+i*96},800 h96 l-12,70 h-72 Z" fill="${i%2?P.terra:P.cream}" ${ol(4)}/>`;g+=`</g>`;
+  g+=`<g filter="url(#wob)"><rect x="120" y="940" width="360" height="380" fill="#A9D3D1" ${ol()}/><rect x="600" y="940" width="300" height="540" fill="#8A5A3B" ${ol()}/><circle cx="870" cy="1220" r="10" fill="#E3A93B"/></g>`;
+  [[180,1290,'#E3A93B'],[260,1290,P.teal],[340,1290,P.terra],[420,1290,'#8E6BB0']].forEach(([x,y,c])=>g+=`<g filter="url(#wob)"><rect x="${x-30}" y="${y-90}" width="60" height="90" rx="8" fill="${c}" ${ol(4)}/>${paw(x,y-50,.6,P.cream)}</g>`);
+  g+=`<rect x="0" y="1480" width="1080" height="440" fill="#B9B3A8"/><path d="M0,1480 H1080" ${ol()}/>`;return g;}
+function porton(t){let g=`<rect width="1080" height="1920" fill="url(#skyd)"/>`+cloudsD(t)+`<g filter="url(#wob)"><rect x="0" y="760" width="1080" height="720" fill="#E6D5BD" ${ol()}/></g>`;
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++)g+=`<rect x="${90+c*330}" y="${820+r*130}" width="200" height="80" rx="8" fill="#A9D3D1" ${ol(4)}/>`;
+  g+=`<g filter="url(#wob)"><rect x="560" y="1180" width="420" height="300" fill="#2E363C" ${ol()}/></g>`;for(let i=0;i<9;i++)g+=`<rect x="${580+i*45}" y="1180" width="10" height="300" fill="#5E6B73"/>`;
+  g+=`<rect x="0" y="1480" width="1080" height="440" fill="#B9B3A8"/><path d="M0,1480 H1080" ${ol()}/>`;return g;}
+function salon(t){let g=`<rect width="1080" height="1920" fill="${DAY.wall}"/><rect y="1480" width="1080" height="440" fill="${DAY.floor}"/><path d="M0,1480 H1080" ${ol()}/>`;
+  g+=`<g filter="url(#wob)"><rect x="660" y="560" width="300" height="360" rx="20" fill="#A9D3D1" ${ol()}/><path d="M810,560 V920 M660,740 H960" ${ol()}/></g>`;
+  g+=`<g filter="url(#wob)"><rect x="60" y="1100" width="460" height="250" rx="50" fill="#8E6BB0" ${ol()}/><rect x="40" y="1290" width="500" height="120" rx="40" fill="#A383C2" ${ol()}/></g>`;
+  for(let i=0;i<5;i++)g+=`<path d="M${120+i*200},420 l60,0 l-30,60 Z" fill="${[P.terra,P.teal,'#E3A93B',P.terraL,'#8E6BB0'][i]}" ${ol(3)}/>`;
+  g+=`<path d="M60,420 Q540,470 1020,420" stroke="${P.line}" stroke-width="4" fill="none"/>`;return g;}
+function fiesta(t){let g=`<rect width="1080" height="1920" fill="url(#skyd)"/><circle cx="540" cy="900" r="${520+30*(1-beat(t))}" fill="#FFF3D6" opacity=".45"/>`+cloudsD(t);
+  for(let row=0;row<2;row++){g+=`<path d="M-20,${560+row*120} Q540,${640+row*120} 1100,${560+row*120}" stroke="${P.line}" stroke-width="4" fill="none"/>`;for(let i=0;i<11;i++){const x=i*105+(row?50:0),y=560+row*120+Math.sin((i/10)*Math.PI)*70;g+=`<path d="M${x-26},${y} l52,0 l-26,56 Z" fill="${[P.terra,P.teal,'#E3A93B',P.terraL,'#8E6BB0'][(i+row)%5]}" ${ol(3)}/>`;}}
+  g+=`<rect x="0" y="1520" width="1080" height="400" fill="${DAY.floor}"/><path d="M0,1520 H1080" ${ol()}/>`;
+  for(let i=0;i<26;i++){const p=((t*0.35+i*0.137)%1);const x=(i*173)%1080+Math.sin(t*2+i)*30;g+=`<rect x="${x}" y="${300+p*1300}" width="14" height="22" fill="${[P.terra,P.teal,'#E3A93B',P.cream][i%4]}" transform="rotate(${t*200+i*40},${x},${300+p*1300})" opacity=".9"/>`;}
+  return g;}
+function bolsa(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-46,-110 L46,-110 L54,0 L-54,0 Z" fill="${P.terra}" ${ol()}/><rect x="-34" y="-84" width="68" height="44" rx="6" fill="${P.cream}"/>${paw(0,-62,.75,P.terra)}</g>`;}
+function raton(x,y,k,t){return `<g transform="translate(${x},${y}) scale(${k})"><path d="M-30,0 q-30,-6 -40,-30" stroke="${P.line}" stroke-width="5" fill="none"/><ellipse cx="0" cy="-14" rx="34" ry="20" fill="#A9B8C2" ${ol(4)}/><circle cx="22" cy="-30" r="10" fill="#A9B8C2" ${ol(3)}/><circle cx="32" cy="-16" r="4" fill="${P.navy}"/></g>`;}
+function hueso(x,y,k,r=0){return `<g transform="translate(${x},${y}) scale(${k}) rotate(${r})"><path d="M-40,-8 a12,12 0 1 1 10,-12 h60 a12,12 0 1 1 10,12 a12,12 0 1 1 -10,12 h-60 a12,12 0 1 1 -10,-12 Z" fill="#F4F0E8" ${ol(4)}/></g>`;}
+function corona(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-40,0 L-40,-40 L-20,-18 L0,-50 L20,-18 L40,-40 L40,0 Z" fill="#E3A93B" ${ol(4)}/><circle cx="0" cy="-50" r="6" fill="${P.terra}"/></g>`;}
+function clock(x,y,k,t){const a=t*360;return `<g transform="translate(${x},${y}) scale(${k})"><circle r="60" fill="${P.cream}" ${ol(6)}/><path d="M0,0 L0,-42" stroke="${P.navy}" stroke-width="7" stroke-linecap="round" transform="rotate(${a})"/><path d="M0,0 L28,0" stroke="${P.terra}" stroke-width="8" stroke-linecap="round"/><circle r="6" fill="${P.navy}"/></g>`;}
+function dancers(t,y){const xs=[200,430,660,880];let g='';
+  g+=`<ellipse cx="180" cy="${y+4}" rx="120" ry="14" fill="#000" opacity=".15"/>`+max2(130,y+hop(t,26),1.0,{expr:'happy',wag:Math.sin(t*16)*25});
+  g+=lila(390,y+hop(t+BEAT/2,26),0.95,{expr:'feliz'});
+  g+=canela(600,y+hop(t,26),1.0,{t,happy:true});
+  const arm=beat(t)>0.5?160:120;g+=bartolo(810,y+hop(t+BEAT/2,30),1.05,{expr:'happy',arm,armB:-arm*0.3});
+  return g;}
+/* ---------- ESCENAS ---------- */
+function intro(t){
+  if(t<6.8){let g=tienda(t);const m=mv(t,0.5,3.5,1250,640);g+=bartolo(m.x,1480,1.25,{box:true,walk:m.m?t*10:null,arm:65,armB:60,flip:true,expr:'happy'});return cam(g,1+t*0.006);}
+  let g=streetDay(t);const bob=Math.sin(t*18)*3+hop(t,8);
+  g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".2"/><g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'happy'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;
+  const p=seg(t,16.0,16.6);if(p>0){const k=back(p)*(1+0.05*(1-beat(t)));g+=`<g transform="translate(540,700) scale(${k}) rotate(-4)"><rect x="-420" y="-110" width="840" height="200" rx="40" fill="${P.navy}" ${ol(6)}/><text x="0" y="30" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.cream}" text-anchor="middle">¡Bartolo</text><text x="0" y="30" dx="0" font-family="Comic Neue" font-weight="700" font-size="104" fill="none"/></g><g transform="translate(540,830) scale(${k}) rotate(-4)"><text x="0" y="20" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.terra}" text-anchor="middle" stroke="${P.navy}" stroke-width="4">ya llegó!</text></g>`;}
+  return cam(g,1+(t-6.8)*0.004);}
+function coro1(t){const u=t-S[1];let g=fiesta(t);const m=mv(u,0,1.2,-300,810);
+  if(u<1.2){g+=dancers(t,1560).replace(/<g transform="translate\(810/,'<g opacity="0" transform="translate(810');g+=bartolo(m.x,1560,1.05,{expr:'happy',walk:u*12});}
+  else g+=dancers(t,1560);
+  g+=heartBar(540,1100+hop(t,10),7,{n:5,shine:beat(t)>0.6},t);
+  return cam(g,1+0.012*(1-beat(t)),540,1300);}
+function versoLila(t){const u=t-S[2];let g=porton(t);
+  g+=`<ellipse cx="760" cy="1484" rx="110" ry="12" fill="#000" opacity=".15"/>`;
+  g+=lila(740,1480+(u>3.2?hop(t,20):0),1.15,{expr:u>0.6?'feliz':'neutral',flip:true});
+  g+=bartolo(300,1480,1.15,{expr:'happy',arm:u<3.2?95:70,box:true,boxOpen:seg(u,0.2,0.6)});
+  if(u>0.6)g+=bolsa(lerp(380,560,ease(seg(u,0.6,1.4))),1480,0.9);
+  if(u>3.2){const rx=640+Math.sin(u*5)*60;g+=raton(rx,1500,1.0,t);}
+  return cam(g,1+u*0.006,540,1300);}
+function versoMax(t){const u=t-S[3];let g=salon(t);
+  const spin=u<3.2;const fl=spin?Math.floor((t-PH)/BEAT)%2===1:false;
+  for(let i=0;i<3&&spin;i++){const ph=(u*3+i/3)%1;g+=`<ellipse cx="640" cy="1430" rx="${120+ph*40}" ry="${30+ph*10}" fill="none" stroke="${P.terra}" stroke-width="5" opacity="${1-ph}"/>`;}
+  g+=max2(600,1480+hop(t,22),1.2,{expr:'happy',wag:Math.sin(t*18)*28,flip:fl});
+  if(u>0.6&&u<3.2)g+=hueso(lerp(260,560,ease(seg(u,0.6,1.3))),lerp(1250,1310,ease(seg(u,0.6,1.3))),1.1,u*90);
+  if(u>3.2){const a=ease(seg(u,3.2,3.9));g+=`<g filter="url(#wob)" opacity="${a}"><path d="M480,${1430-a*40} C470,1330 680,1300 730,1400 L720,1470 L490,1470 Z" fill="${P.teal}" ${ol()}/><path d="M500,1380 l210,-30 M496,1420 l220,-30" stroke="${P.cream}" stroke-width="8"/></g>`+hueso(760,1500,0.9,10);}
+  g+=bartolo(230,1480,1.1,{expr:'happy',arm:u<1.3?100:20+60*(1-beat(t))});
+  return cam(g,1+u*0.006,540,1300);}
+function versoCanela(t){const u=t-S[4];let g=salon(t);
+  g+=cama(560,1560,1.15,false)+canela(540,1545,1.4,{t,happy:true})+corona(540+70*1.4,1545-285*1.4+hop(t,8),1.1);
+  if(u>0.6&&u<3.2)g+=`<g transform="translate(${lerp(260,600,ease(seg(u,0.6,1.3)))},${lerp(1260,1470,ease(seg(u,0.6,1.3)))})"><path d="M-26,-6 a8,8 0 1 1 8,-8 h36 a8,8 0 1 1 8,8 a8,8 0 1 1 -8,8 h-36 a8,8 0 1 1 -8,-8 Z" fill="#E6C08A" ${ol(4)}/></g>`;
+  if(u>3.2)for(let i=0;i<14;i++){const p=((u-3.2)*0.8+i/14)%1;g+=pix(200+(i*67)%700,500+p*1000,6,HEART,{X:P.navy,R:P.terra,W:P.cream});}
+  g+=bartolo(220,1480,1.1,{expr:'happy',arm:u<1.3?100:150+Math.sin(t*8)*10});
+  return cam(g,1+u*0.006,540,1300);}
+function coro2(t){const u=t-S[5];
+  if(t>=52.0&&t<58.4){let g=streetDay(t);const bob=Math.sin(t*18)*3+hop(t,8);
+    g+=`<g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'happy'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;
+    g+=clock(820,980,1.3*(1+0.06*(1-beat(t))),t);return cam(g,1+0.01*(1-beat(t)));}
+  let g=fiesta(t)+dancers(t,1560);
+  if(t>=58.4)g+=heartBar(540,1100+hop(t,10),7,{n:5,shine:true},t);
+  if(t>=64.8){const p=seg(t,64.8,65.4);g+=sparkles(t,540,1200,800,500,14);}
+  return cam(g,1+0.012*(1-beat(t)),540,1300);}
+function cierre(t){const u=t-S[6];let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="820" r="${560+20*(1-beat(t))}" fill="url(#tealglow)"/>`;const p=seg(u,0.1,0.6);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1060" rx="230" ry="20" fill="#000" opacity=".35"/>`+bartolo(500,1055+hop(t,14),1.6,{expr:'happy',arm:150});
+  g+=`<text x="540" y="400" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="475" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1130,6,{n:5,shine:true},t)+`<text x="540" y="1290" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text>`;
+  const GLOBE=['..XXXX..','.XTXXTX.','XTTXXTTX','XXXXXXXX','XTTXXTTX','.XTXXTX.','..XXXX..'],CHAT=['.XXXXXX.','XWWWWWWX','XWXWXWWX','XWWWWWWX','.XXXXXX.','.XX.....','X.......'];
+  g+=`<rect x="90" y="1380" width="900" height="300" rx="34" fill="#000" opacity=".35"/><g transform="translate(170,1440)">${pix(0,0,10,GLOBE,{X:P.cream,T:P.teal})}</g><text x="290" y="1495" font-family="Inter" font-weight="800" font-size="62" fill="${P.cream}">patitas.win</text><g transform="translate(170,1580)">${pix(0,0,10,CHAT,{X:P.cream,W:P.teal})}</g><text x="290" y="1620" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}">WhatsApp</text><text x="490" y="1622" font-family="Inter" font-weight="800" font-size="62" fill="${P.terraL}">314 585 6688</text></g>`;
+  return g;}
+const SC=[intro,coro1,versoLila,versoMax,versoCanela,coro2,cierre];
+function render(t){
+  LID=0;let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t);
+  const dark=i===6;
+  g+=`<rect width="1080" height="1920" fill="url(#${dark?'vig':'vigd'})"/>`+(dark?'':lyric(t,DAY.text,P.terra))+barsC(i!==6);
+  let f=0;for(const c of [6.8,S[1],S[2],S[3],S[4],S[5],52.0,58.4,S[6]])f=Math.max(f,(1-Math.abs(t-c)/0.12)*0.8);f=Math.max(f,1-t/0.4,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#fff" opacity="${clamp(f)*0.6}"/>`;
+  if(DUR-t<0.8)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(1-(DUR-t)/0.8)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_DIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||21);
+</script></body></html>
