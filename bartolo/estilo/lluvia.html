@@ -1,0 +1,105 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_lluvia.js"></script><script src="lluvia_tiempos.js"></script>
+<script>
+// Short 5 "Canela y la lluvia". Tiempos en lluvia_tiempos.js: S (inicio de escenas), DUR, SUBS, FLASH (relámpagos), L (pérdidas de corazón)
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function mv(u,a,b,x0,x1,f=ease){const p=seg(u,a,b);return {x:lerp(x0,x1,f(p)),m:p>0&&p<1};}
+function subs(t){let g='';for(const [a,b,L2] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L2.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="56" fill="${P.cream}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<S[1]||(t>=S[6]&&t<S[8])||t>=S[10])return null;
+  if(t<L[0])return {n:5};
+  if(t<L[1])return {n:4,hit:seg(t,L[0],L[0]+0.4)};
+  if(t<L[2])return {n:3,hit:seg(t,L[1],L[1]+0.4)};
+  if(t<S[6])return {n:2,hit:seg(t,L[2],L[2]+0.4)<1?seg(t,L[2],L[2]+0.4):0,pulse:t>S[5]};
+  const G=S[8]+1.2;
+  if(t<G)return {n:2,dim:true};
+  if(t<G+2.1){const k=2+Math.min(3,Math.floor((t-G)/0.7)+1);return {n:k,gain:seg((t-G)%0.7,0,0.3)};}
+  return {n:5,shine:true};
+}
+let HX=680,HY=1250;
+const RAINCOAT=`<path d="M-100,-150 C-110,-200 -40,-215 30,-205 C90,-198 110,-160 104,-110 L-108,-100 Z" fill="#E3A93B" ${ol()}/><path d="M-60,-200 L-50,-110 M0,-206 L4,-106" stroke="${P.navy}" stroke-width="3" opacity=".4"/>`;
+function e1(t,u){const fl=flashAt(t,FLASH);let g=rainSky(t,fl);
+  const far=(t*60)%600;for(let i=-1;i<4;i++){const bx=i*600-far;g+=`<rect x="${bx}" y="820" width="260" height="700" fill="#4A535B" ${ol(4)}/><rect x="${bx+300}" y="930" width="220" height="590" fill="#424A52" ${ol(4)}/>`;for(let r=0;r<5;r++)for(let c=0;c<2;c++)if((i+r+c)%3===0)g+=`<rect x="${bx+40+c*110}" y="${880+r*110}" width="60" height="60" rx="6" fill="${P.cream}" opacity=".5"/>`;}
+  g+=`<rect x="0" y="1500" width="1080" height="420" fill="#3A4248"/><path d="M0,1500 H1080" ${ol()}/>`;
+  const dash=(t*520)%240;for(let i=-1;i<6;i++)g+=`<rect x="${i*240-dash}" y="1660" width="120" height="12" fill="#8A949A" opacity=".7"/>`;
+  g+=`<ellipse cx="540" cy="1560" rx="300" ry="40" fill="#E3A93B" opacity=".12"/>`;
+  const bob=Math.sin(t*18)*3;g+=`<g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'neutral'})+`<g transform="translate(470,1425)" filter="url(#wob)">${RAINCOAT}${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;
+  for(let i=0;i<4;i++){const p=((u*2+i/4)%1);g+=`<path d="M${330-p*180},${1490} q-20,-${20+p*20} -40,0" stroke="#CFE0EA" stroke-width="5" fill="none" opacity="${1-p}"/>`;}
+  g+=rain(t,110);return cam(g,1+u*0.006);}
+function patioScene(t,o){const fl=flashAt(t,FLASH);let g=patio(t,fl);
+  if(o.bolt)g+=bolt(o.bolt[0],120,700,fl,o.bolt[1]);
+  g+=puddle(620,1640,130,t)+puddle(900,1740,90,t+0.4)+cama(240,1590,0.9,o.wetBed!==false);
+  if(o.dropsBed)for(let i=0;i<6;i++){const p=((t*1.6+i/6)%1);g+=`<path d="M${160+i*30},${1500+p*80} q-6,10 0,14 q6,-4 0,-14 Z" fill="#9FC9E0" opacity="${1-p}"/>`;}
+  if(o.prints)for(let i=0;i<o.prints;i++)g+=paw(1000-i*90,1800-((i%2)*40),0.9,'#6B5A44');
+  g+=`<ellipse cx="${o.cx+20}" cy="1702" rx="150" ry="16" fill="#000" opacity=".35"/>`+canela(o.cx,1700,1.45,Object.assign({t,wet:true},o.c));
+  g+=rain(t,120);return g;}
+function e2(t,u){HX=680;HY=1250;return cam(patioScene(t,{cx:640,c:{}}),1+u*0.006);}
+function e3(t,u){HX=430;HY=1250;return cam(patioScene(t,{cx:420,c:{flip:true},dropsBed:true}),1.06+u*0.008,330,1500);}
+function e4(t,u){const m=mv(u,0.2,1.8,1200,640,p=>1-Math.pow(1-p,2));HX=m.x+40;HY=1250;return cam(patioScene(t,{cx:m.x,c:{},prints:Math.min(5,Math.floor(u*3))}),1.02);}
+function e5(t,u){HX=680;HY=1250;return cam(patioScene(t,{cx:640,c:{lick:true}}),1.06+u*0.008,640,1550);}
+function e6(t,u){HX=680;HY=1250;return cam(patioScene(t,{cx:640,c:{scared:true,shake:true},bolt:[820,2]}),1.04+u*0.006);}
+/* ---------- TIPOGRAFÍA ---------- */
+const ROOF=['....XX....','..XXRRXX..','XXRRRRRRXX','..XWWWWX..','..XWXXWX..','..XWXXWX..','..XXXXXX..'];
+const PAWT=['.X.X.X.','X.X.X.X','.XXXXX.','XXWWWXX','XXXXXXX','TTTTTTT','TWTWTWT'];
+const BEDD=['X.......','X.......','XCCCCXXX','XWWCCCCX','XXXXXXXX','X......X'];
+const CLOCK=['..XXXX..','.XWWWWX.','XWWXWWWX','XWWXWWWX','XWWXXXWX','XWWWWWWX','.XWWWWX.','..XXXX..'];
+const WINR=['XXXXXXXX','XBBXXBBX','XBBXXBBX','XXXXXXXX','XBBXXBBX','XBBXXBBX','XXXXXXXX'];
+const HEARTH=['.XX.XX.','XRRXRRX','XRRRRRX','.XRRRX.','..XRX..','...X...'];
+const NOSC=['R.XXXX.R','.RXWWXR.','.XRWWRX.','.XWRRWX.','.XWRRWX.','.XRXXRX.','.R....R.','R......R'];
+function rowR(y,art,pal,l1,l2,p,c2){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-70,-60,17,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.creamS}">${l1}</text><text x="290" y="${y+52}" font-family="Inter" font-weight="800" font-size="58" fill="${c2}">${l2}</text></g>`;}
+function tipBG(t,title){let g=`<rect width="1080" height="1920" fill="#2B333A"/><circle cx="540" cy="1050" r="620" fill="url(#tealglow)"/>`+rain(t,40,0,1920,0.25);
+  g+=`<text x="540" y="470" font-family="Inter" font-weight="800" font-size="50" fill="${P.terraL}" text-anchor="middle" letter-spacing="3">${title}</text>`;return g;}
+function e7(t,u){let g=tipBG(t,'EN TEMPORADA DE LLUVIAS');const d=1.3;
+  g+=rowR(680,ROOF,{X:P.cream,R:P.terra,W:'#5A646A'},'Techado y seco, nunca a la intemperie:','REFUGIO',seg(u,1.4,1.8),P.cream);
+  g+=rowR(920,PAWT,{X:P.cream,W:'#fff',T:P.teal},'Al volver, también entre los dedos:','SECA SUS PATAS',seg(u,1.4+d,1.8+d),P.terraL);
+  g+=rowR(1160,BEDD,{X:P.cream,C:P.terra,W:P.cream},'Cambia las cobijas húmedas:','CAMA SECA',seg(u,1.4+2*d,1.8+2*d),P.cream);
+  g+=rowR(1400,CLOCK,{X:P.cream,W:'#5A646A'},'Cuando llueve, paseos','MÁS CORTOS',seg(u,1.4+3*d,1.8+3*d),P.terraL);
+  return g;}
+function e8(t,u){let g=tipBG(t,'SI HAY TORMENTA');const d=1.3;
+  g+=rowR(700,WINR,{X:P.cream,B:'#5B6E7A'},'Con ventanas cerradas:','ADENTRO',seg(u,1.2,1.6),P.cream);
+  g+=rowR(960,HEARTH,{X:P.cream,R:P.terra},'Y mantén la calma:','ACOMPÁÑALA',seg(u,1.2+d,1.6+d),P.terraL);
+  g+=rowR(1220,NOSC,{X:P.cream,W:'#5A646A',R:P.terra},'Si se esconde:','NO LA REGAÑES',seg(u,1.2+2*d,1.6+2*d),P.cream);
+  const q=seg(u,1.2+3*d+0.4,1.6+3*d+0.4);if(q>0)g+=`<g opacity="${q}"><text x="540" y="1520" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.cream}" text-anchor="middle">Si se lame mucho las patas, se rasca</text><text x="540" y="1570" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.cream}" text-anchor="middle">o huele mal, consulta a tu veterinario.</text></g>`;
+  return g;}
+function e9(t,u){HX=400;HY=1190;let g=sofaBG();
+  g+=`<rect x="146" y="486" width="288" height="288" fill="#3E4A54"/>${rain(t,20,486,774,0.6).replace(/<path/g,'<path clip-path="url(#cw)"')}`;
+  g=g.replace('<rect x="146"','<clipPath id="cw"><rect x="146" y="486" width="288" height="288"/></clipPath><rect x="146"');
+  g+=`<g filter="url(#wob)"><path d="M140,480 V780 M440,480 V780 M140,630 H440 M290,480 V780" stroke="${P.line}" stroke-width="6"/></g>`;
+  g+=owner2(720,1360,1.0,{armA:'rest',smile:true});
+  g+=sofaFront();
+  g+=cama(400,1600,1.0,false)+canela(380,1590,1.25,{t,happy:true});
+  return cam(g,1+u*0.006,480,1300);}
+function e10(t,u){HX=680;HY=1250;const clear=seg(u,0,2.5);
+  let g=patio(t,0);
+  g+=`<rect width="1080" height="840" fill="#E0A06A" opacity="${0.35*clear}"/><ellipse cx="760" cy="760" rx="160" ry="160" fill="#F4C27A" opacity="${0.6*clear}" filter="url(#blur40)"/>`;
+  g+=puddle(620,1640,130,t*0.3)+cama(240,1590,0.9,false);
+  g+=`<ellipse cx="660" cy="1702" rx="150" ry="16" fill="#000" opacity=".3"/>`+canela(640,1700,1.45,{t,happy:true,coat:false});
+  g+=rain(t,Math.round(80*(1-clear)),0,1920,0.5);
+  return cam(g,1.04-u*0.01);}
+function e11(t,u){let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="820" r="560" fill="url(#tealglow)"/>`;const p=seg(u,0.2,0.9);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1060" rx="230" ry="20" fill="#000" opacity=".35"/>`+bartolo(500,1055,1.6,{expr:'happy'});
+  g+=`<text x="540" y="400" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="475" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1130,6,{n:5,shine:true},t)+`<text x="540" y="1290" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text></g>`;
+  const q=seg(u,0.8,1.4);
+  const GLOBE=['..XXXX..','.XTXXTX.','XTTXXTTX','XXXXXXXX','XTTXXTTX','.XTXXTX.','..XXXX..'];
+  const CHAT=['.XXXXXX.','XWWWWWWX','XWXWXWWX','XWWWWWWX','.XXXXXX.','.XX.....','X.......'];
+  g+=`<g opacity="${q}"><rect x="90" y="1380" width="900" height="300" rx="34" fill="#000" opacity=".35"/>`;
+  g+=`<g transform="translate(170,1440)">${pix(0,0,10,GLOBE,{X:P.cream,T:P.teal})}</g><text x="290" y="1495" font-family="Inter" font-weight="800" font-size="62" fill="${P.cream}">patitas.win</text>`;
+  g+=`<g transform="translate(170,1580)">${pix(0,0,10,CHAT,{X:P.cream,W:P.teal})}</g><text x="290" y="1620" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}">WhatsApp</text><text x="490" y="1622" font-family="Inter" font-weight="800" font-size="62" fill="${P.terraL}">314 585 6688</text></g>`;
+  return g;}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11];
+function render(t){
+  let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t,t-S[i]);
+  g+=heartBar(HX,HY,7,heartState(t),t);
+  g+=`<rect width="1080" height="1920" fill="url(#vigr)"/>`+subs(t)+bars();
+  let f=0;for(const c of [S[1],S[6],S[7],S[8],S[9],S[10]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_LLUVIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||6);
+</script></body></html>

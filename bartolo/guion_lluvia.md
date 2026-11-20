@@ -4,7 +4,7 @@ Canal: Bartolo Pet Shop Delivery (Bello, Antioquia) · YouTube Shorts · vertica
 Estilo: **atardecer gris y lluvioso con relámpagos**: nubes oscuras, franja cálida del atardecer detrás, lluvia diagonal, charcos con ondas y destellos de rayo. Corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Canela**, perra nueva (color caramelo, orejas café, collar terracota). Narra Bartolo, que reparte bajo la lluvia.
 Enfoque: humedad, patas y refugio en temporada de lluvias. Los truenos entran como un punto, sin repetir el video de pólvora.
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.**
 
 ## Guion
 
@@ -22,7 +22,7 @@ Estado: **borrador para validación del veterinario Jovany.**
 | 8 | Tipografía animada: "Si hay tormenta" | Y las tormentas / la asustan. // | — |
 | 9 | Adentro: Canela seca, en su cama limpia, con la ventana cerrada y la lluvia afuera | Ahora Canela duerme adentro, / seca, / y con alguien cerca. // | Se recuperan hasta 5 |
 | 10 | Escampa: el cielo se abre en el atardecer, Canela en la puerta | La lluvia pasa. / Que tu mascota la pase bajo techo. // | 5, con brillo |
-| 11 | Cierre | Bartolo Pet Shop Delivery. / Bello, Antioquia. | — |
+| 11 | Cierre con datos de contacto en pantalla: web **patitas.win** y WhatsApp **314 585 6688** | Bartolo Pet Shop Delivery. / Bello, Antioquia. | — |
 
 ## Texto en pantalla (tipografía animada)
 
