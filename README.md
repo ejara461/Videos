@@ -10,6 +10,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/gatos_arena_lila_final.mp4` | **"La arena de Lila"** (58 s, 9:16). Cuidado de la caja de arena y tipos de arena. Guion validado por el veterinario Jovany. |
 | `bartolo/bano_bartolo_final.mp4` | **"El baño de Bartolo"** (54,5 s, 9:16, de día). Frecuencia del baño y seis cuidados al bañar. Guion validado por el veterinario Jovany. |
 | `bartolo/polvora_max_final.mp4` | **"La alborada de Max"** (54,5 s, 9:16, noche con alumbrados). Cómo proteger a la mascota de la pólvora. Guion validado por el veterinario Jovany. |
+| `bartolo/lluvia_canela_final.mp4` | **"Canela y la lluvia"** (60 s, 9:16, atardecer lluvioso con relámpagos). Humedad, patas y refugio en temporada de lluvias; cierre con web y WhatsApp en voz y pantalla. Guion validado por el veterinario Jovany. |
 | `bartolo/bartolo_convivencia.mp4` | "Domicilios de buena convivencia" (40 s, 9:16). Primer video, estilo 2D plano: traílla y recolección de excrementos en zonas comunes. |
 
 ## Material reutilizable
@@ -22,12 +23,17 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/estilo/lib_gatos.js` | Lila (sentada, caminando, dormida), su dueña, caja de arena y atomizador. |
 | `bartolo/estilo/lib_bano.js` | Recursos de día: calle y patio, tina, espuma, vapor, champú, jarra, toalla, gotas y destellos. Bartolo admite `noCap` y `noBag`. |
 | `bartolo/estilo/lib_polvora.js` | Edificios con alumbrados decembrinos, guirnaldas, estrella, fuegos artificiales, aviso "¡BUM!", balcón y Max asustado. |
+| `bartolo/estilo/lib_lluvia.js` | Atardecer gris, nubes, lluvia, relámpagos, charcos, patio con alero, Canela (perra) y cama. |
 | `bartolo/estilo/ficha_lila_duena.png` | Ficha de Lila y su dueña con expresiones. |
 | `bartolo/bartolo_scooter.png` | Imagen original de Bartolo en moto, recortada con fondo transparente. |
 | `bartolo/estilo/lib.js` | Biblioteca de dibujo del estilo minimalista: Bartolo, Max, el dueño, corazones en pixel art, iconos de alimentos y fondos. |
 | `bartolo/estilo/cuadro_sheet.png` | Ficha de Bartolo en estilo minimalista, con expresiones. |
 | `bartolo/guion_piloto.md` | Guion del piloto con el estilo aprobado, la paleta y los pendientes. |
 | `bartolo/guion_locucion.md` | Guion e instrucciones de grabación de voz del primer video. |
+
+## Datos de contacto para cierres
+
+Web **patitas.win** · WhatsApp **314 585 6688**. Se usan desde el Short de lluvia.
 
 ## Estilo aprobado para el canal
 
