@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_lluvia.js"></script>
+<script>
+const t=2.0, fl=0.6;
+let g=patio(t,fl);
+g+=bolt(820,120,700,fl,2);
+g+=puddle(620,1640,130,t)+puddle(900,1740,90,t+0.4);
+g+=cama(240,1590,0.9,true);
+g+=`<ellipse cx="660" cy="1702" rx="150" ry="16" fill="#000" opacity=".35"/>`+canela(640,1700,1.45,{wet:true,scared:true,shake:true,t});
+g+=rain(t,120);
+g+=heartBar(680,1250,7,{n:3},t);
+g+=`<rect width="1080" height="1920" fill="url(#vigr)"/>`;
+g+=`<text x="540" y="250" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle">Y con cada trueno,</text><text x="540" y="322" font-family="Comic Neue" font-weight="700" font-size="58" fill="${P.cream}" text-anchor="middle">temblaba sola en el patio.</text>`;
+g+=`<rect width="1080" height="110" fill="#000"/><rect y="1810" width="1080" height="110" fill="#000"/>`;
+document.getElementById('s').innerHTML=defs+DEFS_LLUVIA+g;
+</script></body></html>
