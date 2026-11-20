@@ -1,6 +1,6 @@
 # Short: "La Navidad de Canela"
 
-Publicación: **miércoles 25 de noviembre** · YouTube Shorts · vertical 9:16 · unos 55 s
+Publicación: **miércoles 25 de noviembre** · YouTube Shorts · vertical 9:16 · unos 75 s (las recomendaciones van en la voz y en pantalla)
 Estilo: noche cálida de diciembre, interior de casa con árbol y luces, mesa de Nochebuena. Corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Canela** (segunda aparición). Narra Bartolo.
 Diferencia con "Lo que comía Max": aquel trató alimentos tóxicos en general; este se centra en las **comidas típicas de diciembre** y en que todos le dan "un pedacito".
@@ -18,8 +18,8 @@ Estado: **borrador para validación del veterinario Jovany.**
 | 4 | El primo le pasa un pedazo de lechona con hueso | El primo, / lechona con hueso. // | Pierde 1: quedan 3 |
 | 5 | La abuela le da un pedazo de tamal | Y la abuela, / un poquito de tamal. // | Pierde 1: quedan 2 |
 | 6 | Madrugada: Canela echada, con dolor de barriga | Todos le dieron un pedacito… / y Canela pasó la noche enferma. // | 2, parpadeando |
-| 7 | Tipografía animada: comidas de diciembre | Lo que para nosotros es fiesta, / para ellos puede ser peligro. // | — |
-| 8 | Tipografía animada: qué hacer | Mejor así. // | — |
+| 7 | Tipografía animada: comidas de diciembre (cada línea aparece cuando se nombra) | Lo que para nosotros es fiesta, / para ellos puede ser peligro. // La lechona y el pernil / tienen mucha grasa. / Los huesos cocidos se astillan. / Los tamales llevan cebolla y ajo. / Los postres tienen azúcar, grasa / y a veces uvas pasas. / Y el licor, / nunca. // | — |
+| 8 | Tipografía animada: qué hacer | Mejor dale su concentrado de siempre, / premios hechos para perros, / y pídele a la familia / que no le den de la mesa. // Si vomita, tiene diarrea / o está decaída, / consulta a tu veterinario. // | — |
 | 9 | La siguiente novena: Canela con su propio plato y un premio para perros; la familia la acaricia | Este año, / Canela tuvo su propio plato. // | Se recuperan hasta 5 |
 | 10 | Canela junto al árbol, tranquila | En Navidad, / compártele cariño… / no tu plato. // | 5, con brillo |
 | 11 | Cierre con datos de contacto | Bartolo Pet Shop Delivery. / Bello, Antioquia. / Pídenos por WhatsApp: / tres catorce, quinientos ochenta y cinco, sesenta y seis, ochenta y ocho. / O visítanos en patitas punto win. | — |
@@ -50,7 +50,7 @@ Estado: **borrador para validación del veterinario Jovany.**
 ## Para ElevenLabs (pegar cuando Jovany apruebe)
 
 ```
-En diciembre... todas las casas huelen a Navidad... En casa de Canela... la novena era con comida... La tía le daba buñuelo... y natilla... El primo... lechona con hueso... Y la abuela... un poquito de tamal... Todos le dieron un pedacito... y Canela pasó la noche enferma... Lo que para nosotros es fiesta... para ellos puede ser peligro... Mejor así... Este año... Canela tuvo su propio plato... En Navidad... compártele cariño... no tu plato... Bartolo Pet Shop Delivery. Bello, Antioquia... Pídenos por WhatsApp... tres catorce... quinientos ochenta y cinco... sesenta y seis... ochenta y ocho... O visítanos en patitas punto win.
+En diciembre... todas las casas huelen a Navidad... En casa de Canela... la novena era con comida... La tía le daba buñuelo... y natilla... El primo... lechona con hueso... Y la abuela... un poquito de tamal... Todos le dieron un pedacito... y Canela pasó la noche enferma... Lo que para nosotros es fiesta... para ellos puede ser peligro... La lechona y el pernil... tienen mucha grasa... Los huesos cocidos se astillan... Los tamales llevan cebolla y ajo... Los postres tienen azúcar, grasa... y a veces uvas pasas... Y el licor... nunca... Mejor dale su concentrado de siempre... premios hechos para perros... y pídele a la familia... que no le den de la mesa... Si vomita, tiene diarrea... o está decaída... consulta a tu veterinario... Este año... Canela tuvo su propio plato... En Navidad... compártele cariño... no tu plato... Bartolo Pet Shop Delivery. Bello, Antioquia... Pídenos por WhatsApp... tres catorce... quinientos ochenta y cinco... sesenta y seis... ochenta y ocho... O visítanos en patitas punto win.
 ```
 
 ## Título y descripción sugeridos

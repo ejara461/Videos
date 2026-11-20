@@ -1,6 +1,6 @@
 # Short: "La ventana de Lila"
 
-Publicación: **viernes 27 de noviembre** · YouTube Shorts · vertical 9:16 · unos 55 s
+Publicación: **viernes 27 de noviembre** · YouTube Shorts · vertical 9:16 · unos 75 s (las recomendaciones van en la voz y en pantalla)
 Estilo: tarde soleada en un apartamento de Bello, con ventana y balcón altos y edificios de fondo. Corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Lila** (la gata del Short de la arena) y su dueña. Narra Bartolo.
 Tratamiento de la caída: **sin mostrar el golpe**. Se corta a negro y se muestra a Lila después, con un vendaje en la pata.
@@ -18,8 +18,8 @@ Estado: **borrador para validación del veterinario Jovany.**
 | 4 | Una mariposa pasa frente a la ventana; Lila se agacha | Hasta que una tarde / pasó una mariposa. // | Pierde 1: quedan 4 |
 | 5 | Lila salta; corte a negro con un sonido suave | Y Lila saltó. // | Pierde 2: quedan 2 |
 | 6 | Sala del veterinario: Lila con un vendaje en la pata, la dueña preocupada | Se salvó… / pero se lastimó. / Y no todos tienen esa suerte. // | 2, parpadeando |
-| 7 | Tipografía animada: mito | No siempre caen de pie. // | — |
-| 8 | Tipografía animada: cómo protegerlos | Protege sus ventanas. // | — |
+| 7 | Tipografía animada: mito | No siempre caen de pie. // Una caída desde una ventana o un balcón / puede lastimarlos gravemente. / Se distraen con pájaros e insectos, / y saltan sin medir la altura. // | — |
+| 8 | Tipografía animada: cómo protegerlos (cada línea aparece cuando se nombra) | Protege sus ventanas. // Instala malla de protección / en ventanas y balcones. / El anjeo para mosquitos no sirve: / no aguanta su peso. / Revisa que la malla esté bien tensada / y anclada. / Y cuidado con las ventanas abatibles: / se pueden quedar atrapados. // Si tu gato se cae, / llévalo al veterinario / aunque parezca estar bien. // | — |
 | 9 | La misma ventana con malla instalada; Lila mira la calle segura | Ahora Lila sigue mirando la calle… / pero detrás de una malla. // | Se recuperan hasta 5 |
 | 10 | Lila dormida al sol, junto a la ventana con malla | Que su ventana / sea solo para mirar. // | 5, con brillo |
 | 11 | Cierre con datos de contacto | Bartolo Pet Shop Delivery. / Bello, Antioquia. / Pídenos por WhatsApp: / tres catorce, quinientos ochenta y cinco, sesenta y seis, ochenta y ocho. / O visítanos en patitas punto win. | — |
@@ -52,7 +52,7 @@ En propiedad horizontal, las fachadas suelen ser bienes comunes (Ley 675 de 2001
 ## Para ElevenLabs (pegar cuando Jovany apruebe)
 
 ```
-Cuando reparto... veo muchos gatos en las ventanas... A Lila le encantaba... su ventana del quinto piso... Su dueña decía... Tranquila, los gatos siempre caen de pie... Hasta que una tarde... pasó una mariposa... Y Lila saltó... Se salvó... pero se lastimó... Y no todos tienen esa suerte... No siempre caen de pie... Protege sus ventanas... Ahora Lila sigue mirando la calle... pero detrás de una malla... Que su ventana... sea solo para mirar... Bartolo Pet Shop Delivery. Bello, Antioquia... Pídenos por WhatsApp... tres catorce... quinientos ochenta y cinco... sesenta y seis... ochenta y ocho... O visítanos en patitas punto win.
+Cuando reparto... veo muchos gatos en las ventanas... A Lila le encantaba... su ventana del quinto piso... Su dueña decía... Tranquila, los gatos siempre caen de pie... Hasta que una tarde... pasó una mariposa... Y Lila saltó... Se salvó... pero se lastimó... Y no todos tienen esa suerte... No siempre caen de pie... Una caída desde una ventana o un balcón... puede lastimarlos gravemente... Se distraen con pájaros e insectos... y saltan sin medir la altura... Protege sus ventanas... Instala malla de protección... en ventanas y balcones... El anjeo para mosquitos no sirve... no aguanta su peso... Revisa que la malla esté bien tensada... y anclada... Y cuidado con las ventanas abatibles... se pueden quedar atrapados... Si tu gato se cae... llévalo al veterinario... aunque parezca estar bien... Ahora Lila sigue mirando la calle... pero detrás de una malla... Que su ventana... sea solo para mirar... Bartolo Pet Shop Delivery. Bello, Antioquia... Pídenos por WhatsApp... tres catorce... quinientos ochenta y cinco... sesenta y seis... ochenta y ocho... O visítanos en patitas punto win.
 ```
 
 ## Título y descripción sugeridos
