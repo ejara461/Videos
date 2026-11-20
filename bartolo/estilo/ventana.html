@@ -1,0 +1,93 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_bano.js"></script><script src="lib_gatos.js"></script><script src="lib_ventana.js"></script>
+<script>
+// Short "La ventana de Lila" — tiempos ajustados a la voz de ElevenLabs (voz_ventana_elevenlabs.mp3)
+const S=[0,4.0,7.8,12.4,15.4,16.9,21.4,33.0,54.0,58.0,61.0];
+const DUR=73.5;
+const L=[14.6,16.0,16.4];
+const R7=[23.3,28.3];
+const R8=[35.0,38.7,42.3,45.6,49.7];
+const Q=3.0;
+const SUBS=[
+ [0.1,1.4,['Cuando reparto,']],[1.4,3.9,['veo muchos gatos','en las ventanas.']],
+ [4.1,7.7,['A Lila le encantaba','su ventana del quinto piso.']],
+ [7.9,12.2,['Su dueña decía: "Tranquila,','los gatos siempre caen de pie".']],
+ [12.5,15.3,['Hasta que una tarde','pasó una mariposa.']],
+ [15.5,16.8,['Y Lila saltó.']],
+ [17.0,21.2,['Se salvó... pero se lastimó.','Y no todos tienen esa suerte.']],
+ [54.1,57.8,['Ahora Lila sigue mirando la calle...','pero detrás de una malla.']],
+ [58.1,60.8,['Que su ventana','sea solo para mirar.']]];
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function subs(t,col){let g='';for(const [a,b,L2] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L2.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="54" fill="${col}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<S[1]||(t>=S[6]&&t<S[8])||t>=S[10])return null;
+  if(t<L[0])return {n:5};
+  if(t<L[1])return {n:4,hit:seg(t,L[0],L[0]+0.4)};
+  if(t<L[2])return {n:3,hit:seg(t,L[1],L[1]+0.3)};
+  if(t<S[6])return {n:2,hit:seg(t,L[2],L[2]+0.4)<1?seg(t,L[2],L[2]+0.4):0,pulse:t>S[5]};
+  const G=S[8]+1.0;
+  if(t<G)return {n:2,dim:true};
+  if(t<G+2.1){const k=2+Math.min(3,Math.floor((t-G)/0.7)+1);return {n:k,gain:seg((t-G)%0.7,0,0.3)};}
+  return {n:5,shine:true};
+}
+let HX=780,HY=1000;
+const SILL=WIN.y+WIN.h;   // 1280
+function e1(t,u){let g=streetDay(t);
+  for(let i=0;i<3;i++){const x=((i*360+200-t*60)%1300+1300)%1300-100;g+=`<g transform="translate(${x},${960+i*40})">${lila(0,0,0.28,{expr:'neutral'}).replace('filter="url(#wob)"','')}</g>`;}
+  const bob=Math.sin(t*18)*3;g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".2"/><g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'happy'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;
+  return cam(g,1+u*0.006);}
+function e2(t,u){HX=800;HY=880;let g=aptDay(t,{open:true});g+=lila(760,SILL,1.0,{expr:'feliz'});return cam(g,1+u*0.006,700,1100);}
+function e3(t,u){HX=800;HY=880;let g=aptDay(t,{open:true});g+=duena(240,1420,1.0,{expr:'feliz'})+lila(760,SILL,1.0,{expr:'neutral'});return cam(g,1+u*0.004);}
+function e4(t,u){HX=800;HY=880;const bx=WIN.x+WIN.w-60-u*80,by=WIN.y+260+Math.sin(u*4)*40;
+  let g=aptDay(t,{open:true,outside:mariposa(bx,by,t,1.3)});g+=lila(760,SILL+(u>1.8?8:0),1.0,{expr:u>1.2?'asco':'neutral'});return cam(g,1.04+u*0.01,760,1100);}
+function e5(t,u){HX=800;HY=880;const p=seg(u,0.2,0.8);let g=aptDay(t,{open:true,outside:mariposa(WIN.x+WIN.w-200,WIN.y+220,t,1.3)});
+  g+=`<g opacity="${1-seg(u,0.6,0.8)}">`+lila(760+p*220,SILL-Math.sin(p*Math.PI)*200,1.0,{expr:'feliz'})+`</g>`;
+  const k=seg(u,0.7,1.1);if(k>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${k}"/>`;return cam(g,1.08,760,1100);}
+function e6(t,u){HX=560;HY=820;let g=consultorio();g+=duena(860,1480,1.0,{expr:'neutral',flip:true});g+=lila(540,1262,1.15,{expr:'triste',tailDown:true})+vendaje(540,1262,1.15);
+  const fi=1-seg(u,0,0.5);if(fi>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${fi}"/>`;return cam(g,1+u*0.006,560,1200);}
+/* ---------- TIPOGRAFÍA ---------- */
+const MESH=['XXXXXXXX','X.X.X.XX','XXXXXXXX','X.X.X.XX','XXXXXXXX','X.X.X.XX','XXXXXXXX'];
+const MESHX=['R......R','.R....R.','..RXXR..','X.XRRX.X','..XRRX..','.R....R.','R......R'];
+const ANCH=['O......O','.XXXXXX.','.X.X.XX.','.XXXXXX.','.X.X.XX.','.XXXXXX.','O......O'];
+const TILT=['..XXXXX.','.X....X.','X....X..','X...X...','XXXX....','..!!....','..!!....'];
+function rowV(y,art,pal,l1,l2,p,c2,sz=54){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-70,-56,16,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}">${l1}</text><text x="290" y="${y+48}" font-family="Inter" font-weight="800" font-size="${sz}" fill="${c2}">${l2}</text></g>`;}
+function tipBG(title){return `<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="1050" r="600" fill="url(#tealglow)"/><text x="540" y="300" font-family="Inter" font-weight="800" font-size="46" fill="${P.terraL}" text-anchor="middle" letter-spacing="2">${title}</text>`;}
+function e7(t,u){let g=tipBG('¿SIEMPRE CAEN DE PIE?');
+  const m=seg(t,S[6]+0.3,S[6]+0.7);if(m>0)g+=`<g transform="translate(540,620) rotate(-8) scale(${back(m)})"><rect x="-200" y="-80" width="400" height="160" rx="18" fill="none" stroke="${P.terra}" stroke-width="12"/><text x="0" y="40" font-family="Inter" font-weight="900" font-size="120" fill="${P.terra}" text-anchor="middle">MITO</text></g>`;
+  const a=seg(t,R7[0],R7[0]+0.4),b=seg(t,R7[1],R7[1]+0.4);
+  if(a>0)g+=`<g opacity="${a}"><text x="540" y="940" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.cream}" text-anchor="middle">Una caída desde una ventana</text><text x="540" y="1002" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.cream}" text-anchor="middle">o un balcón puede</text><text x="540" y="1076" font-family="Inter" font-weight="800" font-size="62" fill="${P.terraL}" text-anchor="middle">LASTIMARLOS GRAVEMENTE</text></g>`;
+  if(b>0)g+=`<g opacity="${b}"><text x="540" y="1300" font-family="Comic Neue" font-weight="700" font-size="48" fill="${P.creamS}" text-anchor="middle">Se distraen con pájaros e insectos</text><text x="540" y="1360" font-family="Comic Neue" font-weight="700" font-size="48" fill="${P.creamS}" text-anchor="middle">y saltan sin medir la altura.</text></g>`;
+  return g;}
+function e8(t,u){let g=tipBG('PROTEGE SUS VENTANAS');const r=R8.map(a=>seg(t,a,a+0.4));
+  g+=rowV(520,MESH,{X:P.cream},'En ventanas y balcones:','MALLA DE PROTECCIÓN',r[0],P.cream,50);
+  g+=rowV(760,MESHX,{X:'#8A949A',R:P.terra},'No aguanta su peso:','EL ANJEO NO SIRVE',r[1],P.terraL);
+  g+=rowV(1000,ANCH,{X:P.cream,O:'#E3A93B'},'Revisa que esté','TENSADA Y ANCLADA',r[2],P.cream);
+  g+=rowV(1240,TILT,{X:P.cream,'!':P.terra},'Se pueden quedar atrapados:','VENTANAS ABATIBLES',r[3],P.terraL,50);
+  const q=r[4];if(q>0)g+=`<g opacity="${q}"><rect x="80" y="1420" width="920" height="170" rx="26" fill="#000" opacity=".35"/><text x="540" y="1490" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.cream}" text-anchor="middle">Si tu gato se cae, llévalo al veterinario</text><text x="540" y="1548" font-family="Comic Neue" font-weight="700" font-size="44" fill="${P.cream}" text-anchor="middle">aunque parezca estar bien.</text></g>`;
+  return g;}
+function e9(t,u){HX=800;HY=880;let g=aptDay(t,{malla:true,outside:mariposa(WIN.x+120+Math.sin(t)*60,WIN.y+240,t,1.1)});g+=duena(240,1420,1.0,{expr:'feliz'})+lila(760,SILL,1.0,{expr:'feliz'})+vendaje(760,SILL,1.0);return cam(g,1+u*0.006,700,1100);}
+function e10(t,u){HX=560;HY=1360;let g=aptDay(t,{malla:true,sun:true});g+=lilaSleep(600,1660,1.3,{t})+sparkles(t,600,1450,320,200,7);return cam(g,1.04-u*0.01,600,1400);}
+function e11(t,u){let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="820" r="560" fill="url(#tealglow)"/>`;const p=seg(u,0.2,0.9);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1060" rx="230" ry="20" fill="#000" opacity=".35"/>`+bartolo(500,1055,1.6,{expr:'happy'});
+  g+=`<text x="540" y="400" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="475" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1130,6,{n:5,shine:true},t)+`<text x="540" y="1290" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text></g>`;
+  const q=seg(u,Q,Q+0.6);const GLOBE=['..XXXX..','.XTXXTX.','XTTXXTTX','XXXXXXXX','XTTXXTTX','.XTXXTX.','..XXXX..'],CHAT=['.XXXXXX.','XWWWWWWX','XWXWXWWX','XWWWWWWX','.XXXXXX.','.XX.....','X.......'];
+  g+=`<g opacity="${q}"><rect x="90" y="1380" width="900" height="300" rx="34" fill="#000" opacity=".35"/><g transform="translate(170,1440)">${pix(0,0,10,GLOBE,{X:P.cream,T:P.teal})}</g><text x="290" y="1495" font-family="Inter" font-weight="800" font-size="62" fill="${P.cream}">patitas.win</text><g transform="translate(170,1580)">${pix(0,0,10,CHAT,{X:P.cream,W:P.teal})}</g><text x="290" y="1620" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}">WhatsApp</text><text x="490" y="1622" font-family="Inter" font-weight="800" font-size="62" fill="${P.terraL}">314 585 6688</text></g>`;
+  return g;}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11];
+function render(t){
+  let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t,t-S[i]);
+  g+=heartBar(HX,HY,7,heartState(t),t);
+  const dark=(i===6||i===7||i===10);
+  g+=`<rect width="1080" height="1920" fill="url(#${dark?'vig':'vigd'})"/>`+subs(t,dark?P.cream:DAY.text)+barsC(i!==10);
+  let f=0;for(const c of [S[1],S[6],S[7],S[8],S[9],S[10]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_DIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||6);
+</script></body></html>

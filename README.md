@@ -12,6 +12,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/polvora_max_final.mp4` | **"La alborada de Max"** (54,5 s, 9:16, noche con alumbrados). Cómo proteger a la mascota de la pólvora. Guion validado por el veterinario Jovany. |
 | `bartolo/lluvia_canela_final.mp4` | **"Canela y la lluvia"** (60 s, 9:16, atardecer lluvioso con relámpagos). Humedad, patas y refugio en temporada de lluvias; cierre con web y WhatsApp en voz y pantalla. Guion validado por el veterinario Jovany. |
 | `bartolo/navidad_canela_final.mp4` | **"La Navidad de Canela"** (68 s, 9:16). Comidas de diciembre que le hacen daño al perro. Franja de contacto y recomendaciones en voz. Guion validado por el veterinario Jovany. |
+| `bartolo/ventana_lila_final.mp4` | **"La ventana de Lila"** (73,5 s, 9:16, de día). Mallas en ventanas y balcones para gatos. Franja de contacto y recomendaciones en voz. Guion validado por el veterinario Jovany. |
 | `bartolo/bartolo_convivencia.mp4` | "Domicilios de buena convivencia" (40 s, 9:16). Primer video, estilo 2D plano: traílla y recolección de excrementos en zonas comunes. |
 
 ## Material reutilizable
@@ -26,6 +27,7 @@ Videos animados para el canal de YouTube Shorts de la tienda: tips de cuidado y 
 | `bartolo/estilo/lib_polvora.js` | Edificios con alumbrados decembrinos, guirnaldas, estrella, fuegos artificiales, aviso "¡BUM!", balcón y Max asustado. |
 | `bartolo/estilo/lib_lluvia.js` | Atardecer gris, nubes, lluvia, relámpagos, charcos, patio con alero, Canela (perra) y cama. |
 | `bartolo/estilo/lib_navidad.js` | Comedor navideño, árbol con luces, familia (tía, primo, abuela), comidas de diciembre y Canela acostada. |
+| `bartolo/estilo/lib_ventana.js` | Apartamento de día con ventana (con o sin malla), ciudad por la ventana, mariposa, consultorio veterinario y vendaje. |
 | `bartolo/estilo/ficha_lila_duena.png` | Ficha de Lila y su dueña con expresiones. |
 | `bartolo/bartolo_scooter.png` | Imagen original de Bartolo en moto, recortada con fondo transparente. |
 | `bartolo/estilo/lib.js` | Biblioteca de dibujo del estilo minimalista: Bartolo, Max, el dueño, corazones en pixel art, iconos de alimentos y fondos. |

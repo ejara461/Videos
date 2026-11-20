@@ -19,7 +19,7 @@ Actualizado: 20 de noviembre de 2026.
 | 1 | Sáb 21 nov | "Canela y la lluvia": humedad, patas y refugio | Cuidado / temporada | **Listo** |
 | 2 | Lun 23 nov | "La alborada de Max": pólvora (antes de la alborada del 30 de noviembre) | Salud / temporada | **Listo** |
 | 3 | Mié 25 nov | "La Navidad de Canela": comidas de diciembre que le hacen daño | Alimentación / temporada | **Listo** |
-| 4 | Vie 27 nov | "La ventana de Lila": mallas en ventanas y balcones | Cuidado (gatos) | Voz recibida, en producción |
+| 4 | Vie 27 nov | "La ventana de Lila": mallas en ventanas y balcones | Cuidado (gatos) | **Listo** |
 | 5 | Dom 29 nov | Uñas: cuándo y cómo cortarlas | Cuidado | Por escribir |
 | 6 | Mar 1 dic | El árbol de Navidad y tu mascota: adornos, cables y cintas | Convivencia / temporada | Por escribir |
 | 7 | Jue 3 dic | Porciones de concentrado: no lo sobrealimentes | Alimentación | Por escribir |
