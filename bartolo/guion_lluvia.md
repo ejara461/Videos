@@ -22,7 +22,7 @@ Estado: **validado por el veterinario Jovany.**
 | 8 | Tipografía animada: "Si hay tormenta" | Y las tormentas / la asustan. // | — |
 | 9 | Adentro: Canela seca, en su cama limpia, con la ventana cerrada y la lluvia afuera | Ahora Canela duerme adentro, / seca, / y con alguien cerca. // | Se recuperan hasta 5 |
 | 10 | Escampa: el cielo se abre en el atardecer, Canela en la puerta | La lluvia pasa. / Que tu mascota la pase bajo techo. // | 5, con brillo |
-| 11 | Cierre con datos de contacto en pantalla: web **patitas.win** y WhatsApp **314 585 6688** | Bartolo Pet Shop Delivery. / Bello, Antioquia. | — |
+| 11 | Cierre con datos de contacto en pantalla: web **patitas.win** y WhatsApp **314 585 6688** | Bartolo Pet Shop Delivery. / Bello, Antioquia. / Pídenos por WhatsApp: / tres catorce, quinientos ochenta y cinco, sesenta y seis, ochenta y ocho. / O visítanos en patitas punto win. | — |
 
 ## Texto en pantalla (tipografía animada)
 
@@ -47,10 +47,10 @@ Estado: **validado por el veterinario Jovany.**
 4. La nota sobre cuándo consultar al veterinario.
 5. Si conviene mencionar algo de **gatos** o de **impermeables** para perros.
 
-## Para ElevenLabs (pegar cuando Jovany apruebe)
+## Para ElevenLabs (versión con datos de contacto)
 
 ```
-En temporada de lluvias... reparto empapado... pero yo llego a casa a secarme... Canela no tenía esa suerte... Vivía en el patio... Su cama se mojaba... y nadie la cambiaba... Volvía del paseo... con las patas empapadas... y así se quedaba... Empezó a lamerse las patas... todo el tiempo... Y con cada trueno... temblaba sola en el patio... La humedad... también la enferma... Y las tormentas... la asustan... Ahora Canela duerme adentro... seca... y con alguien cerca... La lluvia pasa... Que tu mascota la pase bajo techo... Bartolo Pet Shop Delivery. Bello, Antioquia.
+En temporada de lluvias... reparto empapado... pero yo llego a casa a secarme... Canela no tenía esa suerte... Vivía en el patio... Su cama se mojaba... y nadie la cambiaba... Volvía del paseo... con las patas empapadas... y así se quedaba... Empezó a lamerse las patas... todo el tiempo... Y con cada trueno... temblaba sola en el patio... La humedad... también la enferma... Y las tormentas... la asustan... Ahora Canela duerme adentro... seca... y con alguien cerca... La lluvia pasa... Que tu mascota la pase bajo techo... Bartolo Pet Shop Delivery. Bello, Antioquia... Pídenos por WhatsApp... tres catorce... quinientos ochenta y cinco... sesenta y seis... ochenta y ocho... O visítanos en patitas punto win.
 ```
 
 ## Título y descripción sugeridos
