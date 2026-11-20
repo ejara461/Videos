@@ -1,0 +1,101 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_polvora.js"></script><script src="lib_lluvia.js"></script><script src="lib_bano.js"></script><script src="lib_navidad.js"></script><script src="navidad_tiempos.js"></script>
+<script>
+// Short "La Navidad de Canela". Tiempos en navidad_tiempos.js: S, DUR, SUBS, L (pérdidas), R7 y R8 (aparición de cada recomendación), Q (aparición del contacto en el cierre, relativo)
+function cam(g,k,cx=540,cy=1200){return `<g transform="translate(${cx},${cy}) scale(${k}) translate(${-cx},${-cy})">${g}</g>`;}
+function subs(t){let g='';for(const [a,b,L2] of SUBS){if(t<a||t>b)continue;const op=Math.min(seg(t,a,a+0.3),1-seg(t,b-0.3,b));L2.forEach((l,i)=>g+=`<text x="540" y="${250+i*72}" font-family="Comic Neue" font-weight="700" font-size="56" fill="${P.cream}" text-anchor="middle" opacity="${op}">${l}</text>`);}return g;}
+function heartState(t){
+  if(t<S[1]||(t>=S[6]&&t<S[8])||t>=S[10])return null;
+  if(t<L[0])return {n:5};
+  if(t<L[1])return {n:4,hit:seg(t,L[0],L[0]+0.4)};
+  if(t<L[2])return {n:3,hit:seg(t,L[1],L[1]+0.4)};
+  if(t<S[6])return {n:2,hit:seg(t,L[2],L[2]+0.4)<1?seg(t,L[2],L[2]+0.4):0,pulse:t>S[5]};
+  const G=S[8]+1.2;
+  if(t<G)return {n:2,dim:true};
+  if(t<G+2.1){const k=2+Math.min(3,Math.floor((t-G)/0.7)+1);return {n:k,gain:seg((t-G)%0.7,0,0.3)};}
+  return {n:5,shine:true};
+}
+let HX=560,HY=1250;
+const CX=560,CY=1690,MOUTH=[740,1390];
+function familia(t,who,p,item){
+  // who: 0 tía, 1 primo, 2 abuela; p: progreso de la entrega 0..1
+  const pos=[[480,1240],[680,1240],[880,1240]];
+  const rest=null;let g='';
+  const T=(i)=>{if(i!==who||p<=0||p>=1)return null;const a=Math.sin(Math.min(1,p*2)*Math.PI/2);const back=p>0.7?1-(p-0.7)/0.3:1;const tx=lerp(pos[i][0]-60,MOUTH[0]+30,a*back),ty=lerp(pos[i][1]-150,MOUTH[1],a*back);return [tx,ty];};
+  g+=persona(480,1240,0.95,{hair:'long',hairC:'#6B3A2E',shirt:P.teal,target:T(0)});
+  g+=persona(680,1240,0.95,{hair:'short',hairC:P.navy,shirt:'#E3A93B',hat:true,target:T(1)});
+  g+=persona(880,1240,0.95,{hair:'bun',hairC:'#C9CED2',shirt:'#8E6BB0',glasses:true,target:T(2)});
+  return g;}
+function comedor(t,o){let g=comedorBG(t,o.dark);
+  g+=familia(t,o.who??-1,o.p||0);
+  g+=mesa();
+  if(o.who!=null&&o.p>0&&o.p<0.72){const pos=[[480,1240],[680,1240],[880,1240]][o.who];const a=Math.sin(Math.min(1,o.p*2)*Math.PI/2);const tx=lerp(pos[0]-60,MOUTH[0]+30,a),ty=lerp(pos[1]-150,MOUTH[1],a);(o.items||[]).forEach((it,j)=>g+=comida(it,tx-10+j*30,ty+10-j*10,0.9));}
+  g+=`<ellipse cx="${CX+20}" cy="${CY+2}" rx="150" ry="16" fill="#000" opacity=".3"/>`+canela(CX,CY,1.35,{t,happy:o.happy});
+  return g;}
+function e1(t,u){let g=streetBG(t);const off=(t*260)%700;for(let i=-1;i<3;i++)g+=garland(i*700-off,560,i*700-off+700,600,70,t,18,i);
+  const bob=Math.sin(t*18)*3;g+=`<ellipse cx="540" cy="1505" rx="230" ry="18" fill="#000" opacity=".4"/><g transform="translate(0,${bob})">`+bartolo(470,1425,1.0,{expr:'happy'})+`<g transform="translate(470,1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(540,1500,1.3,t)+`</g>`;return cam(g,1+u*0.006);}
+function e2(t,u){HX=860;HY=1480;return cam(comedor(t,{happy:true}),1+u*0.006);}
+function e3(t,u){HX=860;HY=1480;return cam(comedor(t,{who:0,p:seg(u,0.3,2.6),items:['bunuelo','natilla'],happy:true}),1.02+u*0.006);}
+function e4(t,u){HX=860;HY=1480;return cam(comedor(t,{who:1,p:seg(u,0.2,2.2),items:['lechona'],happy:true}),1.04+u*0.006);}
+function e5(t,u){HX=860;HY=1480;return cam(comedor(t,{who:2,p:seg(u,0.2,2.2),items:['tamal'],happy:true}),1.06+u*0.006);}
+function e6(t,u){HX=600;HY=1300;let g=comedorBG(t,true)+`<rect width="1080" height="1920" fill="#050a10" opacity=".55"/>`;
+  g+=`<text x="900" y="1100" font-family="Inter" font-weight="800" font-size="46" fill="${P.terra}" text-anchor="middle">2:30</text><circle cx="900" cy="1085" r="60" fill="${P.terra}" opacity=".12" filter="url(#blur14)"/>`;
+  g+=cama(560,1650,1.1,false)+canelaLie(520,1640,1.25,{t,expr:'tired'});
+  for(let i=0;i<3;i++){const p=((u*1.2+i/3)%1);g+=`<path d="M${600+i*30},${1500-p*60} q8,-8 0,-16" stroke="${P.cream}" stroke-width="5" fill="none" opacity="${0.7*(1-p)}"/>`;}
+  return cam(g,1+u*0.02,560,1500);}
+/* ---------- TIPOGRAFÍA ---------- */
+const MEAT=['..XXXX..','.XMMMMX.','XMMWMMMX','XMMMMMMX','.XMMMMX.','..XXXXWW','......WW'];
+const BONE=['WW....WW','WWW..WWW','.WWWWWW.','.WWWWWW.','WWW..WWW','WW....WW'];
+const TAMAL=['XXXXXXXX','XGGYGGGX','XGGYGGGX','XYYYYYYX','XGGYGGGX','XXXXXXXX'];
+const CAKE=['...XX...','..XWWX..','.XWWWWX.','XCCCCCCX','XWWWWWWX','XCCCCCCX','XXXXXXXX'];
+const BOTX=['R..XX..R','.R.XX.R.','..RXXR..','..XRRX..','.XBRRBX.','.RBBBBR.','R.BBBB.R','..XXXX..'];
+const BOWL=['........','.KKKKKK.','XKKKKKKX','XXXXXXXX','.XTTTTX.','..XXXX..'];
+const TREAT=['XX....XX','XWX..XWX','.XWWWWX.','.XWWWWX.','XWX..XWX','XX....XX'];
+const NOTABLE=['R......R','.R....R.','XXRXXRXX','X..RR..X','X..RR..X','X.R..R.X','.R....R.','R......R'];
+function rowT(y,art,pal,l1,l2,p,c2,sz=58){if(p<=0)return '';const k=back(p);const dx=(1-Math.min(1,p*1.4))*500;
+  return `<g transform="translate(${dx},0)" opacity="${clamp(p*3)}"><g transform="translate(150,${y}) scale(${k})">${pix(-70,-56,16,art,pal)}</g><text x="290" y="${y-12}" font-family="Comic Neue" font-weight="700" font-size="42" fill="${P.creamS}">${l1}</text><text x="290" y="${y+50}" font-family="Inter" font-weight="800" font-size="${sz}" fill="${c2}">${l2}</text></g>`;}
+function tipBG(t,title){return `<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="1050" r="600" fill="url(#tealglow)"/>`+garland(-20,150,1100,150,30,t,24,0)+`<text x="540" y="460" font-family="Inter" font-weight="800" font-size="38" fill="${P.terraL}" text-anchor="middle" letter-spacing="1">${title}</text>`;}
+function e7(t,u){let g=tipBG(t,'COMIDAS DE DICIEMBRE QUE LE HACEN DAÑO');const r=R7.map(a=>seg(t,a,a+0.4));
+  g+=rowT(620,MEAT,{X:P.navy,M:'#C98A5A',W:'#fff'},'Mucha grasa:','LECHONA Y PERNIL',r[0],P.cream);
+  g+=rowT(840,BONE,{W:P.cream},'Se astillan:','HUESOS COCIDOS',r[1],P.terraL);
+  g+=rowT(1060,TAMAL,{X:P.navy,G:'#6FA35A',Y:'#E6D3AE'},'Llevan cebolla y ajo:','TAMALES',r[2],P.cream);
+  g+=rowT(1280,CAKE,{X:P.navy,W:P.cream,C:'#B9773F'},'Azúcar, grasa y uvas pasas:','POSTRES',r[3],P.terraL);
+  g+=rowT(1500,BOTX,{X:P.navy,B:'#6B8E5A',R:P.terra},'Nunca:','LICOR',r[4],P.cream);
+  return g;}
+function e8(t,u){let g=tipBG(t,'MEJOR ASÍ');const r=R8.map(a=>seg(t,a,a+0.4));
+  g+=rowT(680,BOWL,{X:P.navy,K:'#9C6B3E',T:P.terra},'Su comida de siempre:','CONCENTRADO',r[0],P.cream);
+  g+=rowT(940,TREAT,{X:P.navy,W:'#E6C08A'},'Hechos para perros:','PREMIOS',r[1],P.terraL);
+  g+=rowT(1200,NOTABLE,{X:P.cream,R:P.terra},'Pide a la familia:','NADA DE LA MESA',r[2],P.cream);
+  const q=seg(t,R8[3],R8[3]+0.4);if(q>0)g+=`<g opacity="${q}"><text x="540" y="1480" font-family="Comic Neue" font-weight="700" font-size="42" fill="${P.cream}" text-anchor="middle">Si vomita, tiene diarrea o está decaída,</text><text x="540" y="1534" font-family="Comic Neue" font-weight="700" font-size="42" fill="${P.cream}" text-anchor="middle">consulta a tu veterinario.</text></g>`;
+  return g;}
+function e9(t,u){HX=860;HY=1480;let g=comedorBG(t,false)+familia(t,-1,0)+mesa();
+  g+=comida('plato',CX+170,CY+20,1.0).replace('#9C6B3E','#8A5A2B')+comida('premio',CX+180,CY-10,1.0);
+  g+=`<ellipse cx="${CX+20}" cy="${CY+2}" rx="150" ry="16" fill="#000" opacity=".3"/>`+canela(CX,CY,1.35,{t,happy:true});
+  g+=humanArm(lerp(1150,760,ease(seg(u,0.5,1.4))),1400);
+  return cam(g,1+u*0.006);}
+function e10(t,u){HX=420;HY=1260;let g=comedorBG(t,false);
+  g+=cama(400,1660,1.0,false)+canela(380,1648,1.25,{t,happy:true})+sparkles(t,420,1300,360,240,8);
+  return cam(g,1.06-u*0.01,300,1400);}
+function e11(t,u){let g=`<rect width="1080" height="1920" fill="${P.night}"/><circle cx="540" cy="820" r="560" fill="url(#tealglow)"/>`+garland(-20,150,1100,150,40,t,24,0);const p=seg(u,0.2,0.9);
+  g+=`<g opacity="${p}"><ellipse cx="560" cy="1060" rx="230" ry="20" fill="#000" opacity=".35"/>`+bartolo(500,1055,1.6,{expr:'happy'});
+  g+=`<text x="540" y="400" font-family="Comic Neue" font-weight="700" font-size="104" fill="${P.cream}" text-anchor="middle">Bartolo</text><text x="540" y="475" font-family="Comic Neue" font-weight="700" font-size="50" fill="${P.terraL}" text-anchor="middle">Pet Shop Delivery</text>`;
+  g+=heartBar(540,1130,6,{n:5,shine:true},t)+`<text x="540" y="1290" font-family="Comic Neue" font-weight="700" font-size="52" fill="${P.cream}" text-anchor="middle">Bello, Antioquia</text></g>`;
+  const q=seg(u,Q,Q+0.6);
+  const GLOBE=['..XXXX..','.XTXXTX.','XTTXXTTX','XXXXXXXX','XTTXXTTX','.XTXXTX.','..XXXX..'],CHAT=['.XXXXXX.','XWWWWWWX','XWXWXWWX','XWWWWWWX','.XXXXXX.','.XX.....','X.......'];
+  g+=`<g opacity="${q}"><rect x="90" y="1380" width="900" height="300" rx="34" fill="#000" opacity=".35"/><g transform="translate(170,1440)">${pix(0,0,10,GLOBE,{X:P.cream,T:P.teal})}</g><text x="290" y="1495" font-family="Inter" font-weight="800" font-size="62" fill="${P.cream}">patitas.win</text><g transform="translate(170,1580)">${pix(0,0,10,CHAT,{X:P.cream,W:P.teal})}</g><text x="290" y="1620" font-family="Comic Neue" font-weight="700" font-size="40" fill="${P.creamS}">WhatsApp</text><text x="490" y="1622" font-family="Inter" font-weight="800" font-size="62" fill="${P.terraL}">314 585 6688</text></g>`;
+  return g;}
+const SC=[e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11];
+function render(t){
+  let i=0;while(i<S.length-1&&t>=S[i+1])i++;
+  let g=SC[i](t,t-S[i]);
+  g+=heartBar(HX,HY,7,heartState(t),t);
+  g+=`<rect width="1080" height="1920" fill="url(#vig)"/>`+subs(t)+barsC(i!==10);
+  let f=0;for(const c of [S[1],S[5],S[6],S[7],S[8],S[10]])f=Math.max(f,1-Math.abs(t-c)/0.3);f=Math.max(f,1-t/0.5,1-(DUR-t)/0.8);
+  if(f>0)g+=`<rect width="1080" height="1920" fill="#000" opacity="${clamp(f)}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_LLUVIA+g;
+}
+window.render=render;
+render(parseFloat(new URLSearchParams(location.search).get('t'))||7);
+</script></body></html>

@@ -4,7 +4,7 @@ Publicación: **viernes 27 de noviembre** · YouTube Shorts · vertical 9:16 · 
 Estilo: tarde soleada en un apartamento de Bello, con ventana y balcón altos y edificios de fondo. Corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Lila** (la gata del Short de la arena) y su dueña. Narra Bartolo.
 Tratamiento de la caída: **sin mostrar el golpe**. Se corta a negro y se muestra a Lila después, con un vendaje en la pata.
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.**
 
 ## Guion
 

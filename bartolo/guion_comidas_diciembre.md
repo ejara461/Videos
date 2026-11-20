@@ -4,7 +4,7 @@ Publicación: **miércoles 25 de noviembre** · YouTube Shorts · vertical 9:16 
 Estilo: noche cálida de diciembre, interior de casa con árbol y luces, mesa de Nochebuena. Corazones en pixel art y tipografía animada para el tip.
 Protagonista: **Canela** (segunda aparición). Narra Bartolo.
 Diferencia con "Lo que comía Max": aquel trató alimentos tóxicos en general; este se centra en las **comidas típicas de diciembre** y en que todos le dan "un pedacito".
-Estado: **borrador para validación del veterinario Jovany.**
+Estado: **validado por el veterinario Jovany.**
 
 ## Guion
 
