@@ -17,10 +17,10 @@ Actualizado: 21 de noviembre de 2026. Lo listo cubre hasta el domingo 29 de novi
 | # | Fecha | Tema | Pilar | Estado |
 |---|---|---|---|---|
 | 1 | Sáb 21 nov | "Canela y la lluvia": humedad, patas y refugio | Cuidado / temporada | **Listo** · `lluvia_canela_final.mp4` |
-| 2 | Lun 23 nov | "La alborada de Max": pólvora (antes de la alborada del 30 de noviembre) | Salud / temporada | **Listo** · `polvora_max_final.mp4` |
+| 2 | Lun 23 nov | Video musical 3D "¡Bartolo ya llegó!" | Marca | **Listo** · se renderiza en el PC (`RENDERIZAR_MUSICAL.bat`) |
 | 3 | Mié 25 nov | "La Navidad de Canela": comidas de diciembre que le hacen daño | Alimentación / temporada | **Listo** · `navidad_canela_final.mp4` |
 | 4 | Vie 27 nov | "La ventana de Lila": mallas en ventanas y balcones | Cuidado (gatos) | **Listo** · `ventana_lila_final.mp4` |
-| 5 | Dom 29 nov | Video musical 3D "¡Bartolo ya llegó!" | Marca | **Listo** · se renderiza en el PC (`RENDERIZAR_MUSICAL.bat`) |
+| 5 | Dom 29 nov | "La alborada de Max": pólvora (un día antes de la alborada del 30 de noviembre) | Salud / temporada | **Listo** · `polvora_max_final.mp4` |
 | 6 | Mar 1 dic | Uñas: cuándo y cómo cortarlas | Cuidado | Por escribir |
 | 7 | Jue 3 dic | El árbol de Navidad y tu mascota: adornos, cables y cintas | Convivencia / temporada | Por escribir |
 | 8 | Sáb 5 dic | Noche de velitas: velas, faroles y mascotas (antes del 7 de diciembre) | Convivencia / temporada | Por escribir |
@@ -59,7 +59,7 @@ Con un video cada 2 días hacen falta 3 o 4 por semana. Para que el ritmo sea so
 
 ## Notas
 
-- **Fechas de temporada fijas:** pólvora el 23 de noviembre, antes de la alborada del 30; velitas el 5 de diciembre, antes del 7; pólvora de fin de año el 21 de diciembre.
+- **Fechas de temporada fijas:** pólvora el 29 de noviembre, un día antes de la alborada del 30; velitas el 5 de diciembre, antes del 7; pólvora de fin de año el 21 de diciembre.
 - **Temas de salud:** sin dosis ni medicamentos; siempre cierran con "consulta a tu veterinario".
 - **Datos de contacto:** franja superior durante todo el video y cierre en pantalla y voz (web patitas.win · WhatsApp 314 585 6688). Recomendaciones del tip también en la voz.
 - **Bartolo responde (27 de diciembre):** pedir preguntas a los clientes en la tienda, por WhatsApp y en los comentarios desde ahora.
