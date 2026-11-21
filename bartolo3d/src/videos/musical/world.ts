@@ -275,12 +275,12 @@ export class World {
       case "moto3": return { pos: V(1.6 + 3.8, 1.2 + 0.4 * u, mz - 2.2 - 0.6 * u), look: V(1.2, 1.25, mz + 0.2), fov: 52, roll: THREE.MathUtils.degToRad(1.5 - 3 * u), focus: V(1.6, 1.0, mz), cInf: 11 };
       case "coro1": { const a = lerp(-0.4, 0.18, u); return { pos: V(P.x + Math.sin(a) * 8.2, 1.6 + 0.3 * u, P.z + Math.cos(a) * 8.2), look: V(P.x, 0.75, P.z), fov: 46, roll: 0, focus: V(P.x, 0.6, P.z), cInf: 10 }; }
       case "coro2a": return { pos: L(V(P.x + 7, 4.6, P.z + 9.5), V(P.x + 4, 3.0, P.z + 7.5)), look: V(P.x, 0.6, P.z), fov: 44, roll: 0, focus: V(P.x, 0.6, P.z), cInf: 4 };
-      case "coro2b": return { pos: L(V(P.x - 1.4, 1.2, P.z + 7.4), V(P.x + 1.2, 1.3, P.z + 6.6)), look: V(P.x, 0.75, P.z), fov: 50, roll: THREE.MathUtils.degToRad(-2 + 4 * u), focus: V(P.x, 0.6, P.z), cInf: 12 };
+      case "coro2b": return { pos: L(V(P.x - 0.8, 1.2, P.z + 7.9), V(P.x + 0.4, 1.3, P.z + 7.6)), look: V(P.x + 0.1, 0.75, P.z), fov: 52, roll: THREE.MathUtils.degToRad(-2 + 4 * u), focus: V(P.x, 0.6, P.z), cInf: 12 };
       case "final": return { pos: L(V(P.x, 1.4, P.z + 4.5), V(P.x, 3.2, P.z + 11)), look: L(V(P.x, 0.75, P.z), V(P.x, 1.2, P.z)), fov: 46, roll: 0, focus: V(P.x, 0.6, P.z), cInf: 6 };
       case "cierre": return { pos: L(V(P.x, 3.2, P.z + 11), V(P.x + 1.5, 3.6, P.z + 12)), look: V(P.x, 1.2, P.z), fov: 46, roll: 0, focus: V(P.x, 0.6, P.z), cInf: 14 };
       case "lila": return { pos: L(V(Q.x + 1.4, 1.5, Q.z + 8.6), V(Q.x + 0.5, 1.3, Q.z + 6.6)), look: L(V(Q.x + 0.2, 0.9, Q.z - 0.5), V(Q.x + 0.3, 0.75, Q.z - 0.5)), fov: 46, roll: 0, focus: V(Q.x + 1.0, 0.6, Q.z - 0.6), cInf: 11 };
       case "max": { const a = lerp(0.3, -0.12, u); return { pos: V(S.x - 2.7 + Math.sin(a) * 5.8, 1.5, S.z + Math.cos(a) * 5.8), look: V(S.x - 2.8, 0.7, S.z), fov: 44, roll: 0, focus: V(S.x - 2, 0.5, S.z), cInf: 11 }; }
-      default: /* canela */ return { pos: L(V(S.x + 1.2, 1.6, S.z + 5.5), V(S.x + 2.6, 1.25, S.z + 3.6)), look: V(S.x + 2.6, 0.7, S.z + 0.2), fov: 44, roll: 0, focus: V(S.x + 3.2, 0.7, S.z + 0.2), cInf: 12 };
+      default: /* canela */ return { pos: L(V(S.x + 1.4, 1.6, S.z + 6.0), V(S.x + 2.3, 1.35, S.z + 4.7)), look: V(S.x + 2.9, 0.75, S.z + 0.2), fov: 46, roll: 0, focus: V(S.x + 3.2, 0.7, S.z + 0.2), cInf: 12 };
     }
   }
   private motoZ(t: number) { const s = shotAt(t); return s.id === "moto3" ? 30 - 6 * (t - 52) : 46 - 6.2 * (t - 6.8); }
