@@ -20,6 +20,17 @@ https://github.com/luispablovillasenor-afk/shorts-animados-claude
 
 Usa la tarjeta gráfica con `--gl=angle`. Para otra composición: `RENDERIZAR.bat NombreComposicion`.
 
+## Con Git (recomendado para recibir actualizaciones)
+
+1. Instala **Git para Windows** desde https://git-scm.com (opciones por defecto).
+2. En PowerShell:
+   ```
+   cd $HOME\Documents
+   git clone -b claude/animation-studio-prompt-91oymm https://github.com/ejara461/Videos.git Videos-Bartolo
+   ```
+3. Abre `Documentos\Videos-Bartolo\bartolo3d` y haz doble clic en `RENDERIZAR.bat`.
+4. Cuando Claude avise que hay cambios: doble clic en `ACTUALIZAR.bat` y luego en `RENDERIZAR.bat`.
+
 ## Renderizar (servidor sin GPU)
 
 ```

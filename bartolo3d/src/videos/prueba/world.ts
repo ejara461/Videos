@@ -134,14 +134,15 @@ export class World {
     this.card.position.set(bx, 0.02 + bob, bz);
     // cámara: va por delante de Bartolo, baja, a un lado; se desliza y se acerca (nunca quieta)
     const u = smoother(t / 5);
-    const camPos = new THREE.Vector3(bx + 3.6 - 0.5 * u, 1.3 + 0.25 * u, bz - 3.7 + 0.8 * u);
+    const camPos = new THREE.Vector3(bx + 4.2 - 0.6 * u, 1.3 + 0.25 * u, bz - 2.6 + 0.7 * u);
     const look = new THREE.Vector3(bx - 0.4, 1.3, bz + 0.25);
     cam.position.copy(camPos); cam.up.set(0, 1, 0); cam.lookAt(look); cam.rotateZ(THREE.MathUtils.degToRad(-1.5 + 2.5 * u));
     cam.fov = 54 - 5 * u; cam.near = 0.2; cam.far = 1500; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     cam.layers.enable(NOINK);
     // la tarjeta gira solo en el eje vertical hacia la cámara (billboard de yaw, como cast.ts)
-    const dx = cam.position.x - this.card.position.x, dz = cam.position.z - this.card.position.z;
-    this.card.rotation.set(0, Math.atan2(dx, dz), 0);
+    // la moto va a lo largo de la calle: la tarjeta queda paralela a la calle (normal hacia +x, donde está la cámara)
+    // y su frente apunta hacia donde avanza (-z). Un billboard que gira hacia la cámara la mostraba cruzada.
+    this.card.rotation.set(0, Math.PI / 2, 0);
     this.blob.position.set(bx, 0.03, bz);
     // sol relativo a la cámara (az desde el eje frontal, el = elevación), como lights.ts
     const fwd = new THREE.Vector3(); cam.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();

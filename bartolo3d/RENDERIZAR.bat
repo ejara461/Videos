@@ -21,7 +21,10 @@ if not exist "public\bartolo_moto.png" (
   pause
   exit /b 1
 )
-if not exist "node_modules" (
+set "REINSTALAR="
+if not exist "node_modules" set "REINSTALAR=1"
+if exist "node_modules" if not exist "node_modules\.package-lock.json" set "REINSTALAR=1"
+if defined REINSTALAR (
   echo.
   echo Instalando librerias. Solo pasa la primera vez y puede tardar unos minutos...
   call npm install --no-audit --no-fund
