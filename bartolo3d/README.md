@@ -8,6 +8,18 @@ https://github.com/luispablovillasenor-afk/shorts-animados-claude
   - Propios: `world.ts` (calle, edificios, cámara, sol) y `Prueba.tsx` (composición y cadena de post).
 - Cambio respecto al skill: la cadena de post se arma directamente con `postprocessing` (mismo orden: tinta → desenfoque pre + principal → brillo + tono NEUTRAL + color), porque el componente `<EffectComposer>` de `@react-three/postprocessing` no dibuja con WebGL por software en este servidor sin GPU.
 
+## Renderizar en tu PC (doble clic)
+
+1. Instala **Node.js LTS** desde https://nodejs.org (una sola vez).
+2. Descarga el repositorio (botón verde **Code → Download ZIP** en la rama `claude/animation-studio-prompt-91oymm`) y descomprímelo.
+3. Entra a la carpeta `bartolo3d`:
+   - **Windows:** doble clic en `RENDERIZAR.bat`.
+   - **Mac:** doble clic en `RENDERIZAR.command` (la primera vez: clic derecho → Abrir, para autorizarlo).
+4. La primera vez instala las librerías y Remotion descarga su navegador (necesita internet).
+5. El video queda en `bartolo3d/out/`, con la canción incluida.
+
+Usa la tarjeta gráfica con `--gl=angle`. Para otra composición: `RENDERIZAR.bat NombreComposicion`.
+
 ## Renderizar (servidor sin GPU)
 
 ```

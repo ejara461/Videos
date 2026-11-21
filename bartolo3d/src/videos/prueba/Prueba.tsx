@@ -2,7 +2,7 @@
 // tinta -> desenfoque de lente (pre + principal) -> brillo (solo emisivos) -> mapeo de tono NEUTRAL -> corrección de color, MSAA 4.
 import React, { useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
-import { AbsoluteFill, continueRender, delayRender, getInputProps, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Audio, continueRender, delayRender, getInputProps, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { ThreeCanvas } from "@remotion/three";
 import { useThree, useFrame } from "@react-three/fiber";
 import { BlendFunction, BloomEffect, ToneMappingEffect, ToneMappingMode, EffectComposer, RenderPass, EffectPass } from "postprocessing";
@@ -65,6 +65,8 @@ export const PruebaShort: React.FC = () => {
   if (!tex) return null;
   return (
     <AbsoluteFill style={{ background: "#cfe3f2" }}>
+      {/* canción de la marca: los primeros 5 s (introducción), con salida suave */}
+      <Audio src={staticFile("cancion.mp3")} volume={(f) => interpolate(f, [0, 132, 150], [1, 1, 0], { extrapolateRight: "clamp" })} />
       <ThreeCanvas width={1080} height={1920} shadows gl={{ antialias: false, stencil: false, powerPreference: "high-performance", toneMappingExposure: 1.0 }} camera={{ fov: 40, near: 0.2, far: 1500 }}>
         <Inner tex={tex} />
       </ThreeCanvas>
