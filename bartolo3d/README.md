@@ -3,6 +3,7 @@
 Proyecto Remotion + three.js basado en el skill de Crea con LuisPa / Mr omi (licencia MIT):
 https://github.com/luispablovillasenor-afk/shorts-animados-claude
 
+- `src/videos/musical/`: **video musical "¡Bartolo ya llegó!"** (71,6 s): calle con la tienda, plaza de la fiesta, portón de Lila, sala de Max y salón de Canela; letra tipo karaoke, título, reloj, corazones, franja de contacto y cierre como capas HTML. Render: doble clic en `RENDERIZAR_MUSICAL.bat`.
 - `src/videos/prueba/`: prueba de 5 s, Bartolo en moto por una calle de Bello.
   - Copiados sin cambios del motor del skill (plantilla del puente): `shade.ts`, `lights.ts`, `ink.ts`, `lensblur.ts`, `grade.ts`, `paint.ts`, `cardshade.ts`.
   - Propios: `world.ts` (calle, edificios, cámara, sol) y `Prueba.tsx` (composición y cadena de post).

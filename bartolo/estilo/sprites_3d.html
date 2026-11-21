@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}svg{display:block}</style></head><body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_gatos.js"></script><script src="lib_lluvia.js"></script>
+<script>
+// Hojas de personajes para el mundo 3D: cada pose en su propio PNG transparente, pies en y = 1000.
+function bolsa(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-46,-110 L46,-110 L54,0 L-54,0 Z" fill="${P.terra}" ${ol()}/><rect x="-34" y="-84" width="68" height="44" rx="6" fill="${P.cream}"/>${paw(0,-62,.75,P.terra)}</g>`;}
+function raton(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})"><path d="M-30,0 q-30,-6 -40,-30" stroke="${P.line}" stroke-width="5" fill="none"/><ellipse cx="0" cy="-14" rx="34" ry="20" fill="#A9B8C2" ${ol(4)}/><circle cx="22" cy="-30" r="10" fill="#A9B8C2" ${ol(3)}/><circle cx="32" cy="-16" r="4" fill="${P.navy}"/></g>`;}
+function hueso(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})"><path d="M-40,-8 a12,12 0 1 1 10,-12 h60 a12,12 0 1 1 10,12 a12,12 0 1 1 -10,12 h-60 a12,12 0 1 1 -10,-12 Z" fill="#F4F0E8" ${ol(4)}/></g>`;}
+function premio(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})"><path d="M-26,-6 a8,8 0 1 1 8,-8 h36 a8,8 0 1 1 8,8 a8,8 0 1 1 -8,8 h-36 a8,8 0 1 1 -8,-8 Z" fill="#E6C08A" ${ol(4)}/></g>`;}
+function corona(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-40,0 L-40,-40 L-20,-18 L0,-50 L20,-18 L40,-40 L40,0 Z" fill="#E3A93B" ${ol(4)}/><circle cx="0" cy="-50" r="6" fill="${P.terra}"/></g>`;}
+function cobija(x,y,k){return `<g transform="translate(${x},${y}) scale(${k})" filter="url(#wob)"><path d="M-130,0 C-140,-110 120,-150 140,-30 L130,0 Z" fill="${P.teal}" ${ol()}/><path d="M-110,-50 l230,-40 M-118,-20 l240,-40" stroke="${P.cream}" stroke-width="10"/></g>`;}
+const SP={
+ bartolo_feliz: ()=>bartolo(600,1000,1.6,{expr:'happy'}),
+ bartolo_neutral: ()=>bartolo(600,1000,1.6,{expr:'neutral'}),
+ bartolo_caja: ()=>bartolo(600,1000,1.6,{expr:'happy'})+`<g transform="translate(600,1000) scale(1.6)" filter="url(#wob)"><rect x="-100" y="-290" width="96" height="82" rx="8" fill="${P.terra}" ${ol()}/>${paw(-52,-250,1.1,P.cream)}<path d="M-100,-262 h96" stroke="${P.navy}" stroke-width="4" opacity=".4"/></g>`,
+ max_a: ()=>max2(600,1000,1.9,{expr:'happy',wag:25}),
+ max_b: ()=>max2(600,1000,1.9,{expr:'happy',wag:-25}),
+ lila_feliz: ()=>lila(600,1000,1.7,{expr:'feliz'}),
+ lila_neutral: ()=>lila(600,1000,1.7,{expr:'neutral'}),
+ canela: ()=>canela(600,1000,1.8,{happy:true}),
+ bolsa: ()=>bolsa(600,1000,2.2),
+ raton: ()=>raton(600,1000,2.6),
+ hueso: ()=>hueso(600,1000,2.6),
+ premio: ()=>premio(600,1000,2.6),
+ corona: ()=>corona(600,1000,2.4),
+ cobija: ()=>cobija(600,1000,2.4),
+};
+window.draw=n=>{document.getElementById('s').innerHTML=defs+SP[n]();};
+window.names=Object.keys(SP);
+</script></body></html>
