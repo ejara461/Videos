@@ -12,7 +12,7 @@ function big(lines,y,p,col=DAY.text,hl=P.terra,size=96){if(p<=0)return '';const 
   return `<g transform="translate(540,${y}) scale(${k}) translate(-540,${-y})">${g}</g>`;}
 const BOLSA=['..XXXXXX..','.XRRRRRRX.','XRRRRRRRRX','XRRCCCCRRX','XRRCPPCRRX','XRRCCCCRRX','XRRRRRRRRX','XXXXXXXXXX'];
 const ARENA=['XXXXXXXXXX','XSSSSSSSSX','XSSBSSSSSX','XSSSSSBSSX','.XSSSSSSX.','..XXXXXX..'];
-const PELOTA=['..XXXX..','.XYYYYX.','XYWYYYYX','XRRRRRRX','XYYYYYYX','.XYYYYX.','..XXXX..'];
+const CUIDADO=['..XXX..','..XLX..','.XXXXX.','XTTTTTX','XTWWWTX','XTWPWTX','XTWWWTX','XTTTTTX','.XXXXX.'];
 const HUESO=['WW....WW','WWW..WWW','.WWWWWW.','.WWWWWW.','WWW..WWW','WW....WW'];
 function render(t){
   let g='';
@@ -32,7 +32,7 @@ function render(t){
   } else if(t<10.2){ // oferta
     const u=t-6.4;g+=`<rect width="1080" height="1920" fill="${DAY.cream}"/><circle cx="540" cy="1050" r="${600+30*(1-beat(t))}" fill="url(#tealsoft)"/>`;
     g+=big(['Todo para tu','*perro y tu gato'],420,seg(u,0.1,0.45),DAY.text,P.terra,92);
-    const it=[[BOLSA,{X:P.navy,R:P.terra,C:P.cream,P:P.terra},'COMIDA'],[ARENA,{X:P.navy,S:'#E6D3AE',B:'#9C7A55'},'ARENA'],[PELOTA,{X:P.navy,Y:'#F2C94C',R:P.terra,W:'#fff'},'JUGUETES'],[HUESO,{W:'#E6C08A'},'PREMIOS']];
+    const it=[[BOLSA,{X:P.navy,R:P.terra,C:P.cream,P:P.terra},'ALIMENTOS'],[ARENA,{X:P.navy,S:'#E6D3AE',B:'#9C7A55'},'ARENA'],[CUIDADO,{X:P.navy,L:P.line,T:P.teal,W:'#fff',P:P.teal},'CUIDADO'],[HUESO,{W:'#E6C08A'},'PREMIOS']];
     it.forEach(([art,pal,l],i)=>{const p=seg(u,0.6+i*0.45,0.95+i*0.45);if(p<=0)return;const k=back(p)*(1+0.06*(1-beat(t+i*BEAT/2)));const x=i%2?780:300,y=i<2?900:1330;
       g+=`<g transform="translate(${x},${y}) scale(${k})"><circle r="150" fill="#fff" opacity=".85"/><g transform="translate(-80,-90)">${pix(0,0,16,art,pal)}</g><text x="0" y="110" font-family="Inter" font-weight="800" font-size="48" fill="${DAY.text}" text-anchor="middle">${l}</text></g>`;});
   } else { // llamado a la acción

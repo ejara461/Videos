@@ -16,14 +16,14 @@ Bartolo Pet Shop · Bello
 ```
 "Pet Shop" y "Bello" son las palabras que la gente busca. El nombre solo ("Bartolo") no aparece en búsquedas de tiendas de mascotas.
 
-## 4. Biografía (147 de 150 caracteres)
+## 4. Biografía (142 de 150 caracteres)
 ```
 Tienda de mascotas a domicilio en Bello, Antioquia.
-Comida, arena y juguetes para perros y gatos.
+Alimentos y cuidado para perros y gatos.
 Tips validados por veterinario.
 Pide por WhatsApp
 ```
-Confirma que la lista de productos corresponde a lo que vende la tienda.
+Productos confirmados: alimentos, arena, premios y elementos de cuidado animal (sin juguetes).
 
 ## 5. Enlaces (en este orden)
 1. **WhatsApp con mensaje listo:**
