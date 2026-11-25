@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}svg{display:block}</style></head>
+<body><svg id="s" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+<script src="lib.js"></script><script src="lib_escenas.js"></script><script src="lib_bano.js"></script><script src="lib_gatos.js"></script>
+<script>
+// Anuncio de 15 s en horizontal 16:9 (1920x1080). Mismo guion que promo.html: gancho, entrega, productos, WhatsApp.
+// Las escenas de calle y entrega se dibujan en el lienzo vertical y se encuadra la franja de la acción (y 1000-1608) a lo ancho.
+const DUR=15, BEAT=60/149.7, W=1920, H=1080, K=W/1080;
+const beat=t=>Math.abs(Math.sin(Math.PI*t/BEAT)), land=t=>Math.pow(1-beat(t),3);
+// encuadre: x -330..1410 y 761..1739 del lienzo vertical -> 1920x1080
+const band=(g,zoom=1)=>`<g transform="translate(960,540) scale(${(1920/1740)*zoom}) translate(-540,-1250)">${g}</g>`;
+function streetWide(t){let g=`<rect x="-500" y="0" width="2100" height="1920" fill="url(#skyd)"/><circle cx="1150" cy="900" r="230" fill="url(#sun)"/><circle cx="1150" cy="900" r="55" fill="#FFF3D6"/>`;
+  [[0,880],[600,830],[1200,900]].forEach(([cx,cy],i)=>{const x=((cx+t*20*(i+1))%2000)-400;g+=`<g transform="translate(${x},${cy})" opacity=".95"><ellipse rx="90" ry="36" fill="#fff"/><ellipse cx="-50" cy="10" rx="60" ry="28" fill="#fff"/><ellipse cx="55" cy="8" rx="64" ry="28" fill="#fff"/></g>`;});
+  const far=(t*60)%600;for(let i=-2;i<5;i++){const bx=i*600-far;g+=`<rect x="${bx}" y="960" width="260" height="540" fill="#E6D5BD" ${ol(4)}/><rect x="${bx+300}" y="1040" width="220" height="460" fill="#DCC7A8" ${ol(4)}/>`;for(let r=0;r<4;r++)for(let c=0;c<2;c++)g+=`<rect x="${bx+40+c*110}" y="${1000+r*110}" width="60" height="60" rx="6" fill="#A9D3D1" ${ol(3)}/>`;}
+  const near=(t*260)%540;for(let i=-2;i<5;i++){const tx=i*540-near+120;g+=`<g filter="url(#wob)"><rect x="${tx-10}" y="1340" width="20" height="160" fill="#8A5A3B" ${ol(4)}/><circle cx="${tx}" cy="1300" r="70" fill="#6FA35A" ${ol(4)}/></g>`;}
+  g+=`<rect x="-500" y="1500" width="2100" height="420" fill="#B9B3A8"/><path d="M-500,1500 H1600" ${ol()}/>`;
+  const dash=(t*520)%240;for(let i=-3;i<9;i++)g+=`<rect x="${i*240-dash}" y="1660" width="120" height="12" fill="#F3EBDD" opacity=".8"/>`;return g;}
+function patioWide(){let g=`<rect x="-500" y="0" width="2100" height="1920" fill="url(#skyd)"/><rect x="-500" y="820" width="2100" height="660" fill="${DAY.wall}" ${ol()}/>`;
+  for(let r=0;r<6;r++)for(let c=-4;c<12;c++){const off=r%2?70:0;g+=`<rect x="${c*140+off-40}" y="${860+r*95}" width="110" height="60" rx="6" fill="${DAY.wallS}" opacity=".55"/>`;}
+  g+=`<g filter="url(#wob)"><path d="M1160,1480 L1185,1350 H1315 L1340,1480 Z" fill="${P.terra}" ${ol()}/><ellipse cx="1225" cy="1300" rx="48" ry="80" fill="#6FA35A" ${ol()}/><ellipse cx="1290" cy="1290" rx="40" ry="70" fill="#5F9450" ${ol()}/></g>`;
+  g+=`<rect x="-500" y="1480" width="2100" height="440" fill="${DAY.floor}"/><path d="M-500,1480 H1600" ${ol()}/>`;for(let i=-3;i<11;i++)g+=`<path d="M${i*160},1480 L${i*160-70},1920" stroke="#B3A084" stroke-width="5"/>`;return g;}
+function big(lines,x,y,p,col=DAY.text,hl=P.terra,size=86,anchor='middle'){if(p<=0)return '';const k=back(Math.min(1,p*1.6));let g='';
+  lines.forEach((l,i)=>{const c=l.startsWith('*')?hl:col;const s=l.replace('*','');g+=`<text x="${x}" y="${y+i*size*1.12}" font-family="Comic Neue" font-weight="700" font-size="${size}" fill="${c}" text-anchor="${anchor}" stroke="#fff" stroke-width="10" paint-order="stroke">${s}</text>`;});
+  return `<g transform="translate(${x},${y}) scale(${k}) translate(${-x},${-y})">${g}</g>`;}
+const BOLSA=['..XXXXXX..','.XRRRRRRX.','XRRRRRRRRX','XRRCCCCRRX','XRRCPPCRRX','XRRCCCCRRX','XRRRRRRRRX','XXXXXXXXXX'];
+const ARENA=['XXXXXXXXXX','XSSSSSSSSX','XSSBSSSSSX','XSSSSSBSSX','.XSSSSSSX.','..XXXXXX..'];
+const CUIDADO=['..XXX..','..XLX..','.XXXXX.','XTTTTTX','XTWWWTX','XTWPWTX','XTWWWTX','XTTTTTX','.XXXXX.'];
+const HUESO=['WW....WW','WWW..WWW','.WWWWWW.','.WWWWWW.','WWW..WWW','WW....WW'];
+function franja(){return `<rect width="${W}" height="70" fill="rgba(10,18,26,.6)"/><text x="${W/2}" y="47" font-family="Inter" font-weight="600" font-size="32" fill="#F4DBB9" text-anchor="middle">patitas.win  ·  WhatsApp 314 585 6688</text>`;}
+function render(t){
+  let g='';
+  if(t<2.6){ // gancho: Bartolo entra en moto (texto a la derecha, sobre el cielo)
+    let v=streetWide(t);const m=Math.min(1,t/1.2),x=lerp(-1000,-330,1-Math.pow(1-m,3));const bob=Math.sin(t*18)*3+land(t)*-6;
+    v+=`<ellipse cx="${x+370}" cy="1505" rx="230" ry="18" fill="#000" opacity=".2"/><g transform="translate(0,${bob})">`+bartolo(x+300,1425,1.0,{expr:'happy'})+`<g transform="translate(${x+300},1425)" filter="url(#wob)">${HELMET}</g>`+scooterMin(x+370,1500,1.3,t)+`</g>`;
+    g+=band(v,1+0.03*(1-beat(t)));
+    g+=big(['¿Se acabó la comida','*de tu mascota?'],1380,300,seg(t,0.15,0.5),DAY.text,P.terra,92);
+  } else if(t<6.4){ // entrega
+    const u=t-2.6;let v=patioWide();const bx=lerp(-500,200,ease(seg(u,0,0.9)));
+    v+=`<g filter="url(#wob)"><rect x="700" y="1000" width="260" height="480" fill="#8A5A3B" ${ol()}/><circle cx="930" cy="1250" r="10" fill="#E3A93B"/></g>`;
+    v+=bartolo(bx,1480+land(t)*-10,1.25,{expr:'happy'})+`<g transform="translate(${bx},${1480+land(t)*-10}) scale(1.25)" filter="url(#wob)"><rect x="-100" y="-290" width="96" height="82" rx="8" fill="${P.terra}" ${ol()}/>${paw(-52,-250,1.1,P.cream)}</g>`;
+    v+=max2(780,1480-land(t+BEAT/2)*14,1.1,{expr:'happy',wag:Math.sin(t*16)*25,flip:true});
+    v+=lila(940,1480-land(t)*12,0.95,{expr:'feliz',flip:true});
+    g+=band(v,1+0.02*(1-beat(t)));
+    g+=big(['Bartolo te la lleva','*a domicilio en Bello'],960,170,seg(u,0.2,0.55),DAY.text,P.terra,84);
+  } else if(t<10.2){ // productos en fila
+    const u=t-6.4;g+=`<rect width="${W}" height="${H}" fill="${DAY.cream}"/><ellipse cx="960" cy="600" rx="${900+30*(1-beat(t))}" ry="520" fill="url(#tealsoft)"/>`;
+    g+=big(['Todo para tu *perro y tu gato'.replace('*','')],960,230,seg(u,0.1,0.45),DAY.text,P.terra,92);
+    g=g.replace('>Todo para tu perro y tu gato<','>Todo para tu <tspan fill="'+P.terra+'">perro y tu gato</tspan><');
+    const it=[[BOLSA,{X:P.navy,R:P.terra,C:P.cream,P:P.terra},'ALIMENTOS'],[ARENA,{X:P.navy,S:'#E6D3AE',B:'#9C7A55'},'ARENA'],[CUIDADO,{X:P.navy,L:P.line,T:P.teal,W:'#fff',P:P.teal},'CUIDADO'],[HUESO,{W:'#E6C08A'},'PREMIOS']];
+    it.forEach(([art,pal,l],i)=>{const p=seg(u,0.6+i*0.45,0.95+i*0.45);if(p<=0)return;const k=back(p)*(1+0.06*(1-beat(t+i*BEAT/2)));const x=330+i*420,y=620;
+      g+=`<g transform="translate(${x},${y}) scale(${k})"><circle r="170" fill="#fff" opacity=".85"/><g transform="translate(-80,-100)">${pix(0,0,16,art,pal)}</g><text x="0" y="110" font-family="Inter" font-weight="800" font-size="48" fill="${DAY.text}" text-anchor="middle">${l}</text></g>`;});
+  } else { // llamado: Bartolo a la izquierda, datos a la derecha
+    const u=t-10.2;g+=`<rect width="${W}" height="${H}" fill="${P.teal}"/><circle cx="560" cy="600" r="${430+20*(1-beat(t))}" fill="#3BA3A0"/>`;
+    g+=`<ellipse cx="580" cy="855" rx="230" ry="20" fill="#000" opacity=".25"/>`+bartolo(520,850-land(t)*16,1.7,{expr:'happy'});
+    g+=`<text x="1360" y="270" font-family="Comic Neue" font-weight="700" font-size="96" fill="${P.cream}" text-anchor="middle">Pide por</text><text x="1360" y="385" font-family="Comic Neue" font-weight="700" font-size="118" fill="#fff" text-anchor="middle">WhatsApp</text>`;
+    const p=back(seg(u,0.3,0.7));g+=`<g transform="translate(1360,560) scale(${p})"><rect x="-400" y="-85" width="800" height="170" rx="40" fill="#fff" stroke="${P.navy}" stroke-width="8"/><text x="0" y="34" font-family="Inter" font-weight="800" font-size="98" fill="${P.terra}" text-anchor="middle">314 585 6688</text></g>`;
+    g+=`<text x="1360" y="770" font-family="Inter" font-weight="800" font-size="62" fill="${P.cream}" text-anchor="middle" opacity="${seg(u,0.8,1.1)}">patitas.win</text>`;
+    g+=`<text x="1360" y="880" font-family="Comic Neue" font-weight="700" font-size="52" fill="#fff" text-anchor="middle" opacity="${seg(u,1.1,1.4)}">Bartolo Pet Shop Delivery · Bello</text>`;
+  }
+  if(t<10.2)g+=franja();
+  for(const c of [2.6,6.4,10.2]){const f=1-Math.abs(t-c)/0.1;if(f>0)g+=`<rect width="${W}" height="${H}" fill="#fff" opacity="${f*0.6}"/>`;}
+  if(DUR-t<0.4)g+=`<rect width="${W}" height="${H}" fill="#000" opacity="${1-(DUR-t)/0.4}"/>`;
+  document.getElementById('s').innerHTML=defs+DEFS_DIA+g;
+}
+window.render=render;render(parseFloat(new URLSearchParams(location.search).get('t'))||1);
+</script></body></html>
